@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+
+
+    <p:panel>
+        <f:facet name="header">
+            Candidatos da Vaga
+        </f:facet>
+
+        <p:accordionPanel>
+            <p:tab id="tabDados" title="Dados da Vaga">  
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Empresa:" />
+                    <p:inputText readonly="true" value="#{candidaturaController.entidade.vaga.empresaConcedente.nomeEmpresa}"/> 
+
+                    <h:outputLabel value="Titulo da Vaga:" />
+                    <p:inputText  readonly="true" value="#{candidaturaController.entidade.vaga.tituloVaga}"/> 
+                    <h:outputLabel value="Tipo da Vaga:" />
+                    <p:inputText  readonly="true" value="#{candidaturaController.entidade.vaga.tipoVaga}"/> 
+                    <h:outputLabel value="Quantidade de Vagas:" />
+                    <p:inputText  readonly="true" value="#{candidaturaController.entidade.vaga.quantidadeVagas}"/> 
+
+
+
+                </h:panelGrid>
+            </p:tab>
+        </p:accordionPanel>
+
+        <p:dataTable value="#{candidaturaController.listagem}" var="item" 
+                     paginator="true" rows="30"  lazy="true" reflow="true" id="tbl"
+                     emptyMessage="Não existe candidatos inscritos para esta vaga" >  
+
+
+            <f:facet name="header">
+                Candidatos da Vaga
+            </f:facet>
+
+
+
+            <p:column  headerText="Candidato">
+                <h:outputText value="#{item.candidato.nome}"/>
+            </p:column>
+
+
+
+            <p:column  headerText="CPF">
+                <h:outputText value="#{item.candidato.cpf}"/>
+            </p:column>
+
+            <p:column  headerText="Email">
+                <h:outputText value="#{item.candidato.email}"/>
+            </p:column>
+
+            <p:column headerText="Telefone">
+                <h:outputText value="#{item.candidato.telefone}"/>
+            </p:column>
+
+            <p:column headerText="Situação">
+                <h:outputLabel style="background: mediumseagreen" value="Classificado" rendered="#{item.situacao == 'Classificado'}"/>
+                <h:outputLabel style="background: lightcoral" value="Desclassificado" rendered="#{item.situacao == 'Desclassificado'}"/>
+                <h:outputLabel style="background: cornflowerblue" value="Em Aberto" rendered="#{item.situacao == 'Em Aberto'}"/>
+            </p:column>
+
+            <p:column headerText="Baixar Currículo" exportable="false"  >
+                <h:commandLink value="Currículo" action="#{candidaturaController.dowload()}" immediate="true" >
+                    <f:setPropertyActionListener target="#{candidaturaController.entidade}" value="#{item}" />
+                </h:commandLink>
+
+            </p:column>
+
+            <p:column headerText="Opções" exportable="false">
+                <p:commandButton  update="dialogClassificar"
+                                  style="alignment-adjust: central;background: mediumseagreen; width: 120px" 
+                                  value=" Classificar "  action="#{candidaturaController.classficarCandidato()}">
+                    <p:confirm header="Confirmação" message="Deseja realmente classficar este candidato?" icon="ui-icon-alert" />
+                    <f:setPropertyActionListener target="#{candidaturaController.entidade}" value="#{item}"/>
+                </p:commandButton>
+
+                <p:commandButton update="dialogDesClassificar"
+                                 style="alignment-adjust: central;background: lightcoral; width: 120px"
+                                 value=" Desclassificar "  action="#{candidaturaController.desclassficarCandidato()}">
+                    <p:confirm header="Confirmação" message="Deseja realmente desclassficar este candidato?" icon="ui-icon-alert" />
+                    <f:setPropertyActionListener target="#{candidaturaController.entidade}" value="#{item}"/>
+                </p:commandButton>
+
+
+                <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Nao" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+
+
+                <p:dialog widgetVar="eventDialogClassificar"  resizable="false" responsive="true" 
+                          modal="false" width="800" id="dialogClassificar" 
+                          header="Classificar Candidato" showEffect="explode" hideEffect="explode">
+
+                    <p:outputPanel id="eventDetalhesClassificar">
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="Situação:" />
+                            <p:inputText id="txtSituacaoClass" readonly="true" value="#{candidaturaController.entidade.situacao}" />  
+
+                            <h:outputLabel value="Próxima etapa:" />
+                            <p:inputText id="txtEtapa" value="#{candidaturaController.entidade.etapa}" />
+
+                            <h:outputLabel value="Informações" />
+                            <p:inputTextarea rows="5" cols="30" value="#{candidaturaController.entidade.informacoes}" counter="displayCaracter1"
+                                             maxlength="500" placeholder="Outras Informações (Ex: Local da próxima etapa)" 
+                                             counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                            <br/>
+                            <h:outputText id="displayCaracter1" />
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Salvar" icon="ui-icon-disk" 
+                                         style="alignment-adjust: central;background: mediumaquamarine; width: 100px"
+                                         action="#{candidaturaController.salvarCandidatura()}"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+
+                <p:dialog widgetVar="eventDialogDesClassificar"  resizable="false" responsive="true" 
+                          modal="false" width="800" id="dialogDesClassificar" 
+                          header="Desclassificar Candidato" showEffect="explode" hideEffect="explode">
+
+                    <p:outputPanel id="eventDetalhesDesClassificar">
+                        <p:panelGrid columns="2">
+
+                            <h:outputLabel value="Situacao:" />
+                            <p:inputText id="txtSituacaoDes" readonly="true" value="#{candidaturaController.entidade.situacao}" />  
+
+                            <h:outputLabel value="Motivo:" />
+                            <p:inputTextarea rows="5" cols="30" value="#{candidaturaController.entidade.motivo}" counter="displayCaracter2"
+                                             maxlength="500" placeholder="Motivo pelo resultado: Desclassificado" 
+                                             counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                            <br/>
+                            <h:outputText id="displayCaracter2" />
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Salvar" icon="ui-icon-disk" 
+                                         style="alignment-adjust: central;background: mediumaquamarine; width: 100px"
+                                         action="#{candidaturaController.salvarCandidatura()}"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+
+            </p:column>
+
+
+
+
+        </p:dataTable>
+
+        <p:panelGrid columns="3">
+
+            <h:outputText value=" Exportar dados da tabela em formato:"/>
+
+            <h:commandLink>
+                <p:graphicImage value="/resources/img/pdf.png" width="24"/>
+                <p:dataExporter  type="pdf" target="tbl" fileName="Candidatos"/>
+            </h:commandLink>
+            <h:commandLink>
+                <p:graphicImage value="/resources/img/excel.ico" width="24"/>
+                <p:dataExporter  type="xls" target="tbl" fileName="Candidatos"/>
+            </h:commandLink>
+        </p:panelGrid>
+
+        <br/>
+        <br/>
+
+        <p:commandButton value="Voltar" icon="ui-icon-arrowreturnthick-1-w" 
+                         style="alignment-adjust: central;background: mediumaquamarine; width: 100px"
+                         action="listagemVagasEstagios.xhtml"/>
+
+    </p:panel>
+
+</html>

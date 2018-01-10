@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar Documentos da Área Pública
+                    </f:facet>
+                    <p:accordionPanel>
+                        <p:tab id="tabDados" title="Dados Gerais do Documento">  
+
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText value="#{documentoController.entidade.nome}"/>
+
+                                <h:outputLabel value="Tipo de Documento:" />
+                                <p:selectOneRadio id="tipo" value="#{documentoController.entidade.tipo}"
+                                                  >
+                                    <f:selectItem itemLabel="Convênio" itemValue="Convenio" />
+                                    <f:selectItem itemLabel="Lei" itemValue="Lei" />
+                                    <f:selectItem itemLabel="Formulário" itemValue="Formulario" />
+                                    
+                                </p:selectOneRadio>
+
+                                <h:outputLabel value="Descrição:" />
+                                <p:inputTextarea rows="5" cols="30" 
+                                                 value="#{documentoController.entidade.descricao}" 
+                                                 counter="displayCaracter4"
+                                                 maxlength="500" placeholder="Descrições do documento anexado"
+                                                 counterTemplate="{0} Caracteres restantes." 
+                                                 autoResize="false" style="width:231px"/>
+                                <br/>
+                                <h:outputText id="displayCaracter4" />
+
+                            </h:panelGrid>
+
+                        </p:tab>
+
+                        <p:tab id="tabAnexar" title="Anexar o Documento"> 
+
+                            <p:messages id="anexo" closable="true">
+                                <p:effect type="pulsate" event="load" delay="500" />
+                            </p:messages>
+
+                            <h:panelGrid columns="2">
+
+                                <h:commandLink id="arquivoAnexado" value="Documento Anexado:  #{documentoController.entidade.nome}" 
+                                               rendered="#{documentoController.renderedArquivo}" action="#{documentoController.dowload}" immediate="true" />
+
+
+                                <f:facet name="footer">
+                                    <br/>
+                                    <br/>
+                                    <p:fileUpload fileUploadListener="#{documentoController.Anexar}" fileLimit="1" fileLimitMessage="Excedido Limite de arquivos"
+                                                  cancelLabel="Cancelar" label="Arquivo" uploadLabel="Anexar" update="anexo arquivoAnexado"
+
+                                                  invalidFileMessage="Somente arquivos com extensão .pdf"
+                                                  allowTypes="/(\.|\/)(doc|pdf)$/" 
+                                                  mode="advanced" skinSimple="true" />
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:tab>
+
+
+
+                    </p:accordionPanel>
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{documentoController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

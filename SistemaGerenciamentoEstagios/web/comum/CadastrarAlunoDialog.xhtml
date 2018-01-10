@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+
+
+    <p:messages id="MensageGlobalDialogAluno" closable="true">
+        <p:effect type="pulsate" event="load" delay="500" />
+    </p:messages>
+
+    <p:accordionPanel> 
+        <p:tab id="tabDados" disabled="#{disabled}" title="Dados Gerais">  
+
+
+            <h:panelGrid columns="2">
+
+                <h:outputLabel value="Nome Completo:" />
+                <p:inputText disabled="#{disabled}" value="#{alunoController.entidade.nome}" 
+                             />   
+
+                <h:outputLabel value="Sexo:" />
+                <p:selectOneRadio disabled="#{disabled}"  value="#{alunoController.entidade.sexo}"
+                                  >
+                    <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                    <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+                </p:selectOneRadio>
+
+                <h:outputLabel value="CPF:" />
+                <p:inputMask disabled="#{disabled}" value="#{alunoController.entidade.cpf}" label="CPF" 
+                             mask="999.999.999-99"/>
+
+
+                <h:outputLabel value="Estado Cívil:" />
+                <p:selectOneRadio disabled="#{disabled}" value="#{alunoController.entidade.estadoCivil}"
+                                  >
+                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                    <f:selectItem itemLabel="Solteiro" itemValue="Solteiro" />
+                    <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                    <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                    <f:selectItem itemLabel="Viúvo" itemValue="Viúvo" />
+
+                </p:selectOneRadio>
+
+
+                <h:outputLabel value="Data de Nascimento:" />
+                <p:calendar disabled="#{disabled}" value="#{alunoController.entidade.dataNascimento}"
+                            mask="true"       pattern="dd/MM/yyyy" locale="pt" /> 
+
+                <h:outputLabel value="Carteira de identidade:" />
+                <p:inputText disabled="#{disabled}" value="#{alunoController.entidade.RG}" />  
+
+            </h:panelGrid>
+        </p:tab>
+
+
+        <p:tab   title="Endereços">
+            <br></br>
+
+            <h:panelGrid columns="2" id="panelEndereco">                    
+
+                <h:outputLabel value="Rua/Av:" />
+                <p:inputText disabled="#{disabled}" id="txtRua" value="#{alunoController.enderecoAdcionado.rua}" />    
+
+                <h:outputLabel value="Numero:" />
+                <p:inputText disabled="#{disabled}"  id="txtNum" value="#{alunoController.enderecoAdcionado.numero}"  required="false"/>   
+
+                <h:outputLabel value="Complemento:" />
+                <p:inputText disabled="#{disabled}" id="txtComplemento" value="#{alunoController.enderecoAdcionado.complemento}" required="false"/>                      
+
+                <h:outputLabel value="Bairro:" />
+                <p:inputText disabled="#{disabled}" id="txtBairro" value="#{alunoController.enderecoAdcionado.bairro}" required="false"/> 
+
+                <h:outputLabel value="Cidade:" />
+                <p:inputText disabled="#{disabled}" id="txtCidade" value="#{alunoController.enderecoAdcionado.cidade}" required="false"/>  
+
+                <h:outputLabel value="Cep:" />
+                <p:inputMask disabled="#{disabled}" id="txtCep" value="#{alunoController.enderecoAdcionado.cep}" mask="99.999-999" required="false"/> 
+
+                <h:outputLabel value="UF:" />
+                <p:inputText disabled="#{disabled}" id="txtUF" value="#{alunoController.enderecoAdcionado.UF}" required="false"/>  
+
+
+            </h:panelGrid>
+
+
+        </p:tab>
+
+
+        <p:tab id="tabContatos" disabled="#{disabled}" title="Contatos">
+
+            <br></br>
+            <p:separator> Dados para Entrar em Contato com o Aluno </p:separator>
+            <br></br>
+
+            <h:panelGrid columns="2">                    
+                <h:outputLabel value="Celular:" />
+                <p:inputMask disabled="#{disabled}" id="txtCelular" value="#{alunoController.entidade.celular}" mask="(99)9999 - 9999" required="false"/> 
+
+                <h:outputLabel value="Telefone:" />
+                <p:inputMask disabled="#{disabled}" id="txtTelefone" value="#{alunoController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+            </h:panelGrid>
+        </p:tab>
+
+        <p:tab id="tabMatriculas" disabled="#{disabled}" title="Matrículas">  
+            <br></br>
+
+            <h:panelGrid columns="2"  id="panelMatriculas" >
+
+                <h:outputLabel value="Curso:" />
+                <p:selectOneMenu disabled="#{disabled}"  value="#{alunoController.matriculaAdicionada.curso}"
+                                 converter="#{cursoConverter}"  required="false" requiredMessage="É obrigatório selecionar o Curso."> 
+
+                    <f:selectItem itemLabel="Selecione" itemValue=""/>      
+                    <f:selectItems value="#{cursoController.listagem}"  
+                                   var="coop"  
+                                   itemLabel="#{coop.nome}"  
+                                   />    
+                </p:selectOneMenu>  
+
+                <h:outputLabel value="Matrícula:" />
+                <p:inputText disabled="#{disabled}" id="txtMatricula" value="#{alunoController.matriculaAdicionada.matricula}" />    
+
+                <h:outputLabel value="Cursando:" />
+                <p:selectOneRadio disabled="#{disabled}" id="cursando" value="#{alunoController.matriculaAdicionada.cursando}"
+                                  >
+                    <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                    <f:selectItem itemLabel="Nao" itemValue="Nao" />
+                </p:selectOneRadio>
+
+                <h:outputLabel  value="Período" />
+                <p:inputText disabled="#{disabled}" id="txtPeriodo" value="#{alunoController.matriculaAdicionada.periodo}"/>   
+
+                <h:outputLabel value="Possui Dependencia:" />
+                <p:selectOneRadio disabled="#{disabled}" id="dependencia" value="#{alunoController.matriculaAdicionada.possuiDependencia}"
+                                  >
+                    <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                    <f:selectItem itemLabel="Não" itemValue="Nao" />
+                </p:selectOneRadio>
+
+                <h:outputLabel value="Integralizou Carga Horária:" />
+                <p:selectOneRadio disabled="#{disabled}" id="Integralizacao" value="#{alunoController.matriculaAdicionada.integralizouCH}"
+                                  >
+                    <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                    <f:selectItem itemLabel="Não" itemValue="Nao" />
+                </p:selectOneRadio>
+
+                <h:outputLabel value="Data de Integralização:" />
+                <p:calendar value="#{alunoController.matriculaAdicionada.dataIntegralizacao}"
+                            pattern="dd/MM/yyyy" locale="pt_BR" disabled="#{disabled}" /> 
+
+
+            </h:panelGrid>
+        </p:tab>
+
+        <p:tab id="tabAceso" disabled="#{disabled}" title="Acesso"> 
+
+            <br></br>
+            <p:separator> Dados de Acesso ao Sistema </p:separator>
+            <br></br>
+
+            <h:panelGrid columns="2">
+
+                <h:outputLabel value="Email de Acesso:" />
+                <p:inputText disabled="#{disabled}" value="#{alunoController.entidade.email}" required="false" style="width: 100%"
+                             /> 
+
+                <h:outputText value="Senha: " />
+                <p:password disabled="#{disabled}" value="#{alunoController.entidade.senha}" required="false" 
+                            />
+
+            </h:panelGrid>
+
+        </p:tab>
+
+    </p:accordionPanel> 
+
+    <br/>
+
+
+    <p:commandButton disabled="#{disabled}" update="#{update}" id="fechar" ajax="false" immediate="true" icon="ui-icon-close" value="Fechar" style="background: mediumaquamarine"  
+                     oncomplete="PF('DialogCadastrarAluno').hide();" >
+        <f:setPropertyActionListener target="#{controllerDialogAluno.entidade.estagiario}" value="#{alunoController.buscarAluno()}" />
+        <f:setPropertyActionListener target="#{controllerDialogAluno.validaAluno}" value="#{false}" />
+    </p:commandButton>
+
+
+    <p:commandButton disabled="#{disabled}"  id="btnSalvar" style="background: mediumaquamarine" action="#{alunoController.salvarAlunoDialog}" update="MensageGlobalDialogAluno" value="Salvar" icon="ui-icon-pencil">  
+        <p:confirm header="Confirmação" message="Deseja realmente salvar o Registro?" icon="ui-icon-alert" />
+
+    </p:commandButton>
+
+    <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+
+</ui:composition>
+

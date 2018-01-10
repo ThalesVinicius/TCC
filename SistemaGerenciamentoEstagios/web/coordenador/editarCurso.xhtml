@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar Curso
+                    </f:facet>
+                    <p:accordionPanel>
+                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                            <br></br>
+                            <p:separator></p:separator>
+                            <br></br>
+
+                            <h:panelGrid columns="3">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText size="35" value="#{cursoController.entidade.nome}" /> 
+                                #{""}
+
+                                <h:outputLabel value="Sigla:" />           
+                                <p:inputText size="35" value="#{cursoController.entidade.sigla}" />
+                                #{""}
+
+                                <h:outputLabel value="Nível:" />           
+                                <p:inputText size="35" value="#{cursoController.entidade.nivel}" />
+                                #{""}
+                                <h:outputLabel value="Modalidade:" />           
+                                <p:selectOneMenu style="width:255px"  id="modalidade" value="#{cursoController.entidade.modalidade}">
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>   
+                                    <f:selectItem itemLabel="BACHARELADO" itemValue="BACHARELADO"/> 
+                                    <f:selectItem itemLabel="COMITANTE" itemValue="COMITANTE"/> 
+                                    <f:selectItem itemLabel="COMITANTE/SUBSEQUENTE" itemValue="COMITANTE/SUBSEQUENTE"/> 
+                                    <f:selectItem itemLabel="LICENCIATURA" itemValue="LICENCIATURA"/> 
+                                    <f:selectItem itemLabel="TÉCNICO INTEGRADO AO ENSINO MÉDIO" itemValue="TÉCNICO INTEGRADO AO ENSINO MÉDIO"/> 
+                                    <f:selectItem itemLabel="TECNÓLOGO" itemValue="TECNÓLOGO"/> 
+                                    
+                                </p:selectOneMenu> 
+
+                                #{""}
+                                <h:outputLabel value="Carga Horária do Estágio: " />           
+                                <p:inputText size="35" required="true" 
+                                             requiredMessage="É obrigatório preencher a carga Horária Minima do Estágio"
+                                             value="#{cursoController.entidade.CHME}" />
+                                #{""}
+                                <h:outputLabel value="Coordenador do Curso:" />  
+                                <p:autoComplete id="acCoordenador" size="35" value="#{cursoController.tempCoordenadorCurso}"
+                                                completeMethod="#{coordenadorConverter.autoCompleteCoordenador}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{coordenadorConverter}"
+                                                >
+                                    <p:ajax event="itemSelect"  listener="#{cursoController.SelectCoordenadorCurso}"  />
+                                </p:autoComplete>
+                                <p:commandButton id="Cadastrar" title="cadastrar" oncomplete="PF('eventDialogCoordenador').show();" 
+                                                 style="alignment-adjust: central; background: mediumaquamarine"  icon="ui-icon-plusthick"
+                                                 />
+                            </h:panelGrid>
+
+                            <p:dialog widgetVar="eventDialogCoordenador"  resizable="false" responsive="true" modal="false" width="800" id="dialogCoord" header="Cadastrar Coordenador" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhesAlunos">
+                                    <p:messages id="MensageGlobalDialog" closable="true">
+                                        <p:effect type="pulsate" event="load" delay="500" />
+                                    </p:messages>
+
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                                            <h:panelGrid columns="2">
+
+
+                                                <h:outputLabel value="Nome Completo:" />
+                                                <p:inputText    id="coordenador" value="#{coordenadorCursoController.entidade.nome}" 
+                                                                />   
+
+                                                <h:outputLabel value="CPF:" />
+                                                <p:inputMask value="#{coordenadorCursoController.entidade.cpf}" label="CPF" 
+                                                             mask="999.999.999-99"/>
+
+                                                <h:outputLabel value="Cargo:" />
+                                                <p:inputText   value="#{coordenadorCursoController.entidade.cargo}"  
+                                                               /> 
+
+
+                                                <h:outputLabel value="Email:" />
+                                                <p:inputText  value="#{coordenadorCursoController.entidade.email}" 
+                                                              />   
+
+
+                                                <h:outputLabel value="Celular:" />
+                                                <p:inputMask  id="txtCelular" value="#{coordenadorCursoController.entidade.celular}" mask="(99)9999 - 9999" required="false"/> 
+
+                                                <h:outputLabel value="Telefone:" />
+                                                <p:inputMask  id="txtTelefone" value="#{coordenadorCursoController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+                                            </h:panelGrid>
+
+
+                                        </p:tab>
+
+                                    </p:accordionPanel>
+
+                                    <p:commandButton update="coordenador" id="fechar" ajax="false" immediate="true" icon="ui-icon-arrowreturnthick-1-w" value="Fechar" style="background: mediumaquamarine"  
+                                                     oncomplete="PF('DialogCadastrarAluno').hide();" >
+                                        <f:setPropertyActionListener target="#{cursoController.entidade.coordenadorCurso}" value="#{coordenadorCursoController.buscarCoordenador()}"/>
+                                    </p:commandButton>
+
+
+                                    <p:commandButton  id="btnSalvar" style="background: mediumaquamarine" action="#{coordenadorCursoController.salvarCoordenadorCurso()}" update="MensageGlobalDialog" value="Salvar" icon="ui-icon-pencil">  
+                                        <p:confirm header="Confirmação" message="Deseja realmente salvar o Registro?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+
+
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+                        </p:tab>
+
+
+                    </p:accordionPanel>
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{cursoController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

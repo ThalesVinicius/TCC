@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Cadastro de Alunos
+                    </f:facet>
+                    <br/>
+
+                    <ui:include src="../comum/botaoNovo.xhtml">
+                        <ui:param name="controller" value="#{alunoController}"  />
+                        <ui:param name="campos" value=""  />
+                        <br/> 
+
+                    </ui:include>
+
+
+                    <p:dataTable value="#{alunoController.listagem}" var="item" 
+                                 paginator="true" rows="10"  lazy="false" 
+                                 >  
+
+
+
+                        <p:column  sortBy="código" headerText="Cod.">
+                            #{item.id}
+                        </p:column>
+
+                      
+
+                        <p:column sortBy="Nome" headerText="Nome">
+                            #{item.nome}
+                        </p:column>
+
+                 
+
+                        <p:column sortBy="Celular" headerText="Celular">
+                            #{item.celular}
+                        </p:column>
+
+                        <p:column headerText="Opções">
+
+                            <p:commandButton icon="ui-icon-search" value="Visualizar" title="Visualizar Aluno" update="dialog eventDetalhes" oncomplete="PF('eventDialog').show();" style="alignment-adjust: central;background: mediumaquamarine"/>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Aluno" showEffect="explode" hideEffect="explode">
+                                <p:outputPanel id="eventDetalhes">
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+                                            <h:panelGrid id="eventDetails" columns="2">
+
+                                                <h:outputLabel value="Aluno:" />
+                                                <p:inputText readonly="#{true}" value="#{item.nome}"
+                                                             />   
+
+                                                <h:outputLabel value="Data de Nascimento:" />
+                                                <p:inputText readonly="#{true}" value="#{item.dataNascimento}">
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </p:inputText>
+
+                                                <h:outputLabel value="CPF:" />
+                                                <p:inputText readonly="#{true}" value="#{item.cpf}"
+                                                             />   
+                                                <h:outputLabel value="Doc. de Identidade(RG):" />
+                                                <p:inputText readonly="#{true}" value="#{item.RG}"
+                                                             />   
+                                                <h:outputLabel value="Celular:" />
+                                                <p:inputText readonly="#{true}" value="#{item.celular}"
+                                                             />   
+                                                <h:outputLabel value="Telefone:" />
+                                                <p:inputText readonly="#{true}" value="#{item.telefone}"
+                                                             />
+                                                <h:outputLabel value="Email:" />
+                                                <p:inputText readonly="#{true}" value="#{item.email}"
+                                                             />   
+                                                <h:outputLabel value="Estado Cívil:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estadoCivil}"
+                                                             />   
+                                                <h:outputLabel value="Sexo:" />
+                                                <p:inputText readonly="#{true}" value="#{item.sexo}"
+                                                             />   
+
+
+                                            </h:panelGrid>
+                                        </p:tab>
+                                        <p:tab id="tabMatricula" title="Matrículas"> 
+                                            <p:dataTable id="tblMatriculas" value="#{item.matriculas}"
+                                                         var="mat" emptyMessage="Não há Matrículas Cadastradas" >
+
+                                                <f:facet name="header">
+                                                    Matrículas  Cadastradas
+                                                </f:facet>
+
+                                                <p:column >
+                                                    #{mat}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+                                        <p:tab id="tabEndereco" title="Endereços"> 
+                                            <p:dataTable id="tblUsuarios" value="#{item.enderecos}" 
+                                                         var="end" emptyMessage="Não há Enderecos Cadastrados" >
+
+                                                <f:facet name="header">
+                                                    Endereços  Cadastrados
+                                                </f:facet>
+
+                                                <p:column >
+                                                    #{end}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+                                        <p:tab id="tabEstagios" title="Estágios"> 
+
+
+                                            <p:dataTable id="tblEstagios" value="#{estagioController.buscarEstagio(item)}" 
+                                                          paginator="true" rows="4" lazy="true"   var="est" emptyMessage="Não há estagios Cadastrados" >
+
+                                                <f:facet name="header">
+                                                    Estágios Cadastrados
+                                                </f:facet>
+
+                                                <p:column  headerText="Estagiário">
+                                                    #{est.estagiario.nome}
+                                                </p:column>
+
+                                                <p:column  headerText="Tipo de Estágio">
+                                                    #{est.tipoEstagio}
+                                                </p:column>
+
+                                                <p:column  headerText="Status">
+                                                    #{est.situacao}
+                                                </p:column>
+
+                                                <p:column  headerText="Carga Horária Concluída">
+                                                    #{est.chc}
+                                                </p:column>
+
+                                                <p:column  headerText="Início">
+                                                    <h:outputText value="#{est.inicio}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+
+                                                <p:column  headerText="Término">
+                                                    <h:outputText value="#{est.termino}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>  
+                                                </p:column>
+
+                                                <p:column headerText="Empresa Concedente">
+                                                    #{est.empresaConcedente.nomeEmpresa}
+                                                </p:column>
+
+                                                <p:column headerText="Curso">
+                                                    #{est.matricula.curso.nome}
+                                                </p:column>
+
+
+
+                                                <f:facet name="footer">
+                                                    <p:panelGrid>
+                                                        <h:outputLabel value="Carga Horária Concluída : " />
+                                                        <p:inputText readonly="true" value="#{estagioController.chcTotal}" />  
+
+                                                    </p:panelGrid>
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+
+                                    </p:accordionPanel>
+                                    <br/>
+                                    <p:separator></p:separator>
+
+                                    <p:commandButton id="fechar" immediate="true"  icon="ui-icon-close" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                    <p:commandButton icon="ui-icon-pencil" value="Editar" title="Editar Aluno"  action="#{alunoController.abrir(item)}"  style="alignment-adjust: central;background: mediumaquamarine"/>
+                                    <br/>
+
+                                </p:outputPanel>
+                            </p:dialog> 
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <h:outputLabel value="Quantidade de Registros: #{alunoController.listagem.size()}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+
+                            <br></br>
+                            <p:separator>Digite o nome ou CPF  do Aluno para Filtrar</p:separator>
+                            <br></br>
+
+                            <p:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText value="#{alunoController.filtro.nome}"/>
+                                <h:outputLabel value="CPF:" />
+                                <p:inputText value="#{alunoController.filtro.cpf}"/>  
+                            </p:panelGrid>
+
+
+
+                            <ui:include src="../comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{alunoController}"  />
+                                <ui:param name="campos" value=""  />
+                            </ui:include>
+
+
+                        </p:tab>
+
+                    </p:accordionPanel>
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./TemplateExterno.xhtml">
+
+            <ui:define name="content">
+
+                <b:container>
+                    <br/>
+
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{coordenacaoController.setarCoordenacao()}"/>
+                    </f:metadata>
+                    
+                    <p:panel>
+                        <f:facet name="header">
+                            <h2 style="margin-top:0; font-size: 2" >
+                                Contatos da Coordenação de Estágio
+                            </h2>              
+
+                        </f:facet>
+
+                        <br/><br/>
+
+                        <h4 style="margin-top:0; font-size: 2" >
+                            <p:separator/>
+                            <p>Telefones:</p>
+                            <p:separator/>
+                            <br/>
+                            <p>#{coordenacaoController.entidade.telefone1}</p>
+                            <p>#{coordenacaoController.entidade.telefone2}</p>
+
+                            <p:separator/>
+                            <p>Email:</p>
+                            <p:separator/>
+                            <br/>
+
+                            <p>#{coordenacaoController.entidade.email}</p>
+
+
+                            <br/><br/>
+
+                        </h4>  
+
+
+
+
+
+                        <br/><br/>
+                        <br/><br/>
+
+
+                    </p:panel>
+
+
+                </b:container>
+
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

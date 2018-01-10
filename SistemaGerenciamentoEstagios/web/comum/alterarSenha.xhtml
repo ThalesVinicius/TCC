@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <p:panel>
+        <f:facet name="header">
+            Alterar Senha 
+        </f:facet>
+        <p:tabView id="tabView">  
+            <p:tab id="tabDados" title="Senhas">  
+
+                <br></br>
+                <p:separator> Alterar Senha de Acesso </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="Usuário:" />
+                    <p:inputText readonly="#{true}" value="#{autenticacaoController.pessoa.nome}"
+                                 />   
+                    <h:outputLabel value="Senha Atual" />
+                    <p:password value="#{autenticacaoController.senhaAtual}" />   
+
+                    <h:outputLabel value="Nova Senha" />
+                    <p:password value="#{autenticacaoController.senha}"/>   
+
+                    <h:outputLabel value="Repita a Senha:" />
+                    <p:password value="#{autenticacaoController.senhaconferencia}" />  
+
+
+                </h:panelGrid>
+            </p:tab>
+
+
+        </p:tabView>
+
+        <f:facet name="footer">
+            <p:commandButton style="background: mediumaquamarine"  id="btnSalvar" update="global" action="#{autenticacaoController.alterarSenha()}"
+                             value="Salvar" icon="ui-icon-disk" >
+                <p:confirm header="Confirmação" message="Deseja realmente salvar o Registro?" icon="ui-icon-alert" />
+            </p:commandButton>
+        </f:facet>
+
+        <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+
+    </p:panel>
+</ui:composition>
+

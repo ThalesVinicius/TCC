@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./AlunoTemplate.xhtml">
+
+
+            <f:metadata>
+                <f:event type="preRenderView" 
+                         listener="#{candidaturaController.setarFiltroCandidato(autenticacaoController.pessoa.id)}"/>
+            </f:metadata>
+
+            <ui:define name="content">
+
+
+          
+                <p:panel>
+                    <f:facet name="header">
+                        <h2 style="margin-top:0; font-size: 2" >
+                            Minhas Vagas
+                        </h2>
+
+                    </f:facet>
+
+
+                    <br/>
+                    <br/>
+                    <p:dataTable value="#{candidaturaController.listagem}" var="item" 
+                                 paginator="true" rows="30"  lazy="true" reflow="true"
+                                 >  
+
+
+                        <p:column  headerText="Candidato">
+                            #{item.candidato.nome}
+                        </p:column>
+
+                        <p:column  headerText="Titulo">
+                            #{item.vaga.tituloVaga}
+                        </p:column>
+
+                        <p:column  headerText="Empresa">
+                            #{item.vaga.empresaConcedente.nomeEmpresa}
+                        </p:column>
+
+                        <p:column  headerText="Curso">
+                            #{item.vaga.curso.nome}
+                        </p:column>
+
+                        <p:column headerText="Quantidade">
+                            #{item.vaga.quantidadeVagas}
+                        </p:column>
+
+                        <p:column headerText="Resultado" resizable="true">
+                            <p:commandButton value="Resultado" icon="ui-icon-clipboard" update="dialogClassificar dialogDesClassificar"
+                                             style="alignment-adjust: central;background: mediumaquamarine" 
+                                             action="#{candidaturaController.resultadoCandidatura(item)}" >
+
+                            </p:commandButton>
+
+                            <p:dialog widgetVar="eventDialogClassificar"  resizable="false" responsive="true" 
+                                      modal="false" width="800" id="dialogClassificar" 
+                                      header="Resultado" showEffect="explode" hideEffect="explode">
+
+                                <p:panel>
+                                    <f:facet name="header">
+                                        <h2 style="margin-top:0; font-size: 2" >
+                                            Parabéns #{candidaturaController.entidade.candidato.nome}!
+                                        </h2>
+                                        <br/>
+                                        <h4 style="margin-top:0; font-size: 2" >
+                                            Você foi CLASSIFICADO para próxima etapa
+                                        </h4>
+
+                                    </f:facet>
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabClassificar" title="Dados Gerais">  
+
+                                            <p:panelGrid columns="2">
+                                                <h:outputLabel value="Situação:" />
+                                                <p:inputText id="txtSituacaoClass" style="background: mediumseagreen" readonly="true" value="#{candidaturaController.entidade.situacao}" />  
+
+                                                <h:outputLabel value="Próxima etapa:" />
+                                                <p:inputText id="txtEtapa" readonly="true"  value="#{candidaturaController.entidade.etapa}" />
+
+                                                <h:outputLabel value="Informações" />
+                                                <p:inputTextarea rows="5" cols="30"  readonly="true" value="#{candidaturaController.entidade.informacoes}" counter="displayCaracter1"
+                                                                 maxlength="500" placeholder="Outras Informações (Ex: Local da próxima etapa)" 
+                                                                 counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                                                <br/>
+                                                <h:outputText id="displayCaracter1" />
+
+                                            </p:panelGrid>
+
+
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                    <p:commandButton value="Fechar" icon="ui-icon-close" 
+                                                     style="alignment-adjust: central;background: mediumaquamarine; width: 100px"
+                                                     oncomplete="PF('eventDialogClassificar').hide();"/>
+
+                                </p:panel>
+                            </p:dialog>
+
+
+                            <p:dialog widgetVar="eventDialogDesClassificar"  resizable="true" responsive="true" 
+                                      modal="false" width="800" id="dialogDesClassificar" 
+                                      header="Resultado" showEffect="explode" hideEffect="explode">
+
+                                <p:panel>
+                                    <f:facet name="header">
+                                        <h2 style="margin-top:0; font-size: 2" >
+                                            #{candidaturaController.entidade.candidato.nome} Infelizmente!
+                                        </h2>
+                                        <br/>
+                                        <h4 style="margin-top:0; font-size: 2" >
+                                            Você foi DESCLASSIFICADO da próxima etapa
+                                        </h4>
+
+                                    </f:facet>
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDesClassificar" title="Dados Gerais">  
+
+                                            <p:panelGrid columns="2">
+
+                                                <h:outputLabel value="Situação:" />
+                                                <p:inputText id="txtSituacaoDes"   style="background: lightcoral" readonly="true" value="#{candidaturaController.entidade.situacao}" />  
+
+                                                <h:outputLabel value="Motivo:" />
+                                                <p:inputTextarea rows="5" cols="30"  readonly="true"    value="#{candidaturaController.entidade.motivo}" counter="displayCaracter2"
+                                                                 maxlength="500" placeholder="Outras Informações (Ex: Local da próxima etapa)" 
+                                                                 counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                                                <br/>
+                                                <h:outputText id="displayCaracter2" />
+
+                                            </p:panelGrid>
+
+
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                    <p:commandButton value="Fechar" icon="ui-icon-close" 
+                                                     style="alignment-adjust: central;background: mediumaquamarine; width: 100px"
+                                                     oncomplete="PF('eventDialogDesClassificar').hide();"/>
+                                </p:panel>
+                            </p:dialog>
+
+                            <p:dialog widgetVar="eventDialogEmAberto"  resizable="true" responsive="true" 
+                                      modal="false" width="800" id="dialogEmAberto" 
+                                      header="Resultado" showEffect="explode" hideEffect="explode">
+
+                                <p:panel>
+                                    <f:facet name="header">
+                                        <h2 style="margin-top:0; font-size: 2" >
+                                            #{candidaturaController.entidade.candidato.nome} Aguarde!
+                                        </h2>
+                                        <br/>
+                                        <h4 style="margin-top:0; font-size: 2" >
+                                            O RESULTADO ainda não foi divulgado.
+                                        </h4>
+
+                                    </f:facet>
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDesClassificar" title="Dados Gerais">  
+
+                                            <p:panelGrid columns="2">
+
+                                                <h:outputLabel value="Situação:" />
+                                                <p:inputText id="txtSituacaoDes"   style="background: cornflowerblue" readonly="true" value="#{candidaturaController.entidade.situacao}" />  
+
+                                            </p:panelGrid>
+
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                    <p:commandButton value="Fechar" icon="ui-icon-close" 
+                                                     style="alignment-adjust: central;background: mediumaquamarine; width: 100px"
+                                                     oncomplete="PF('eventDialogEmAberto').hide();"/>
+                                </p:panel>
+                            </p:dialog>
+
+
+
+
+                        </p:column>
+
+                        <p:column headerText="Cancelar Inscrição" resizable="true">
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" 
+                                             style="alignment-adjust: central;background: mediumaquamarine" 
+                                             action="#{candidaturaController.cancelarCandidatura()}" >
+                                <f:setPropertyActionListener target="#{candidaturaController.entidade}" value="#{item}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column headerText="Opções" resizable="true">
+
+                            <h:form>
+
+                                <p:commandButton value="Visualizar" icon="ui-icon-search" style="alignment-adjust: central;background: mediumaquamarine" oncomplete="PF('eventDialog').show();"/>
+                            </h:form>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Vaga" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhes">
+
+                                    <p:accordionPanel>
+
+                                        <p:tab title="Dados da Vaga de Estágio">
+
+                                            <h:form>
+                                                <p:panelGrid columns="2">
+                                                    <h:outputLabel value="Empresa Concedente do Estágio:" />
+                                                    <p:inputText   readonly="true" value="#{item.vaga.empresaConcedente.nomeEmpresa}"
+                                                                   style="width:229px" />
+
+
+
+                                                    <h:outputLabel value="Titulo da Vaga:" />
+                                                    <p:inputText readonly="true" value="#{item.vaga.tituloVaga}" style="width:229px"/>   
+
+
+                                                    <h:outputLabel value="Quantidade de Vagas:" />
+                                                    <p:inputText readonly="true" value="#{item.vaga.quantidadeVagas}" style="width:229px"/>  
+
+                                                    <h:outputLabel value="Turno" />
+                                                    <p:inputText readonly="true" id="cursando" 
+                                                                 value="#{item.vaga.turno}" 
+                                                                 style="width:229px"/>
+
+                                                    <h:outputLabel value="Valor da Bolsa:" />
+                                                    <p:inputText readonly="true" value="#{item.vaga.valorBolsa}" style="width:229px" /> 
+
+                                                    <h:outputLabel value="Carga Horária:" />
+                                                    <p:inputText readonly="true" value="#{item.vaga.horario}" style="width:229px" /> 
+
+
+                                                    <h:outputLabel value="Área de Atuação:" />
+                                                    <p:inputText readonly="true" value="#{item.vaga.areaAtuacao}" style="width:229px"/> 
+
+                                                </p:panelGrid>
+                                            </h:form>
+                                        </p:tab>
+
+
+                                        <p:tab title="Formação Exigida">
+                                            <h:form>
+                                                <p:panelGrid columns="2" id="panelFormacao" >     
+
+                                                    <h:outputLabel value="Curso:" />
+                                                    <p:inputText readonly="true"  id="cursoID" value="#{item.vaga.curso.nome}" style="width:237px"/> 
+
+                                                    <h:outputLabel  value="Período" />
+                                                    <p:inputText readonly="true" id="txtPeriodo" value="#{item.vaga.periodo}" style="width:231px"/> 
+
+
+                                                    <h:outputLabel value="Nível" />
+                                                    <p:inputText readonly="true" id="nivel" value="#{item.vaga.nivel}" style="width:237px"/>
+
+
+                                                    <h:outputLabel value="Habilidades Exigidas" />
+                                                    <p:inputTextarea readonly="true" rows="3" cols="30" value="#{item.vaga.habilidades}"
+                                                                     maxlength="500" autoResize="false" style="width:231px"/>
+                                                    <br/>
+
+                                                </p:panelGrid>
+                                            </h:form>
+                                        </p:tab>
+
+                                        <p:tab title="Local de Trabalho">
+                                            <br></br>
+                                            <p:separator> Endereço do Local de Trabalho </p:separator>
+                                            <br></br>
+                                            <h:form>
+                                                <p:panelGrid columns="2" id="tabEndereco" >                    
+
+                                                    <h:outputLabel value="Rua/Av:" />
+                                                    <p:inputText readonly="true" id="txtRua" value="#{item.vaga.localTrabalho.rua}" />    
+
+                                                    <h:outputLabel value="Número:" />
+                                                    <p:inputText readonly="true"  id="txtNum" value="#{item.vaga.localTrabalho.numero}"  required="false"/>                      
+
+                                                    <h:outputLabel value="Bairro:" />
+                                                    <p:inputText readonly="true" id="txtBairro" value="#{item.vaga.localTrabalho.bairro}" required="false"/>
+
+
+                                                    <h:outputLabel value="Cidade:" />
+                                                    <p:inputText readonly="true" id="txtCidade" value="#{item.vaga.localTrabalho.cidade}" required="false"/>  
+
+                                                    <h:outputLabel value="Cep:" />
+                                                    <p:inputMask readonly="true" id="txtCep" value="#{item.vaga.localTrabalho.cep}" mask="99.999-999" required="false"/> 
+
+                                                    <h:outputLabel value="UF:" />
+                                                    <p:inputText readonly="true" id="txtUF" value="#{item.vaga.localTrabalho.UF}" required="false"/>  
+
+                                                </p:panelGrid>
+                                            </h:form>
+                                        </p:tab>
+
+                                        <p:tab title="Outras Informações">
+                                            <br></br>
+                                            <p:separator> Informações Referentes  a  vaga Ofertada </p:separator>
+                                            <br></br>
+                                            <h:form>
+                                                <p:panelGrid columns="2" id="tabInformacoes" >     
+
+                                                    <h:outputLabel value="Atividades:" />
+                                                    <p:inputTextarea readonly="true" rows="4" cols="30" value="#{item.vaga.atividades}"
+                                                                     placeholder="Principais atividades a serem desenvolvidas pelo Estagiário" 
+                                                                     autoResize="false" style="width:231px"/>
+
+
+
+                                                    <h:outputLabel value="Requisítos:" />
+                                                    <p:inputTextarea  readonly="true" rows="5" cols="30" value="#{item.vaga.requesitos}" 
+                                                                      maxlength="500" placeholder="Principais Requisítos para Ocupar a vaga:"
+                                                                      autoResize="false" style="width:231px"/>
+
+
+
+                                                    <h:outputLabel value="Benefícios:" />
+                                                    <p:inputTextarea readonly="true" rows="5" cols="30" value="#{item.vaga.beneficios}" 
+                                                                     maxlength="500" placeholder="Benefícios oferecidos pela Empresa Concedente"
+                                                                     autoResize="false" style="width:231px"/>
+
+                                                </p:panelGrid>
+                                            </h:form>
+
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                </p:outputPanel>
+
+                                <br/>
+                                <p:separator></p:separator>
+                                <h:form>
+                                    <p:commandButton id="fechar" immediate="true"  value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                </h:form>
+
+                                <br/>
+
+                            </p:dialog>
+
+                        </p:column>
+
+
+
+
+                    </p:dataTable>
+
+
+
+
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+
+                <p:panel>
+                    <f:facet name="header">
+                        Relatório de Listagem de Estágios
+                    </f:facet>
+
+                    <p:dataTable value="#{relatorioEstagiosController.dados}" var="item" 
+                                 paginator="true" rows="5"  id="table"
+                                 >  
+
+                        <f:facet name="header">
+
+
+                            <p:blockUI block="table" trigger="gerarRelatorio">
+                                <img src="../resources/img/loading.gif"/>
+                            </p:blockUI>
+
+                            <p:commandButton id="toggler" type="button" value="Colunas" style="float:right" icon="ui-icon-calculator" />
+                            <p:columnToggler datasource="table" trigger="toggler" />
+
+                            <p:commandButton id="gerarRelatorio"  style="float:right"  value="Gerar Relatório"  ajax="false" action="#{relatorioEstagiosController.executaRelatorioPDF()}" onclick="this.form.target = '_blank'" >
+                                <p:ajax />
+                            </p:commandButton>
+                        </f:facet>
+
+                        <p:column sortBy="estagiario" headerText="Estagiário">
+                            #{item.estagiario.nome}
+                        </p:column>
+
+                        <p:column  headerText="Empresa">
+                            #{item.empresaConcedente.nomeEmpresa}
+                        </p:column>
+
+                        <p:column  headerText="Curso">
+                            #{item.matricula.curso.nome}
+                        </p:column>
+
+                        <p:column sortBy="Inicio" headerText="Início">
+                            <h:outputText value="#{item.inicio}">
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column sortBy="Termino" headerText="Término">
+                            <h:outputText value="#{item.termino}">
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                            </h:outputText>  
+                        </p:column>
+
+
+                        <f:facet name="footer">
+                            <h:outputLabel value="Quantidade de Registros: #{relatorioEstagiosController.dados.size()}"/>
+                        </f:facet>
+
+                    </p:dataTable>
+                </p:panel>
+
+                <p:accordionPanel styleClass="teste">
+                    <p:tab title="Filtros">
+
+                        <br></br>
+                        <p:separator>Digite o nome do Estagiário para Filtrar</p:separator>
+                        <br></br>
+
+                        <p:panelGrid columns="2">
+
+                            <h:outputLabel value="Estagiário:" />
+                            <p:autoComplete id="event" value="#{relatorioEstagiosController.filtro.estagiario}"
+                                            completeMethod="#{alunoConverter.autoCompleteAluno}" minQueryLength="3"
+                                            var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{alunoConverter}"
+                                            >
+
+                            </p:autoComplete>
+
+                            <h:outputLabel value="Empresa Concedente:" for="event"/>                             
+                            <p:autoComplete id="eventEmpresa" value="#{relatorioEstagiosController.filtro.empresaConcedente}"
+                                            completeMethod="#{empresaConverter.autoCompleteEmpresa}" minQueryLength="3"
+                                            var="item" itemLabel="#{item.nomeEmpresa}" itemValue="#{item}" converter="#{empresaConverter}"
+                                            >
+                            </p:autoComplete>
+
+                            <h:outputLabel  value="Curso:" />
+                            <p:autoComplete id="Curso" value="#{relatorioEstagiosController.filtro.matricula.curso}"
+                                            completeMethod="#{cursoConverter.autoCompleteCurso}" minQueryLength="3"
+                                            var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{cursoConverter}"
+                                            style="width:600px" >
+
+                            </p:autoComplete>
+
+                            <h:outputLabel value="Tipo de Estágio" />
+                            <p:selectOneMenu id="tipo" value="#{relatorioEstagiosController.filtro.tipoEstagio}"
+                                             >
+                                <f:selectItem itemLabel="Selecione" itemValue=""/>   
+                                <f:selectItem itemLabel="Obrigatório" itemValue="Obrigatorio" />
+                                <f:selectItem itemLabel="Nao Obrigatório" itemValue="Nao Obrigatorio" />
+                            </p:selectOneMenu>
+
+                            <h:outputLabel  value="Status do Estagio" />
+                            <p:selectOneMenu  id="status" value="#{relatorioEstagiosController.filtro.situacao}">
+                                <f:selectItem itemLabel="Selecione" itemValue=""/>   
+                                <f:selectItem itemLabel="Concluído" itemValue="Concluido"/> 
+                                <f:selectItem itemLabel="Em andamento" itemValue="Em andamento"/> 
+                                <f:selectItem itemLabel="Cancelado" itemValue="Cancelado"/> 
+
+                            </p:selectOneMenu>  
+
+                            <h:outputLabel value="Período(Data):" />
+                            <p:calendar value="#{relatorioEstagiosController.filtro.inicio}"
+                                        placeholder="Digite uma data inicial"     pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+                            #{" "}
+                            <p:calendar  value="#{relatorioEstagiosController.filtro.termino}"
+                                         placeholder="Digite uma data final" mindate="#{relatorioEstagiosController.filtro.inicio}"  pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+
+
+
+                        </p:panelGrid>
+
+                        <ui:include src="../comum/botoesListagem.xhtml">
+                            <ui:param name="controller" value="#{relatorioEstagiosController}"  />
+                            <ui:param name="campos" value="" />
+                        </ui:include>
+
+                    </p:tab>
+                </p:accordionPanel>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

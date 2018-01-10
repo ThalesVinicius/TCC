@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./EmpresaTemplate.xhtml">
+
+
+            <f:metadata>
+                <f:event type="preRenderView" 
+                         listener="#{estagioController.setarFiltroEmpresa(empresaController.buscarEmpresaLogada(autenticacaoController.pessoa.id))}"/>
+            </f:metadata>
+
+            <ui:define name="content">
+
+
+                
+                <p:panel>
+                    <f:facet name="header">
+                        <h2 style="margin-top:0; font-size: 2" >
+                            Meus Estágios
+                        </h2>
+
+                    </f:facet>
+
+
+                    <p:dataTable value="#{estagioController.listagem}" var="item" 
+                                 paginator="true" rows="30"  lazy="true"
+                                 >
+
+
+                        <p:column sortBy="#{item.estagiario.nome}" headerText="Estagiário">
+                            <p:commandLink oncomplete="PF('eventDialogAluno').show();" update="dialogAluno" value="#{item.estagiario.nome}"/>
+
+                            <p:dialog widgetVar="eventDialogAluno"  resizable="false" responsive="true" modal="false" width="800" id="dialogAluno" header="Visualizar Aluno" showEffect="explode" hideEffect="explode">
+                                <p:outputPanel id="eventDetalhesAlunos">
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDadosAlunos" title="Dados Gerais">  
+                                            <h:panelGrid id="eventDetailsAlunos" columns="2">
+
+                                                <h:outputLabel value="Aluno:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.nome}"
+                                                             />   
+
+                                                <h:outputLabel value="Data de Nascimento:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.dataNascimento}">
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </p:inputText>
+
+                                                <h:outputLabel value="CPF:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.cpf}"
+                                                             />   
+                                                <h:outputLabel value="Doc. de Identidade(RG):" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.RG}"
+                                                             />   
+                                                <h:outputLabel value="Celular:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.celular}"
+                                                             />   
+                                                <h:outputLabel value="Telefone:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.telefone}"
+                                                             />
+                                                <h:outputLabel value="Email:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.email}"
+                                                             />   
+                                                <h:outputLabel value="Estado Civil:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.estadoCivil}"
+                                                             />   
+                                                <h:outputLabel value="Sexo:" />
+                                                <p:inputText readonly="#{true}" value="#{item.estagiario.sexo}"
+                                                             />   
+
+
+                                            </h:panelGrid>
+                                        </p:tab>
+                                        <p:tab id="tabMatricula" title="Matrículas"> 
+                                            <p:dataTable id="tblMatriculas" value="#{item.estagiario.matriculas}"
+                                                         var="mat" emptyMessage="Não há Matriculas Cadastradas" >
+
+                                                <f:facet name="header">
+                                                    Matriculas  Cadastradas
+                                                </f:facet>
+
+                                                <p:column >
+                                                    #{mat}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+                                        <p:tab id="tabEndereco" title="Endereços"> 
+                                            <p:dataTable id="tblUsuarios" value="#{item.estagiario.enderecos}" 
+                                                         var="end" emptyMessage="Não há Endereços Cadastrados" >
+
+                                                <f:facet name="header">
+                                                    Endereços  Cadastrados
+                                                </f:facet>
+
+                                                <p:column >
+                                                    #{end}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+                                    </p:accordionPanel>
+                                    <br/>
+                                    <p:separator></p:separator>
+
+                                    <p:commandButton id="fecharDialogAluno" immediate="true"  icon="ui-icon-arrowreturnthick-1-w" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialogAluno').hide();"/>
+
+                                    <br/>
+
+                                </p:outputPanel>
+                            </p:dialog> 
+
+                        </p:column>
+
+                        <p:column  headerText="Tipo de Estágio">
+                            #{item.tipoEstagio}
+                        </p:column>
+
+                        <p:column  headerText="Status">
+                            #{item.situacao}
+                        </p:column>
+
+                        <p:column  headerText="Carga Horária Concluída">
+                            #{item.chc}
+                        </p:column>
+
+                        <p:column sortBy="Inicio" headerText="Início">
+                            <h:outputText value="#{item.inicio}">
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column sortBy="Termino" headerText="Término">
+                            <h:outputText value="#{item.termino}">
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                            </h:outputText>  
+                        </p:column>
+
+                        <p:column headerText="Empresa Concedente">
+                            #{item.empresaConcedente.nomeEmpresa}
+                        </p:column>
+
+                        <p:column headerText="Curso">
+                            #{item.matricula.curso.nome}
+                        </p:column>
+
+
+
+                        <p:column headerText="Opções">
+
+                            <p:commandButton value="Visualizar" icon="ui-icon-search" style="alignment-adjust: central;background: mediumaquamarine"
+                                             update="dialog" oncomplete="PF('eventDialog').show();"/>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Estágio" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhes">
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+
+
+                                            <h:panelGrid columns="2">
+
+                                                <h:outputLabel value="Tipo de Estágio" />
+                                                <p:inputText  readonly="true"  
+                                                              value="#{item.tipoEstagio}"/>
+
+
+                                                <h:outputLabel value="Data de Início:" />
+                                                <p:inputText  readonly="true"  value="#{item.inicio}">
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </p:inputText>
+
+
+                                                <h:outputLabel value="Data de Término:" />
+                                                <p:inputText  readonly="true"  value="#{item.termino}">
+                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </p:inputText> 
+
+
+                                                <h:outputLabel  value="Status do Estágio" />
+                                                <p:inputText  readonly="true"   id="status" 
+                                                              value="#{item.situacao}"/>
+
+
+                                                <p:outputLabel  value="Carga Horária Concluída:" />
+                                                <p:inputText  id="chc" readonly="true"
+                                                              value="#{item.chc}"  />
+
+                                            </h:panelGrid>
+
+                                        </p:tab>
+                                        <p:tab id="tabAluno" title="Dados do Estagiário">  
+
+                                            <h:panelGrid columns="2">
+
+                                                <h:outputLabel value="Aluno:" for="event"/>                             
+                                                <p:inputText  readonly="true"  
+                                                              value="#{item.estagiario.nome}"
+                                                              />
+
+                                                <h:outputLabel value="Matricula:" />
+                                                <p:inputText  id="matricula" readonly="#{true}" value="#{item.matricula.matricula}" />   
+
+                                                <h:outputLabel  value="Curso:" />
+                                                <p:inputText id="curso" readonly="#{true}" value="#{item.matricula.curso.nome}" />   
+
+
+                                            </h:panelGrid>
+                                            <br></br>
+
+
+                                        </p:tab>
+
+                                        <p:tab id="tabEmpresa" title="Empresa Concedente">  
+
+                                            <h:panelGrid columns="2" >
+
+                                                <h:outputLabel value="Empresa Concedente:" for="event"/>                             
+                                                <p:inputText  readonly="#{true}"  id="Empresa"
+                                                              value="#{item.empresaConcedente.nomeEmpresa}" />
+
+                                                <h:outputLabel value="Supervisor" />                             
+                                                <p:inputText  readonly="#{true}"  id="supefvisor"
+                                                              value="#{item.supervisor.nome}" />
+
+
+                                            </h:panelGrid>
+
+                                        </p:tab>
+
+                                        <p:tab id="tabOrientador" title="Orientadores">  
+                                            <p:dataTable id="tblOrientadores" value="#{item.orientacoes}" 
+                                                         var="ori" emptyMessage="Registros não Encontrados" >
+                                                <f:facet name="header">
+                                                    Orientadores  Cadastrados
+                                                </f:facet>
+
+                                                <p:column  headerText="Nomes">
+                                                    #{ori.orientador.nome}
+                                                </p:column>
+                                                <p:column  headerText="Quantidade de Orientações">
+                                                    #{ori.qtd_orientacoes}
+                                                </p:column>
+
+                                                <p:column  headerText="Início">
+
+                                                    <h:outputText value="#{ori.inicioOrientacao}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>  
+                                                </p:column>
+
+                                                <p:column  headerText="Término">
+
+                                                    <h:outputText value="#{ori.terminoOrientacao}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>  
+
+                                                </p:column>
+
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+                                    </p:accordionPanel>
+                                </p:outputPanel>
+
+                                <br/>
+                                <p:separator></p:separator>
+
+                                <p:commandButton id="fechar" immediate="true"  icon="ui-icon-arrowreturnthick-1-w" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+
+
+                                <br/>
+
+                            </p:dialog>
+
+
+
+                        </p:column>
+
+
+                    </p:dataTable>
+
+
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

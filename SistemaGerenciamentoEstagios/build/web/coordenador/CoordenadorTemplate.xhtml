@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+        <title>Gerenciador de Estágios - IFNMG</title>
+
+        <h:outputStylesheet library="css" name="styles/custom.css" />
+        <h:outputStylesheet library="css" name="styles/layout.css" />
+        <h:outputStylesheet library="css" name="styles/components.css" />
+
+        <h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
+        <h:outputScript target="body" library="css" name="javascripts/app.js" />
+
+
+    </h:head>
+
+    <h:body >
+
+        <h:form acceptcharset="ISO-8859-1" id="form" lang="pt_BR"  enctype="multipart/form-data"  > 
+            <header class="aw-topbar">
+
+                <h:graphicImage library="css"  name="images/logo.png" />
+
+                <a href="#"  class="aw-toggle  js-toggle"><i class="fa  fa-bars"></i></a>
+                <a href="#" onclick="PF('bar').show();" class="aw-toggle  "><i class="fa  fa-bell-o"></i></a>
+
+
+                <div  style="font-style: italic; background-color: mediumaquamarine">
+                    <br/>  
+                </div>
+            </header>
+
+
+            <nav>
+                <p:menu class="aw-sidebar  js-sidebar" toggleable="true" >
+                    <p:submenu   label="Bem Vindo #{autenticacaoController.pessoa.nome}!" expanded="true" id="menu" icon="ui-icon-pencil" >
+                        <p:menuitem   value=" Página Principal "  url="index.xhtml" icon="ui-icon-bookmark"  />
+                        <p:menuitem   value=" Meus Dados " icon="ui-icon-contact"  url="editarDadosPessoais.xhtml" />
+                        <p:menuitem   value=" Alterar Senha " icon="ui-icon-key" url="alterarSenha.xhtml"/>
+                        <p:menuitem   value=" Área Pública " icon="ui-icon-home" url="editarAreaPublica.xhtml"  />
+                        <p:menuitem   value=" Sair " icon="ui-icon-power"  action="#{autenticacaoController.logout()}"/>
+                    </p:submenu>
+
+                    <p:submenu label=" Cadastros " icon="ui-icon-pencil" >
+                        <p:menuitem value=" Alunos " icon="ui-icon-pencil"   url="listagemAlunos.xhtml"/>
+                        <p:menuitem value=" Áreas " icon="ui-icon-pencil"  url="listagemAreas.xhtml" />
+                        <p:menuitem value=" Boletim " icon="ui-icon-pencil" url="listagemBoletins.xhtml" />
+                        <p:menuitem value=" Cursos " icon="ui-icon-pencil" url="listagemCursos.xhtml" />
+                        <p:menuitem value=" Coordenador de Curso" icon="ui-icon-pencil" url="listagemCoordenadores.xhtml" />
+                        <p:menuitem value=" Empresas " icon="ui-icon-pencil"  url="listagemEmpresas.xhtml" />
+                        <p:menuitem value=" Orientadores " icon="ui-icon-pencil" url="listagemOrientadores.xhtml"  />
+                        <p:menuitem value=" Supervisores " icon="ui-icon-pencil" url="listagemSupervisores.xhtml" />
+                        <p:menuitem value=" Setores " icon="ui-icon-pencil" url="listagemSetores.xhtml" />
+
+                    </p:submenu>
+
+                    <p:submenu label=" Gerenciar  " icon="ui-icon-pencil" >
+                        <p:menuitem value=" Estágios " icon="ui-icon-document" url="listagemEstagios.xhtml" />
+
+                        <p:menuitem value=" Vagas de Estágios  " icon="ui-icon-bookmark" url="listagemVagasEstagios.xhtml" />
+                    </p:submenu>
+
+                    <p:submenu label=" Relatórios " icon="ui-icon-pencil" >
+                        <p:menuitem value="Estágios" icon="ui-icon-pencil"   url="relatorioListagemEstagios.xhtml"/>
+                        <p:menuitem value="Declaração" icon="ui-icon-pencil"  url="relatorioDeclaracaoEstagiosOrientadores.xhtml" />
+                        <p:menuitem value="Gerar Boletim" icon="ui-icon-pencil"   url="relatorioBoletimEstagios.xhtml"/>
+                        <p:menuitem value="Estagios por Ano" icon="ui-icon-pencil"   url="relatorioEstagioAno.xhtml"/>
+
+                    </p:submenu>
+
+                    <p:submenu label=" Notificações  " icon="ui-icon-pencil" >
+                        <p:menuitem value=" Novos Cadastros " icon="ui-icon-document" url="listagemNotificacoesCadastros.xhtml" />
+
+                        <p:menuitem value=" Novas Vagas " icon="ui-icon-bookmark" url="listagemNotificacoesVagas.xhtml" />
+                    </p:submenu>
+                </p:menu>
+
+
+            </nav>
+
+
+
+            <section class="aw-content  js-content">
+
+
+                <p:messages id="global" closable="true">
+                    <p:effect type="pulsate" event="load" delay="500" />
+                </p:messages>
+                <ui:insert name="content" />
+            </section>
+
+
+            <p:idleMonitor timeout="300000">
+                <p:ajax event="idle" listener="#{autenticacaoController.idelListener()}" />
+            </p:idleMonitor>
+
+            <p:confirmDialog closable="false" message="Sua sessão ficou ociosa por mais de 5 minutos e você foi desconectado automaticamente. Por favor efetue login novamente."  
+                             header="Aviso" severity="alert" widgetVar="msgIdle">  
+                <p:commandButton immediate="true" ajax="false" value="Login" action="#{autenticacaoController.logout()}"  />  
+            </p:confirmDialog>
+
+
+        </h:form>
+
+    </h:body>
+
+</html>

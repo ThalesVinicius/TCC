@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagens de Boletins de Estágios enviados à Secretária
+                    </f:facet>
+
+
+                    <ui:include src="../comum/botaoNovo.xhtml">
+                        <ui:param name="controller" value="#{boletimController}"  />
+                    </ui:include>
+
+
+                    <p:dataTable value="#{boletimController.listagem}" var="item" 
+                                 paginator="true" rows="30"  lazy="true" 
+                                 emptyMessage="Registros não Encontrados"  >  
+
+
+                        <p:column sortBy="nome" headerText="Nome">
+                            ${item.aluno.nome}
+                        </p:column>
+
+                        <p:column sortBy="Curso" headerText="Sigla">
+                            ${item.curso.nome}
+                        </p:column>
+
+                        <p:column sortBy="envio" headerText="Data de Envio:">
+                            <h:outputText value="#{item.dataEnvio}">
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  headerText="Baixar Boletim">
+                            <h:commandLink value="Boletim: #{item.aluno.nome}" action="#{boletimController.dowload}" immediate="true" >
+                                <f:setPropertyActionListener target="#{boletimController.entidade}" value="#{item}" />
+                            </h:commandLink>
+
+                        </p:column>
+
+                        <p:column headerText="Editar Registro">
+                            <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{boletimController.abrir(item)}" 
+                                             style="alignment-adjust: central;background: mediumaquamarine"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <h:outputLabel value="Quantidade de Registros: #{boletimController.listagem.size()}"/>
+
+                        </f:facet>
+
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+
+
+                            <br></br>
+                            <p:separator>Digite o nome do Aluno ou do Curso para Filtrar</p:separator>
+                            <br></br>
+
+                            <p:panelGrid columns="2">
+
+                                <h:outputLabel value="Aluno:" />
+                                <p:autoComplete id="event" value="#{boletimController.filtro.aluno}"
+                                                completeMethod="#{alunoConverter.autoCompleteAluno}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{alunoConverter}"
+                                                >
+
+                                </p:autoComplete>
+
+                                <h:outputLabel  value="Curso:" />
+                                <p:autoComplete id="Curso" value="#{boletimController.filtro.curso}"
+                                                completeMethod="#{cursoConverter.autoCompleteCurso}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{cursoConverter}"
+                                                style="width:600px" >
+
+                                </p:autoComplete>
+
+                            </p:panelGrid>
+                            <ui:include src="../comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{boletimController}"  />
+                            </ui:include>
+
+
+
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

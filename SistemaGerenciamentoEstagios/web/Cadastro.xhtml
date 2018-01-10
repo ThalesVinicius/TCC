@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./TemplateExterno.xhtml">
+
+            <ui:define name="content">
+
+                <b:container>
+                    <br/>
+
+                    <b:panel>
+
+
+                        <h:form>
+                            <p:panel rendered="#{autenticacaoController.renderedTipo}">
+                                <f:facet name="header">
+                                    <h2 style="margin-top:0; font-size: 2" >
+                                        Cadastro de Usuário
+                                    </h2>
+                                    <br/>
+                                </f:facet>
+
+                                <br/>
+                                <br/>
+                                <p:panelGrid columns="3"  >
+
+                                    <h:outputLabel value="Tipo de Usuário : " />
+
+                                    <p:selectOneMenu  value="#{autenticacaoController.tipoCadastro}" >
+                                        <f:selectItem itemLabel="  Selecione  " itemValue="Selecione" />
+                                        <f:selectItem itemLabel="  Aluno " itemValue="Aluno" />
+                                        <f:selectItem itemLabel="  Empresa " itemValue="Empresa"/>
+                                    </p:selectOneMenu>
+
+                                    <b:commandButton value="Ir" icon="ui-icon-arrowreturnthick-1-e" action="#{autenticacaoController.rendered}" 
+                                                     style="background: mediumaquamarine; height: 30px"  
+                                                     update="formAluno global" id="cbIr"/>
+
+
+                                </p:panelGrid>
+
+                            </p:panel>
+
+
+                            <p:panel rendered="#{autenticacaoController.renderedAluno}" id="formAluno">
+
+                                <f:facet name="header">
+                                    <br/>
+                                    <h2 style="margin-top:0; font-size: 2" >
+                                        Cadastro de Aluno
+                                    </h2>
+                                    <br/>     
+                                </f:facet>
+
+                                <p:accordionPanel>
+                                    <p:tab  title="Dados Gerais">
+                                        <p:panelGrid columns="2" >
+
+
+                                            <h:outputLabel value="Nome: " />
+                                            <p:inputText  type="text"  required="true" requiredMessage="É obrigatório preencher o nome do aluno" value="#{autenticacaoController.aluno.nome}"/>
+
+                                            <h:outputLabel value="Data de Nascimento: " />
+
+                                            <p:calendar disabled="#{disabled}"  value="#{autenticacaoController.aluno.dataNascimento}"       
+                                                        pattern="dd/MM/yyyy" mask="true" locale="pt" /> 
+
+
+                                            <h:outputLabel value="Sexo: " />
+                                            <p:selectOneMenu id="sexo" value="#{autenticacaoController.aluno.sexo}" style="width:157px">
+                                                <f:selectItem itemLabel="  Selecione  " itemValue="" />
+                                                <f:selectItem itemLabel="  Masculino " itemValue="Masculino" />
+                                                <f:selectItem itemLabel="  Feminino " itemValue="Feminino"/>
+                                            </p:selectOneMenu>
+
+                                            <h:outputLabel value="CPF: " />
+                                            <p:inputMask value="#{autenticacaoController.aluno.cpf}" label="CPF" 
+                                                         mask="999.999.999-99"/>
+
+
+                                            <h:outputLabel value="Doc. Identidade(RG) " />
+                                            <p:inputText  type="text" value="#{autenticacaoController.aluno.RG}"/>
+
+                                            <h:outputLabel value="Estado Cívil: " />
+                                            <p:selectOneMenu  value="#{autenticacaoController.aluno.estadoCivil}" style="width:157px">
+                                                <f:selectItem itemLabel="  Selecione  " itemValue="" />
+                                                <f:selectItem itemLabel="Solteiro" itemValue="Solteiro" />
+                                                <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                                                <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                                                <f:selectItem itemLabel="Viúvo" itemValue="Viúvo" />
+                                            </p:selectOneMenu>
+                                        </p:panelGrid>
+                                    </p:tab>
+
+                                    <p:tab title="Endereço">
+
+                                        <p:panelGrid columns="2" >
+
+                                            <h:outputLabel value="Rua/Av.: " />
+                                            <p:inputText type="text" value="#{autenticacaoController.endereco.rua}"/>
+
+                                            <h:outputLabel value="Número: " />
+                                            <p:inputText type="text"  value="#{autenticacaoController.endereco.numero}"/>
+
+                                            <h:outputLabel value="Complemento: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.complemento}"/>
+
+                                            <h:outputLabel value="Bairro: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.bairro}"/>
+
+                                            <h:outputLabel value="Cidade: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.cidade}"/>
+
+                                            <h:outputLabel value="CEP: " />
+                                            <p:inputMask mask="99.999-999"   value="#{autenticacaoController.endereco.cep}"/>
+
+                                            <h:outputLabel value="Estado: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.UF}"/>
+
+                                        </p:panelGrid>
+
+                                    </p:tab>
+
+
+                                    <p:tab title="Contatos">
+                                        <p:panelGrid columns="2" >
+
+                                            <h:outputLabel value="Celular " />
+                                            <p:inputMask mask="(99) 9 9999 - 9999" placeholder="(00) 0 0000 - 0000" value="#{autenticacaoController.aluno.celular}"/>
+
+                                            <h:outputLabel value="Telefone " />
+                                            <p:inputMask mask="(99) 9999 - 9999" placeholder="(00) 0 0000 - 0000" value="#{autenticacaoController.aluno.telefone}"/>
+
+                                            <h:outputLabel value="Email de Acesso: " />
+                                            <p:inputText  type="email" required="true" requiredMessage="É obrigatório preencher o email do aluno" value="#{autenticacaoController.aluno.email}"/>
+
+                                            <h:outputLabel value="Senha: " />
+                                            <p:inputText  type="password" required="true" requiredMessage="É obrigatório preencher a senha de acesso" value="#{autenticacaoController.aluno.senha}"/>
+                                        </p:panelGrid>
+
+                                        Obs. O email e senha serão utilizados para acesso ao sistema
+                                    </p:tab>
+
+                                    <p:tab id="tabMatriculas" title="Matricula">  
+                                        <br></br>
+
+                                        <h:panelGrid columns="2"  id="panelMatriculas" >
+
+                                            <h:outputLabel value="Curso:" />
+                                            <p:selectOneMenu  value="#{autenticacaoController.matricula.curso}"
+                                                             converter="#{cursoConverter}"  required="true" requiredMessage="É obrigatório selecionar o Curso."> 
+
+                                                <f:selectItem itemLabel="Selecione" itemValue=""/>      
+                                                <f:selectItems value="#{cursoController.listagem}"  
+                                                               var="coop"  
+                                                               itemLabel="#{coop.nome}"  
+                                                               />    
+                                            </p:selectOneMenu>  
+
+                                            <h:outputLabel value="Matricula:" />
+                                            <p:inputText  id="txtMatricula" value="#{autenticacaoController.matricula.matricula}" />    
+
+                                            <h:outputLabel value="Cursando:" />
+                                            <p:selectOneRadio id="cursando" value="#{autenticacaoController.matricula.cursando}"
+                                                              >
+                                                <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                                <f:selectItem itemLabel="Nao" itemValue="Nao" />
+                                            </p:selectOneRadio>
+
+                                            <h:outputLabel  value="Periodo" />
+                                            <p:inputText  id="txtPeriodo" value="#{autenticacaoController.matricula.periodo}"/>   
+
+                                            <h:outputLabel value="Possui Dependencia:" />
+                                            <p:selectOneRadio  id="dependencia" value="#{autenticacaoController.matricula.possuiDependencia}"
+                                                              >
+                                                <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                                <f:selectItem itemLabel="Nao" itemValue="Nao" />
+                                            </p:selectOneRadio>
+
+                                            <h:outputLabel value="Integralizou Carga Horaria:" />
+                                            <p:selectOneRadio id="Integralizacao" value="#{autenticacaoController.matricula.integralizouCH}"
+                                                              >
+                                                <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                                <f:selectItem itemLabel="Nao" itemValue="Nao" />
+                                            </p:selectOneRadio>
+
+                                            <h:outputLabel value="Data de Integralizacao:" />
+                                            <p:calendar value="#{autenticacaoController.matricula.dataIntegralizacao}"
+                                                        pattern="dd/MM/yyyy" locale="pt_BR" disabled="#{disabled}" /> 
+
+
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+
+                                <f:facet name="footer">
+                                    <br/>
+                                    <br/>
+                                    <b:commandButton value="Cancelar" immediate="true" action="#{autenticacaoController.voltarCadastro}" look="primary" id="cbSalvar" />
+                                    #{' '}
+                                    <b:commandButton value="Salvar" look="primary" id="clvar" action="#{autenticacaoController.cadastrarAluno()}"  update="global"/>
+                                </f:facet>
+                            </p:panel>
+
+
+
+                            <p:panel rendered="#{autenticacaoController.renderedEmpresa}" id="formEmpresa">
+
+                                <f:facet name="header">
+                                    <br/>
+                                    <h2 style="margin-top:0; font-size: 2" >
+                                        Cadastro de Empresa Concedente
+                                    </h2>
+                                    <br/>     
+                                </f:facet>
+
+                                <p:accordionPanel>
+                                    <p:tab  title="Dados Gerais">
+                                        <p:panelGrid columns="2" >
+
+                                            <h:outputLabel value="Nome da Empresa: " />
+                                            <p:inputText  type="text" required="true" requiredMessage="É obrigatório preencher o nome da empresa" value="#{autenticacaoController.empresa.nomeEmpresa}"/>
+
+                                            <h:outputLabel value="CNPJ: " />
+                                            <p:inputMask mask="99.999.999/9999-99" value="#{autenticacaoController.empresa.cnpj}" placeholder="99.999.999/9999-99"/>
+
+                                            <h:outputLabel value="Área de Atuação: " />
+                                            <p:inputText  type="text" value="#{autenticacaoController.empresa.areaAtuacao}"/>
+
+
+                                        </p:panelGrid>
+                                    </p:tab>
+
+                                    <p:tab  title="Representante">
+                                        <p:panelGrid columns="2" >
+
+                                            <h:outputLabel value="Nome do Representante: " />
+                                            <p:inputText  type="text" required="true" requiredMessage="É obrigatório preencher o nome do representante" value="#{autenticacaoController.representante.nome}"/>
+
+                                            <h:outputLabel value="CPF: " />
+                                            <p:inputMask mask="999.999.999-99"   value="#{autenticacaoController.representante.cpf}" placeholder="000.000.000-00"/>
+
+                                            <h:outputLabel value="Cargo na Empresa: " />
+                                            <p:inputText  type="text" value="#{autenticacaoController.representante.cargo}"/>
+
+                                            <h:outputLabel value="Celular" />
+                                            <p:inputMask mask="(99) 9 9999 - 9999"  placeholder="(00) 0000 - 0000" value="#{autenticacaoController.representante.celular}"/>
+
+                                            <h:outputLabel value="Telefone " />
+                                            <p:inputMask mask="(99) 9999 - 9999" placeholder="(00) 0000 - 0000" value="#{autenticacaoController.representante.telefone}"/>
+
+                                            <h:outputLabel value="Email de Acesso: "  />
+                                            <p:inputText  type="email" required="true" requiredMessage="É obrigatório preencher o email do representante" value="#{autenticacaoController.representante.email}"/>
+
+                                            <h:outputLabel value="Senha: " />
+                                            <p:inputText  type="password" required="true" requiredMessage="É obrigatório preencher a senha" value="#{autenticacaoController.representante.senha}"/>
+
+                                        </p:panelGrid>
+
+                                        Obs.: O acesso ao sistema pela empresa concedente
+                                        será realizado através do Email do Representante da mesma.
+                                    </p:tab>
+
+                                    <p:tab title="Endereço">
+
+                                        <p:panelGrid columns="2" >
+
+                                            <h:outputLabel value="Rua/Av.: " />
+                                            <p:inputText  type="text" value="#{autenticacaoController.endereco.rua}"/>
+
+                                            <h:outputLabel value="Número: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.numero}"/>
+
+                                            <h:outputLabel value="Complemento: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.complemento}"/>
+
+                                            <h:outputLabel value="Bairro: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.bairro}"/>
+
+                                            <h:outputLabel value="Cidade: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.cidade}"/>
+
+                                            <h:outputLabel value="CEP: " />
+                                            <p:inputMask mask="99.999-999"  value="#{autenticacaoController.endereco.cep}"/>
+
+                                            <h:outputLabel value="Estado: " />
+                                            <p:inputText  type="text"  value="#{autenticacaoController.endereco.UF}"/>
+
+                                        </p:panelGrid>
+
+                                    </p:tab>
+
+
+
+                                    <p:tab title="Contatos">
+                                        <p:panelGrid columns="2" >
+
+                                            <h:outputLabel value="Telefone " />
+                                            <p:inputMask mask="(99) 9999 - 9999" placeholder="(00) 0000 - 0000" value="#{autenticacaoController.empresa.telefone}"/>
+
+                                            <h:outputLabel value="Email de Contato " />
+                                            <p:inputText  type="email" required="true"  requiredMessage="É obrigatório preencher o email de contato da empresa" value="#{autenticacaoController.empresa.emailContato}"/>
+                                        </p:panelGrid>
+                                    </p:tab>
+
+                                   
+
+
+                                </p:accordionPanel>
+
+                                <f:facet name="footer">
+                                    <br/>
+                                    <br/>
+                                    <b:commandButton value="Cancelar" immediate="true" action="#{autenticacaoController.voltarCadastro}" look="primary" id="voltar" />
+                                    #{' '}
+                                    <b:commandButton value="Salvar" look="primary" ajax="true" id="salvar" action="#{autenticacaoController.cadastrarEmpresa()}"  update="global"/>
+                                </f:facet>
+                            </p:panel>
+
+                        </h:form>
+
+
+                    </b:panel>
+
+                </b:container>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

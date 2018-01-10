@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="b6bf983a-218d-46b9-8cd3-70dc6985a3c0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="texto" class="java.lang.String"/>
+	<field name="estagiario.nome" class="java.lang.String"/>
+	<field name="inicio" class="java.util.Date"/>
+	<field name="termino" class="java.util.Date"/>
+	<field name="empresaConcedente.nomeEmpresa" class="java.lang.String"/>
+	<field name="matricula.curso.nome" class="java.lang.String"/>
+	<field name="tipoEstagio" class="java.lang.String"/>
+	<field name="id" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="163" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="80" uuid="07e50d29-8e0a-4a58-b238-f481699a033c"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="235" y="0" width="214" height="29" uuid="a23d2020-6f27-4201-85d8-f4e571de2e11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ministério da Educação ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="29" width="324" height="20" uuid="dfea70bb-ece5-49b9-9941-a8ea478cb1a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Secretária de Educação Profissional e Tecnológico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="49" width="324" height="20" uuid="2d06b51a-6d1b-403d-a56a-1e6e8171c963"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IF Norte de Minas - Câmpus Januária]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="79" width="555" height="1" uuid="f82ea35f-34bc-43db-ada3-a179a2b782ae"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="192" y="92" width="309" height="20" uuid="62f2c318-ecfa-4599-ad31-61b46fc0abc8"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Estágios]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="129" width="555" height="34" uuid="5ce46b51-0f03-4f44-8535-ba7cc8cde80f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{texto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="33" width="555" height="1" uuid="6341a093-e48b-48e3-9b45-7ed95c41d44f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="24" width="167" height="43" uuid="74bebe1a-aff1-43d3-a2a2-0e4d1f3f0924"/>
+				<textFieldExpression><![CDATA[$F{estagiario.nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="398" y="22" width="73" height="44" uuid="b7f79d22-b8d4-4f64-9baa-78fd50223138"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="471" y="22" width="84" height="44" uuid="fc2079c7-0f53-488a-b039-0ab5afd254e4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{termino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="167" height="24" uuid="b049ceb8-2194-421c-9a97-e66ee1bbeb1f"/>
+				<text><![CDATA[Estagiários:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="254" y="22" width="144" height="44" uuid="810781ac-cd47-4fbf-b231-de7d52d1e9d4"/>
+				<textFieldExpression><![CDATA[$F{empresaConcedente.nomeEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="0" width="144" height="24" uuid="b176299f-8be8-462a-922a-2fe669bf861e"/>
+				<text><![CDATA[Empresa Concedente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="398" y="0" width="73" height="22" uuid="2c4e86a3-81b8-424c-a813-3b24df0da6bd"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data de Início]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="0" width="84" height="22" uuid="fa54686f-6b59-4008-9dfb-03e5c3747721"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data  de término]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="ca3f4f9b-f07c-4dd8-b243-d6932880ae7b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="167" y="22" width="87" height="44" uuid="bc4d9c34-c30f-4510-85ca-910a43ec780c"/>
+				<textFieldExpression><![CDATA[$F{matricula.curso.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="167" y="1" width="87" height="23" uuid="93e875bc-8a34-4958-80b5-b7a45b207867"/>
+				<text><![CDATA[Curso:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="435" y="10" width="80" height="20" uuid="82c5d045-d4bc-417d-b297-e1bc819086b8"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="515" y="10" width="40" height="20" uuid="f61228da-ef01-41dc-bbd0-ca732210d923"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="10" width="197" height="20" uuid="98d66577-3133-4e51-a5d0-8a7dbe8b2a92"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="10" width="100" height="20" uuid="6e19e596-e00a-4614-9fed-954ad61f4ef3"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="197" y="10" width="128" height="20" uuid="9c19d152-1dbe-4201-9517-242f0ba4308d"/>
+				<text><![CDATA[Quantidade de Estagios:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel id="painelUser">
+                    <f:facet name="header">
+                        Editar Usuário
+                    </f:facet>
+                    <p:accordionPanel>
+                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                            <br></br>
+                            <p:separator></p:separator>
+                            <br></br>
+
+                            <h:panelGrid columns="2" id="panelEquipe" >                    
+
+                                <h:outputLabel value="Nome Completo:" />
+                                <p:inputText value="#{usuarioController.entidade.nome}"  style="width: 100%"
+                                             />   
+
+                                <h:outputLabel value="Estado Cívil:" />
+                                <p:inputText value="#{usuarioController.entidade.estadoCivil}" style="width: 100%" />   
+
+                                <h:outputLabel value="Sexo:" />
+                                <p:inputText value="#{usuarioController.entidade.sexo}" style="width: 100%" />   
+
+                                <h:outputLabel value="CPF:" />
+                                <p:inputMask value="#{usuarioController.entidade.cpf}" label="CPF" 
+                                             mask="999.999.999-99" style="width: 100%" />
+
+                                <h:outputLabel value="Data de Nascimento*:" />
+                                <p:calendar value="#{usuarioController.entidade.dataNascimento}"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt" style="width: 100%"  /> 
+
+                                <h:outputLabel value="Carteira de identidade:" />
+                                <p:inputText value="#{usuarioController.entidade.RG}" style="width: 100%" />  
+
+
+                                <h:outputLabel value="Email:" />
+                                <p:inputText value="#{usuarioController.entidade.email}" style="width: 100%" />  
+
+                                <h:outputLabel value="Senha de Acesso:" />
+                                <p:password value="#{usuarioController.entidade.senha}" />  
+
+                                <h:outputLabel value="Celular:" />
+                                <p:inputMask id="txtCelular" value="#{usuarioController.entidade.celular}" mask="(99)9999 - 9999" required="false" style="width: 100%"/> 
+
+                                <h:outputLabel value="Telefone:" />
+                                <p:inputMask id="txtTelefone" value="#{usuarioController.entidade.telefone}" mask="(99)9999 - 9999" required="false" style="width: 100%"/> 
+
+                                <h:outputLabel value="Função:" />
+
+                                <p:selectOneRadio id="customRadio1" value="#{usuarioController.entidade.funcao}" >
+                                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                                    <f:selectItem itemLabel="Coordenador de Estágio" itemValue="Coordenador" />
+                                    <f:selectItem itemLabel="Outra" itemValue="outra" />
+                                </p:selectOneRadio>
+
+                                <h:outputLabel value="Especifique:" />
+                                <p:inputText value="#{usuarioController.entidade.especifique}" required="false" style="width: 100%"/> 
+
+                                <h:outputLabel value="Setor" />
+
+                                <p:selectOneMenu id="customRadio2" value="#{usuarioController.entidade.acesso}" >
+                                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                                    <f:selectItem itemLabel="Coordenação de Estágio" itemValue="coordenador/index.xhtml" />
+                                    <f:selectItem itemLabel="Direção de Extensão" itemValue="diretor/index.xhtml" />
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+
+                        </p:tab>
+
+                    </p:accordionPanel>
+
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{usuarioController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

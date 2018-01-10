@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Adcionar Orientador
+                    </f:facet>
+                    <p:accordionPanel> 
+                        <p:tab id="tabOrientador" title="Orientadores"> 
+
+                            <p:messages id="global1" closable="true">
+                                <p:effect type="pulsate" event="load" delay="500" />
+                            </p:messages>
+
+                            <h:panelGrid columns="3" >
+
+                                <h:outputLabel value="Orientador:"/>       
+
+                                <p:autoComplete id="acOrientador" value="#{estagioController.tempOrientacoes.orientador}"
+                                                completeMethod="#{orientadorConverter.autoCompleteOrientador}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{orientadorConverter}"
+                                                >
+
+                                </p:autoComplete>
+
+
+                                <p:commandButton title="Cadastrar Orientador" icon="ui-icon-plusthick" 
+                                                 style="alignment-adjust: central;background: mediumaquamarine" 
+                                                 oncomplete="PF('DialogCadastrarOrientador').show();" 
+                                                 update="PainelOrientador" action="#{orientadorController.novoOrientador()}" />
+
+                                <p:outputLabel  value="Quantidade de Orientações: " />
+                                <p:inputText  id="qtdOrientacoes" value="#{estagioController.tempOrientacoes.qtd_orientacoes}"/>
+
+                                <p:dialog widgetVar="DialogCadastrarOrientador" resizable="false" 
+                                          responsive="true" modal="false" 
+                                          width="800" id="dialog3" closable="false" 
+                                          header="Cadastrar Orientador" 
+                                          showEffect="explode" hideEffect="explode">
+
+                                    <p:outputPanel id="PainelOrientador" >
+                                        <ui:include src="../comum/CadastrarOrientadorDialog.xhtml">
+                                            <ui:param name="disabled" value="false"/>
+                                            <ui:param name="controllerDialogOrientador" value="#{estagioController}"/>
+                                        </ui:include>
+                                    </p:outputPanel>
+
+                                </p:dialog>
+
+                                <p:commandButton title="Incluir Orientacao" value="Incluir Orientação" icon="ui-icon-plusthick" 
+                                                 style="alignment-adjust: central;background: mediumaquamarine" 
+                                                 update="tblOrientadores" action="#{estagioController.addOrientacao()}" />
+
+                            </h:panelGrid>
+
+                            <br/>
+
+                            <p:dataTable id="tblOrientadores" value="#{estagioController.entidade.orientacoes}" 
+                                         var="item" emptyMessage="Registros não Encontrados" >
+                                <f:facet name="header">
+                                    Orientadores  Cadastrados
+                                </f:facet>
+
+                                <p:column  headerText="Nomes">
+
+                                </p:column>
+                                <p:column  headerText="Quantidade de Orientações">
+                                    #{item.qtd_orientacoes}
+                                </p:column>
+
+                                <p:column headerText="Remover">
+                                    <p:commandButton ajax="false" update="gloabal1" value="Remover" action="#{estagioController.removeOriencao(item)}"/>
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    -
+                                </f:facet>
+                            </p:dataTable>
+                            <br/>
+                        </p:tab>
+
+                    </p:accordionPanel> 
+
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{orientacaoController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+
+    </body>
+</html>

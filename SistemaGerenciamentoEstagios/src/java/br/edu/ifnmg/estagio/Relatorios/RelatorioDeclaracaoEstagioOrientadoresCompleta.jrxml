@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="b6bf983a-218d-46b9-8cd3-70dc6985a3c0">
+	<property name="ireport.zoom" value="1.0000000000000024"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="orientador" class="java.lang.String"/>
+	<parameter name="texto" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="brasao" class="java.lang.String"/>
+	<field name="estagio.estagiario.nome" class="java.lang.String"/>
+	<field name="estagio.inicio" class="java.util.Date"/>
+	<field name="estagio.termino" class="java.util.Date"/>
+	<field name="estagio.empresaConcedente.nomeEmpresa" class="java.lang.String"/>
+	<field name="estagio.matricula.curso.nome" class="java.lang.String"/>
+	<field name="orientador.nome" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="184" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="802" height="80" uuid="07e50d29-8e0a-4a58-b238-f481699a033c"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="379" y="2" width="214" height="29" uuid="a23d2020-6f27-4201-85d8-f4e571de2e11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ministério da Educação ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="31" width="324" height="20" uuid="dfea70bb-ece5-49b9-9941-a8ea478cb1a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Secretária de Educação Profissional e Tecnológico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="51" width="324" height="20" uuid="2d06b51a-6d1b-403d-a56a-1e6e8171c963"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IF Norte de Minas - Câmpus Januária]]></text>
+			</staticText>
+			<image>
+				<reportElement x="718" y="0" width="80" height="80" uuid="a84fa067-ad76-46d0-9b67-3e4201c876f3"/>
+				<imageExpression><![CDATA[$P{brasao}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="90" width="802" height="1" uuid="f82ea35f-34bc-43db-ada3-a179a2b782ae"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="321" y="112" width="324" height="20" uuid="62f2c318-ecfa-4599-ad31-61b46fc0abc8"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declaração de Estagios dos Orientadores]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="149" width="802" height="1" uuid="79cd32fb-4646-4401-a7a8-b31125c48fde"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="150" width="62" height="19" uuid="823fda5c-5bf2-4f33-9ed0-8d81625b9c9a"/>
+				<text><![CDATA[Orientador:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="62" y="149" width="186" height="20" uuid="9b9de1c1-1b67-4d76-ae0c-12a91a96a976"/>
+				<textFieldExpression><![CDATA[$F{orientador.nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="20" width="802" height="1" uuid="ca3f4f9b-f07c-4dd8-b243-d6932880ae7b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="156" height="20" uuid="b049ceb8-2194-421c-9a97-e66ee1bbeb1f"/>
+				<text><![CDATA[Estagiários]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="0" width="194" height="20" uuid="3be06914-0132-441d-b7e3-1c7d4531dd33"/>
+				<text><![CDATA[Curso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="645" y="0" width="73" height="20" uuid="2c4e86a3-81b8-424c-a813-3b24df0da6bd"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data de Início]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="718" y="0" width="84" height="20" uuid="fa54686f-6b59-4008-9dfb-03e5c3747721"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data  de término]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="0" width="295" height="20" uuid="b176299f-8be8-462a-922a-2fe669bf861e"/>
+				<text><![CDATA[Concedente]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="47" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="156" height="20" uuid="74bebe1a-aff1-43d3-a2a2-0e4d1f3f0924"/>
+				<textFieldExpression><![CDATA[$F{estagio.estagiario.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="451" y="0" width="194" height="20" uuid="5c900a05-5044-4a58-bd6e-6a693d2ef38a"/>
+				<textFieldExpression><![CDATA[$F{estagio.matricula.curso.nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="645" y="0" width="73" height="20" uuid="b7f79d22-b8d4-4f64-9baa-78fd50223138"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{estagio.inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="718" y="0" width="84" height="20" uuid="fc2079c7-0f53-488a-b039-0ab5afd254e4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{estagio.termino}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="0" width="295" height="20" uuid="624b352b-65f9-4ae3-abbf-be587661024e"/>
+				<textFieldExpression><![CDATA[$F{estagio.empresaConcedente.nomeEmpresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="80" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="802" height="1" uuid="338f7d65-15bd-402c-822d-d8ecdd8aa881"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="90" y="1" width="623" height="39" uuid="d5f41c49-7349-457f-abf5-406cf5354fed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="60" width="296" height="20" uuid="d9745562-f6ad-4f1b-a57d-dcdd165acd10"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Coordenador de Estágios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="40" width="296" height="20" uuid="8f771693-1f7a-4a56-9c5b-f9800257de08"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[_____________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="60" width="296" height="20" uuid="1b9a44bd-5b14-4e06-8017-746e8cbf2791"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Diretor Geral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="40" width="296" height="20" uuid="8bcb73ba-2bc3-4821-8d58-98d3df17f382"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[_____________________________________________]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="645" y="38" width="47" height="20" uuid="82c5d045-d4bc-417d-b297-e1bc819086b8"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="692" y="38" width="17" height="20" uuid="f61228da-ef01-41dc-bbd0-ca732210d923"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="534" y="38" width="111" height="20" uuid="98d66577-3133-4e51-a5d0-8a7dbe8b2a92"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

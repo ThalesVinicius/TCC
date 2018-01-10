@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Cadastro de Orientadores
+                    </f:facet>
+
+
+                    <ui:include src="../comum/botaoNovo.xhtml">
+                        <ui:param name="controller" value="#{orientadorController}"  />
+                    </ui:include>
+
+
+                    <p:dataTable value="#{orientadorController.listagem}" var="item" 
+                                 paginator="true" rows="30"  lazy="true" 
+                                 emptyMessage="Registros não Encontrados"  >  
+
+
+                        <p:column sortBy="nome" headerText="Nome">
+                            ${item.nome}
+                        </p:column>
+
+                        <p:column  headerText="CPF">
+                            ${item.cpf}
+                        </p:column>
+
+                        <p:column headerText="Email">
+                            ${item.email}
+                        </p:column>
+
+                     
+
+                        <p:column headerText="Opções">
+                            <p:commandButton value="Visualizar" icon="ui-icon-search"
+                                             style="alignment-adjust: central;background: mediumaquamarine" 
+                                             update="dialog" oncomplete="PF('eventDialog').show();"/>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Orientador" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhes">
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                                            <h:panelGrid columns="2">
+
+                                                <h:outputLabel value="Nome Completo:" />
+                                                <p:inputText readonly="true" value="#{item.nome}" 
+                                                             />   
+
+                                                <h:outputLabel value="CPF:" />
+                                                <p:inputMask readonly="true" value="#{item.cpf}" label="CPF" 
+                                                             mask="999.999.999-99"/>
+
+
+                                                <h:outputLabel value="Empresa:"/>  
+
+                                                <p:inputText id="eventEmpresa" value="#{item.instituicao.nomeEmpresa}"
+                                                             readonly="true"  />
+
+                                                <h:outputLabel value="Cargo:" />
+                                                <p:inputText readonly="true" value="#{item.cargo}"  
+                                                             /> 
+
+
+                                                <h:outputLabel value="Email:" />
+                                                <p:inputText readonly="true" value="#{item.email}" 
+                                                             />   
+
+
+                                                <h:outputLabel value="Celular:" />
+                                                <p:inputMask readonly="true" id="txtCelular" value="#{item.celular}" mask="(99)9999 - 9999" required="false"/> 
+
+                                                <h:outputLabel value="Telefone:" />
+                                                <p:inputMask readonly="true" id="txtTelefone" value="#{item.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+                                            </h:panelGrid>
+                                        </p:tab>
+
+                                        <p:tab id="tabEstagios" title="Orientações Realizadas"> 
+
+
+                                            <p:dataTable id="tblEstagios" value="#{orientacaoController.buscarOrientacoes(item)}" 
+                                                             paginator="true" rows="3"  lazy="true" var="est" emptyMessage="Não há registros" >
+
+                                                <f:facet name="header">
+                                                    Estágios Orientados
+                                                </f:facet>
+
+                                                <p:column  headerText="Orientador">
+                                                    #{est.orientador.nome}
+                                                </p:column>
+
+                                                <p:column  headerText="Estagiário">
+                                                    #{est.estagio.estagiario.nome}
+                                                </p:column>
+
+                                              
+                                                <p:column  headerText="Status">
+                                                    #{est.estagio.situacao}
+                                                </p:column>
+
+                                                <p:column  headerText="Carga Horária da Orientação">
+                                                    #{est.chcOrientacao}
+                                                </p:column>
+
+                                                <p:column  headerText="Início">
+                                                    <h:outputText value="#{est.estagio.inicio}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+
+                                                <p:column  headerText="Término">
+                                                    <h:outputText value="#{est.estagio.termino}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>  
+                                                </p:column>
+
+                                            
+
+                                                <p:column headerText="Curso">
+                                                    #{est.estagio.matricula.curso.nome}
+                                                </p:column>
+
+
+
+                                                <f:facet name="footer">
+                                                    <p:panelGrid>
+                                                        <h:outputLabel value="Quantidade de Orientações: " />
+                                                        <h:outputLabel  value="#{orientacaoController.totalOrientacoes}" />  
+
+                                                    </p:panelGrid>
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+
+                                    </p:accordionPanel>
+                                </p:outputPanel>
+
+                                <br/>
+                                <p:separator></p:separator>
+
+                                <p:commandButton id="fechar" immediate="true"  icon="ui-icon-close" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                <p:commandButton value="Editar Orientador" icon="ui-icon-pencil" action="#{orientadorController.abrir(item)}" style="alignment-adjust: central;background: mediumaquamarine"/>
+                                <br/>
+
+                            </p:dialog>
+
+                        </p:column>
+                        <f:facet name="footer">
+                            <h:outputLabel value="Quantidade de Registros: #{orientadorController.listagem.size()}"/>
+                        </f:facet>
+
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+
+
+                            <br></br>
+                            <p:separator>Digite o nome ou CPF para Filtrar</p:separator>
+                            <br></br>
+
+                            <p:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText value="#{orientadorController.filtro.nome}"/>  
+
+                                <h:outputLabel value="CPF:" />
+                                <p:inputText value="#{orientadorController.filtro.cpf}"/>
+                            </p:panelGrid>
+                            <ui:include src="../comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{orientadorController}"  />
+                            </ui:include>
+
+
+
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

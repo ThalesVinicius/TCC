@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./EmpresaTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Cadastro de Supervisor
+                    </f:facet>
+
+
+                    <ui:include src="../comum/botaoNovo.xhtml">
+                        <ui:param name="controller" value="#{supervisorController}"  />
+                    </ui:include>
+
+
+                    <p:dataTable value="#{supervisorController.buscarSupervisoresPorEmpresa(empresaController.buscarEmpresaLogada(autenticacaoController.pessoa.id))}" var="item" 
+                                 paginator="true" rows="30"  lazy="true" 
+                                 emptyMessage="Registros não Encontrados"  >  
+
+
+                        <p:column sortBy="nome" headerText="Nome">
+                            ${item.nome}
+                        </p:column>
+
+                        <p:column  headerText="CPF">
+                            ${item.cpf}
+                        </p:column>
+
+                        <p:column headerText="Email">
+                            ${item.email}
+                        </p:column>
+
+                        <p:column headerText="Empresa">
+                            ${item.instituicao.nomeEmpresa}
+                        </p:column>
+
+                        <p:column headerText="Opções">
+                            <p:commandButton value="Visualizar" icon="ui-icon-search"
+                                             style="alignment-adjust: central;background: mediumaquamarine" 
+                                             update="dialog" oncomplete="PF('eventDialog').show();"/>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Supervisor" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhes">
+                                    <p:accordionPanel> 
+
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                                            <h:panelGrid columns="2">
+
+                                                <h:outputLabel value="Nome Completo:" />
+                                                <p:inputText readonly="true" value="#{item.nome}" 
+                                                             />   
+
+                                                <h:outputLabel value="CPF:" />
+                                                <p:inputMask readonly="true" value="#{item.cpf}" label="CPF" 
+                                                             mask="999.999.999-99"/>
+
+
+                                                <h:outputLabel value="Empresa:"/>  
+
+                                                <p:inputText id="eventEmpresa" value="#{item.instituicao.nomeEmpresa}"
+                                                                readonly="true" />
+                                      
+
+
+
+                                                <h:outputLabel value="Cargo:" />
+                                                <p:inputText readonly="true" value="#{item.cargo}"  
+                                                             /> 
+
+
+                                                <h:outputLabel value="Email:" />
+                                                <p:inputText readonly="true" value="#{item.email}" 
+                                                             />   
+
+
+                                                <h:outputLabel value="Celular:" />
+                                                <p:inputMask readonly="true" id="txtCelular" value="#{item.celular}" mask="(99)9999 - 9999" required="false"/> 
+
+                                                <h:outputLabel value="Telefone:" />
+                                                <p:inputMask readonly="true" id="txtTelefone" value="#{item.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+                                            </h:panelGrid>
+                                        </p:tab>
+
+                                    </p:accordionPanel>
+                                </p:outputPanel>
+
+                                <br/>
+                                <p:separator></p:separator>
+
+                                <p:commandButton id="fechar" immediate="true"  icon="ui-icon-arrowreturnthick-1-w" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                <p:commandButton value="Editar Supervisor" icon="ui-icon-pencil" action="#{supervisorController.abrir(item)}" style="alignment-adjust: central;background: mediumaquamarine"/>
+                                <br/>
+
+                            </p:dialog>
+
+                        </p:column>
+
+
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+
+
+                            <br></br>
+                            <p:separator>Digite o nome ou CPF para Filtrar</p:separator>
+                            <br></br>
+
+                            <p:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText value="#{supervisorController.filtro.nome}"/>  
+
+                                <h:outputLabel value="CPF:" />
+                                <p:inputText value="#{supervisorController.filtro.cpf}"/>
+                            </p:panelGrid>
+                            <ui:include src="../comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{supervisorController}"  />
+                            </ui:include>
+
+
+
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

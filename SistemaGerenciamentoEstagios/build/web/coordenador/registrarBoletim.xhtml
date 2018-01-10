@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Registrar Envio de Boletim de Estágio
+                    </f:facet>
+                    <p:accordionPanel>
+                        <p:tab id="tabDados" title="Dados Gerais do Boletim">  
+
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="Aluno" />
+
+                                <p:autoComplete id="event" value="#{boletimController.entidade.aluno}" 
+                                                completeMethod="#{alunoConverter.autoCompleteAluno}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{alunoConverter}"
+                                                >
+                                </p:autoComplete>
+
+                                <h:outputLabel value="Curso:" />
+                                <p:autoComplete id="event2" value="#{boletimController.entidade.curso}" 
+                                                completeMethod="#{cursoConverter.autoCompleteCurso}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{cursoConverter}"
+                                                >
+                                </p:autoComplete>
+
+                                <h:outputLabel value="Finalizado em:" />
+                                <p:calendar id="dateFinalestagio" value="#{boletimController.entidade.dataFinalEstagio}"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt" >
+
+                                </p:calendar>
+
+                                <h:outputLabel value="Data de Envio:" />
+                                <p:calendar id="dateenvio" value="#{boletimController.entidade.dataEnvio}"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt" >
+
+                                </p:calendar>
+
+                                <h:outputLabel value="Quantidade de Estágios:" />
+                                <p:inputText id="qtdestagios" value="#{boletimController.entidade.qtd_estagios}"/>
+
+
+                            </h:panelGrid>
+
+                        </p:tab>
+
+                        <p:tab id="tabAnexar" title="Anexar o Boletim de Estágio"> 
+
+                            <p:messages id="anexo" closable="true">
+                                <p:effect type="pulsate" event="load" delay="500" />
+                            </p:messages>
+
+                            <h:panelGrid columns="2">
+
+                                <h:commandLink id="arquivoAnexado" value="Boletim Anexado:  #{boletimController.entidade.aluno.nome}" rendered="#{boletimController.renderedArquivo}" action="#{boletimController.dowload}" immediate="true" />
+
+
+                                <f:facet name="footer">
+                                    <br/>
+                                    <br/>
+                                    <p:fileUpload fileUploadListener="#{boletimController.Anexar}" fileLimit="1" fileLimitMessage="Excedido Limite de arquivos"
+                                                  cancelLabel="Cancelar" label="Arquivo" uploadLabel="Anexar" update="anexo arquivoAnexado"
+
+                                                  invalidFileMessage="Somente arquivos com extensao .pdf"
+                                                  allowTypes="/(\.|\/)(pdf)$/" 
+                                                  mode="advanced" skinSimple="true" />
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:tab>
+
+
+
+                    </p:accordionPanel>
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{boletimController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

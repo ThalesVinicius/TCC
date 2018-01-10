@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b6bf983a-218d-46b9-8cd3-70dc6985a3c0">
+	<property name="ireport.zoom" value="1.0000000000000024"/>
+	<property name="ireport.x" value="223"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="chcTotal" class="java.lang.String"/>
+	<field name="estagiario.nome" class="java.lang.String"/>
+	<field name="inicio" class="java.util.Date"/>
+	<field name="termino" class="java.util.Date"/>
+	<field name="empresaConcedente.nomeEmpresa" class="java.lang.String"/>
+	<field name="matricula.curso.nome" class="java.lang.String"/>
+	<field name="tipoEstagio" class="java.lang.String"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="chc" class="java.lang.String"/>
+	<field name="matricula.curso.CHME" class="java.lang.String"/>
+	<variable name="chcTotal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="223" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="802" height="80" uuid="07e50d29-8e0a-4a58-b238-f481699a033c"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="331" y="0" width="214" height="29" uuid="a23d2020-6f27-4201-85d8-f4e571de2e11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ministério da Educação ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="29" width="324" height="20" uuid="dfea70bb-ece5-49b9-9941-a8ea478cb1a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Secretaria de Educação Profissional e Tecnológica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="49" width="324" height="20" uuid="2d06b51a-6d1b-403d-a56a-1e6e8171c963"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IF Norte de Minas - Câmpus Januária]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="90" width="802" height="1" uuid="f82ea35f-34bc-43db-ada3-a179a2b782ae"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="273" y="107" width="324" height="20" uuid="62f2c318-ecfa-4599-ad31-61b46fc0abc8"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Boletim de Estágio Realizado]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="149" width="802" height="1" uuid="79cd32fb-4646-4401-a7a8-b31125c48fde"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="149" width="87" height="20" uuid="be2c307a-b3fb-4ff0-ae3f-4262750b2bc6"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Estágio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="87" y="150" width="510" height="20" uuid="3bfd1211-6175-4f57-a9c0-01988227b209"/>
+				<text><![CDATA[Estágio Profissional Supervisionado Obrigatório]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="169" width="87" height="20" uuid="42fa1bce-17e5-440c-8271-44658ba91b35"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Educando:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="169" width="510" height="20" uuid="f52a22e8-c15f-4082-aa07-ceda6d52b12f"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$F{estagiario.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="189" width="87" height="20" uuid="3be06914-0132-441d-b7e3-1c7d4531dd33"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Curso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="189" width="510" height="20" uuid="f74d2a25-798b-4704-8434-fb0ae5bab5e5"/>
+				<textFieldExpression><![CDATA[$F{matricula.curso.nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="20" width="802" height="1" uuid="ca3f4f9b-f07c-4dd8-b243-d6932880ae7b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="446" height="20" uuid="b176299f-8be8-462a-922a-2fe669bf861e"/>
+				<text><![CDATA[Empresa Concedente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="665" y="0" width="137" height="20" uuid="fa54686f-6b59-4008-9dfb-03e5c3747721"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data  de término]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="0" width="116" height="20" uuid="b4569161-4978-4398-a78b-5add08fa7780"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Carga Horária]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="562" y="1" width="103" height="20" uuid="2c4e86a3-81b8-424c-a813-3b24df0da6bd"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data de Início]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="446" height="20" uuid="a1fa428d-4fb3-4313-afe9-5c11c9524b51"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$F{empresaConcedente.nomeEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="0" width="116" height="20" uuid="fccc686b-7c6b-49ed-90f1-8a4cf23f5cce"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{chc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="665" y="1" width="137" height="19" uuid="e547b602-7efd-4867-afbd-e3a1cbd9f9fc"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{termino}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="562" y="0" width="103" height="20" uuid="7130cf18-0ade-473f-abae-93108ff6f0e7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{inicio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="139" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="802" height="1" uuid="338f7d65-15bd-402c-822d-d8ecdd8aa881"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="273" y="80" width="296" height="13" uuid="1dffcf1c-4bcd-4dee-a146-a433a8d9c367"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Warley Anderson Mota dos Santos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="60" width="296" height="20" uuid="65c8b2c9-7e7b-4a8e-b9bc-776cb53687b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[_____________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="93" width="296" height="13" uuid="80a6b549-015a-423c-8aec-82501c56b6ee"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Coordenador da Coordenadoria de Estágios e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="106" width="296" height="13" uuid="e7553d52-55ee-4474-bb27-2c8f54e849a9"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Empregos. Port. n°43 de 24/01/2014. DOU 27/01/2014]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="160" height="20" uuid="8b76a7c2-c86d-47e0-b89e-2878d0b39d28"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Carga Horária Mínima exigida:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="446" y="0" width="116" height="20" uuid="4f5e1634-895f-412d-8107-d2fa91445303"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{chcTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="0" width="218" height="20" uuid="39cc8f4b-9115-4356-848a-683f80d69f4a"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Carga Horária Total de Estágios Realizados: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="0" width="68" height="20" uuid="c7708ed5-ea5f-4ac0-9bd2-db6713728899"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{matricula.curso.CHME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="130" y="10" width="609" height="28" uuid="d4407dcf-fc43-4bfe-b56d-9e1fdfb4412d"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Instituto Federal de Educação, Ciência e Tecnologia do Norte de Minas Gerais - Campus Januária. CNPJ: 10.727.655/0003-81
+Fazenda São Geraldo – Cx Postal 01 – Fone (038) 3629-4662. CEP: 39.480-000 – Januária/MG]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="9" width="116" height="20" uuid="98d66577-3133-4e51-a5d0-8a7dbe8b2a92"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="9" width="802" height="1" uuid="aa471311-9f84-46a3-9be2-b6b9980ae5ef"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

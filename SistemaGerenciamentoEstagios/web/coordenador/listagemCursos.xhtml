@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Cadastro de Cursos
+                    </f:facet>
+
+
+                    <ui:include src="../comum/botaoNovo.xhtml">
+                        <ui:param name="controller" value="#{cursoController}"  />
+                    </ui:include>
+
+
+                    <p:dataTable sortMode="single" value="#{cursoController.listagem}" var="item" 
+                                 paginator="true" rows="30"  lazy="true" 
+                                 emptyMessage="Registros não Encontrados"  >  
+
+
+                        <p:column sortBy="#{item.nome}" headerText="Nome">
+                            #{item.nome}
+                        </p:column>
+
+                        <p:column sortBy="sigla" headerText="Sigla">
+                            #{item.sigla}
+                        </p:column>
+                        <p:column sortBy="modalidade" headerText="Modalidade">
+                            #{item.modalidade}
+                        </p:column>
+
+                        <p:column headerText="Opções">
+                            <p:commandButton value="Visualizar" icon="ui-icon-search"
+                                             style="alignment-adjust: central;background: mediumaquamarine" 
+                                             update="dialog" oncomplete="PF('eventDialog').show();"/>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Curso" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhes">
+                                    <p:accordionPanel> 
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                                            <br></br>
+                                            <p:separator></p:separator>
+                                            <br></br>
+
+                                            <h:panelGrid columns="2">
+
+                                                <h:outputLabel value="Nome:" />
+                                                <p:inputText readonly="true" size="35" value="#{item.nome}" />                      
+
+                                                <h:outputLabel value="Sigla:" />           
+                                                <p:inputText  readonly="true" size="35" value="#{item.sigla}" />
+
+                                                <h:outputLabel value="Nivel:" />           
+                                                <p:inputText readonly="true" size="35" value="#{item.nivel}" />
+
+                                                <h:outputLabel value="Modalidade:" />           
+                                                <p:inputText readonly="true" size="35" value="#{item.modalidade}" />
+
+
+                                            </h:panelGrid>
+
+                                        </p:tab>
+
+                                        <p:tab id="tabCoordenador" title="Coordenador do Curso"> 
+
+                                            <h:outputLabel value="Nome do Coordenador:" />           
+                                            <p:inputText readonly="true" size="35" value="#{item.coordenadorCurso.nome}" />
+
+                                        </p:tab>
+
+
+                                    </p:accordionPanel>
+                                </p:outputPanel>
+
+                                <br/>
+                                <p:separator></p:separator>
+
+                                <p:commandButton id="fechar" immediate="true"  icon="ui-icon-close" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                <p:commandButton value="Editar Curso" icon="ui-icon-pencil" action="#{cursoController.abrir(item)}" style="alignment-adjust: central;background: mediumaquamarine"/>
+                                <br/>
+
+                            </p:dialog>
+
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <h:outputLabel value="Quantidade de Registros: #{cursoController.listagem.size()}"/>
+
+                        </f:facet>
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+
+
+                            <br></br>
+                            <p:separator>Digite o nome ou a Sigla  do Curso para Filtrar</p:separator>
+                            <br></br>
+
+                            <p:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText value="#{cursoController.filtro.nome}"/>  
+
+                                <h:outputLabel value="Sigla:" />
+                                <p:inputText value="#{cursoController.filtro.sigla}"/>
+                            </p:panelGrid>
+                            <ui:include src="../comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{cursoController}"  />
+                            </ui:include>
+
+
+
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

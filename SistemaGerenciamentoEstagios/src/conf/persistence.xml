@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SistemaGerenciamentoEstagiosPU" transaction-type="JTA">
+    <jta-data-source>gestaoestagio</jta-data-source>
+    <class>br.edu.ifnmg.estagio.entidades.Aluno</class>
+    <class>br.edu.ifnmg.estagio.entidades.Area</class>
+    <class>br.edu.ifnmg.estagio.entidades.Arquivo</class>
+    <class>br.edu.ifnmg.estagio.entidades.BoletimEstagio</class>
+    <class>br.edu.ifnmg.estagio.entidades.Candidatura</class>
+    <class>br.edu.ifnmg.estagio.entidades.Coordenacao</class>
+    <class>br.edu.ifnmg.estagio.entidades.Curso</class>
+    <class>br.edu.ifnmg.estagio.entidades.Documentos</class>
+    <class>br.edu.ifnmg.estagio.entidades.Empresa</class>
+    <class>br.edu.ifnmg.estagio.entidades.Endereco</class>
+    <class>br.edu.ifnmg.estagio.entidades.Estagio</class>
+    <class>br.edu.ifnmg.estagio.entidades.Matricula</class>
+    <class>br.edu.ifnmg.estagio.entidades.Orientacoes</class>
+    <class>br.edu.ifnmg.estagio.entidades.Pessoa</class>
+    <class>br.edu.ifnmg.estagio.entidades.Representante</class>
+    <class>br.edu.ifnmg.estagio.entidades.Servidor</class>
+    <class>br.edu.ifnmg.estagio.entidades.Usuario</class>
+    <class>br.edu.ifnmg.estagio.entidades.vagaEstagio</class>
+    <class>br.edu.ifnmg.estagio.entidades.Setor</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+</persistence>

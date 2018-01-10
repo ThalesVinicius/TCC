@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{coordenacaoController.setarCoordenacao()}"/>
+                    </f:metadata>
+
+                    <f:facet name="header">
+                        Editar Área Publica do Sistema
+                    </f:facet>
+                    <p:accordionPanel> 
+                        <p:tab id="tabDocumentos"  title="Documentos"> 
+
+
+                            <ui:include src="../comum/botaoNovo.xhtml">
+                                <ui:param name="controller" value="#{documentoController}"  />
+                                <ui:param name="campos" value=""  />
+                                <br/> 
+                            </ui:include>
+
+                            <p:dataTable value="#{documentoController.listagem}" var="item" 
+                                         paginator="true" rows="5"  lazy="true" 
+                                         emptyMessage="Registros não Encontrados"  >  
+
+                                <p:column  headerText="Nome">
+                                    #{item.nome}
+                                </p:column>
+
+                                <p:column  headerText="Tipo">
+                                    #{item.tipo}
+                                </p:column>
+
+                                <p:column  headerText="Descrição">
+                                    #{item.descricao}
+                                </p:column>
+
+                                <p:column headerText="Baixar Documento">
+                                    <h:commandLink value="Documento" action="#{documentoController.dowload()}" immediate="true" >
+                                        <f:setPropertyActionListener target="#{documentoController.entidade}" value="#{item}" />
+                                    </h:commandLink>
+                                </p:column>
+
+                                <p:column  headerText="Editar Documento">
+                                    <p:commandButton title="editar Documento" value="Editar Documento" 
+                                                     icon="ui-icon-pencil" 
+                                                     action="#{documentoController.abrir(item)}"   
+                                                     style="alignment-adjust: central;background: mediumaquamarine"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:tab>
+
+
+
+
+                        <p:tab id="tabCoordenacao"  title="Coordenação de Estágios">  
+
+                            <p:accordionPanel> 
+
+                                <p:tab id="tabContatos" title="Contatos e Localização">  
+
+                                    <h4 style="margin-top:0; font-size: 2" >
+
+                                        <p:separator/>
+                                        <p>Telefones:</p>
+                                        <p>#{coordenacaoController.entidade.telefone1}</p>
+                                        <p>#{coordenacaoController.entidade.telefone2}</p>
+                                        <p:separator/>
+
+                                        <br/>
+
+
+                                        <p>Email:</p>
+                                        <p>#{coordenacaoController.entidade.email}</p>
+                                        <p:separator/>
+
+                                        <br/>
+
+                                        <p>Local:</p>
+                                        <p>#{coordenacaoController.entidade.localizacao}</p>
+                                        <p:separator/>
+                                        <br/>
+                                        <br/>
+                                        <p:commandButton ajax="false" style="background: mediumaquamarine" icon="ui-icon-pencil" action="#{coordenacaoController.abrir(coordenacaoController.entidade)}" value="Editar">
+                                        </p:commandButton>
+                                        <p:separator/>
+                                    </h4>  
+                                </p:tab>
+
+
+                                <p:tab id="tabEquipe" title="Equipe">  
+                                    <br></br>
+                                    <ui:include src="../comum/botaoNovo.xhtml">
+                                        <ui:param name="controller" value="#{usuarioController}"  />
+                                        <ui:param name="campos" value=""  />
+                                        <br/> 
+                                    </ui:include>
+                                    <br></br>
+
+
+                                    <p:dataTable id="tblUsuarios" value="#{usuarioController.listagem}" 
+                                                 var="user" emptyMessage="Não há Usuários Cadastrados" >
+                                        <f:facet name="header">
+                                            Usuários Cadastrados
+                                        </f:facet>
+                                        <p:column  headerText="Usuários Cadastrados">
+                                            #{user.nome}
+                                        </p:column>
+                                        <p:column  headerText="CPF">
+                                            #{user.cpf}
+                                        </p:column>
+                                        <p:column  headerText="Email">
+                                            #{user.email}
+                                        </p:column>
+                                      
+
+                                        <p:column headerText="Opções">
+                                            <p:commandButton ajax="false" style="background: mediumaquamarine"  icon="ui-icon-pencil" action="#{usuarioController.abrir(user)}" value="Editar">
+
+                                            </p:commandButton>
+
+                                            <p:commandButton ajax="false" icon="" update="global"  style="background: mediumaquamarine" action="#{usuarioController.validarUsuario(user)}" value="Validar">
+
+                                            </p:commandButton>
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            -
+                                        </f:facet>
+
+
+                                    </p:dataTable>
+
+                                </p:tab>
+
+
+                            </p:accordionPanel> 
+
+
+
+                        </p:tab>
+
+
+                    </p:accordionPanel> 
+
+
+
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+
+    </body>
+</html>

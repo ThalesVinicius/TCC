@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <p:messages id="MensageGlobalDialogOrientador" closable="true">
+        <p:effect type="pulsate" event="load" delay="500" />
+    </p:messages>
+
+    <p:accordionPanel> 
+        <p:tab id="tabDados" title="Dados Gerais">  
+
+            <h:panelGrid columns="2">
+
+
+                <h:outputLabel value="Nome Completo:" />
+                <p:inputText value="#{orientadorController.entidade.nome}" 
+                             disabled="#{disabled}"  />   
+
+                <h:outputLabel value="CPF:" />
+                <p:inputMask value="#{orientadorController.entidade.cpf}" label="CPF" 
+                             disabled="#{disabled}"  mask="999.999.999-99"/>
+
+                <h:outputLabel value="Cargo:" />
+                <p:inputText disabled="#{disabled}"  value="#{orientadorController.entidade.cargo}"  
+                             /> 
+
+
+                <h:outputLabel value="Email:" />
+                <p:inputText disabled="#{disabled}"  value="#{orientadorController.entidade.email}" 
+                             />   
+
+
+                <h:outputLabel value="Celular:" />
+                <p:inputMask disabled="#{disabled}"  id="txtCelular" value="#{orientadorController.entidade.celular}" mask="(99)9999 - 9999" required="false"/> 
+
+                <h:outputLabel value="Telefone:" />
+                <p:inputMask disabled="#{disabled}"  id="txtTelefone" value="#{orientadorController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+            </h:panelGrid>
+        </p:tab>
+
+    </p:accordionPanel>
+
+
+    <p:commandButton disabled="#{disabled}"  ajax="false" immediate="true" icon="ui-icon-close" value="Fechar" style="background: mediumaquamarine"  
+                     update="acOrientador"    >
+        <f:setPropertyActionListener target="#{controllerDialogOrientador.tempOrientacoes.orientador}"  value="#{orientadorController.buscarOrientador()}" />
+
+    </p:commandButton>
+
+
+    <p:commandButton disabled="#{disabled}" style="background: mediumaquamarine" action="#{orientadorController.salvarOrientadorDialog()}" update="MensageGlobalDialogOrientador" value="Salvar" icon="ui-icon-pencil">  
+        <p:confirm header="Confirmação" message="Deseja realmente salvar o Registro?" icon="ui-icon-alert" />
+    </p:commandButton>
+
+
+
+
+    <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+</ui:composition>
+

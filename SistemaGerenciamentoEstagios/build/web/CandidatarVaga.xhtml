@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./TemplateExterno.xhtml">
+
+            <ui:define name="content">
+
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{candidaturaController.setCandidato(autenticacaoController.pessoa)}"/>
+                </f:metadata>
+
+                <b:container>
+                    <br/>
+
+                    <p:panel>
+                        <f:facet name="header">
+                            <h2 style="margin-top:0; font-size: 2" >
+                                Candidatar a Vaga
+                            </h2>
+
+                        </f:facet>
+
+
+
+                        <p:accordionPanel>
+                            <p:tab id="tabAnexar" title="Anexar o Currículo do Candidato"> 
+                                <h:form>
+                                    <p:messages id="anexo" closable="true">
+                                        <p:effect type="pulsate" event="load" delay="500" />
+                                    </p:messages>
+
+                                    <p:panelGrid columns="2">
+
+                                        <h:outputLabel value="Candidato:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.candidato.nome}" style="width:229px"/>   
+
+                                        <h:outputLabel value="CPF:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.candidato.cpf}" style="width:229px"/>   
+
+                                        <h:outputLabel value="Email:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.candidato.email}" style="width:229px"/>
+
+
+        
+
+
+                                        <f:facet name="footer" >
+                                            <br/>
+                                            <br/>
+                                            <p:fileUpload fileUploadListener="#{candidaturaController.AnexarCurriculo}" fileLimit="1" fileLimitMessage="Excedido Limite de arquivos"
+                                                          cancelLabel="Cancelar" label="Anexar Currículo" uploadLabel="Enviar" update="anexo"
+
+                                                          invalidFileMessage="Somente arquivos com extensao .pdf"
+                                                          allowTypes="/(\.|\/)(pdf)$/" 
+                                                          mode="advanced" skinSimple="true" />
+                                        </f:facet>
+                                    </p:panelGrid>
+                                </h:form>
+                            </p:tab>
+
+                            <p:tab title="Dados da Vaga de Estágio">
+
+                                <h:form>
+                                    <p:panelGrid columns="2">
+                                        <h:outputLabel value="Empresa Concedente do Estágio:" />
+                                        <p:inputText   readonly="true" value="#{candidaturaController.vaga.empresaConcedente.nomeEmpresa}"
+                                                       style="width:229px" />
+
+
+
+                                        <h:outputLabel value="Titulo da Vaga:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.vaga.tituloVaga}" style="width:229px"/>   
+
+
+                                        <h:outputLabel value="Quantidade de Vagas:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.vaga.quantidadeVagas}" style="width:229px"/>  
+
+                                        <h:outputLabel value="Turno" />
+                                        <p:inputText readonly="true" id="cursando" 
+                                                     value="#{candidaturaController.vaga.turno}" 
+                                                     style="width:229px"/>
+
+                                        <h:outputLabel value="Valor da Bolsa:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.vaga.valorBolsa}" style="width:229px" /> 
+
+                                        <h:outputLabel value="Carga Horária:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.vaga.horario}" style="width:229px" /> 
+
+
+                                        <h:outputLabel value="Área de Atuacao:" />
+                                        <p:inputText readonly="true" value="#{candidaturaController.vaga.areaAtuacao}" style="width:229px"/> 
+
+                                    </p:panelGrid>
+                                </h:form>
+                            </p:tab>
+
+
+                            <p:tab title="Formação Exígida">
+                                <h:form>
+                                    <p:panelGrid columns="2" id="panelFormacao" >     
+
+                                        <h:outputLabel value="Curso:" />
+                                        <p:inputText readonly="true"  id="cursoID" value="#{candidaturaController.vaga.curso.nome}" style="width:237px"/> 
+
+                                        <h:outputLabel  value="Período" />
+                                        <p:inputText readonly="true" id="txtPeriodo" value="#{candidaturaController.vaga.periodo}" style="width:231px"/> 
+
+
+                                        <h:outputLabel value="Nível" />
+                                        <p:inputText readonly="true" id="nivel" value="#{candidaturaController.vaga.nivel}" style="width:237px"/>
+
+
+                                        <h:outputLabel value="Habilidades Exígidas" />
+                                        <p:inputTextarea readonly="true" rows="3" cols="30" value="#{candidaturaController.vaga.habilidades}"
+                                                         maxlength="500" autoResize="false" style="width:231px"/>
+                                        <br/>
+
+                                    </p:panelGrid>
+                                </h:form>
+                            </p:tab>
+
+                            <p:tab title="Local de Trabalho">
+                                <br></br>
+                                <p:separator> Endereço do Local de Trabalho </p:separator>
+                                <br></br>
+                                <h:form>
+                                    <p:panelGrid columns="2" id="tabEndereco" >                    
+
+                                        <h:outputLabel value="Rua/Av:" />
+                                        <p:inputText readonly="true" id="txtRua" value="#{candidaturaController.vaga.localTrabalho.rua}" />    
+
+                                        <h:outputLabel value="Número:" />
+                                        <p:inputText readonly="true"  id="txtNum" value="#{candidaturaController.vaga.localTrabalho.numero}"  required="false"/>                      
+
+                                        <h:outputLabel value="Bairro:" />
+                                        <p:inputText readonly="true" id="txtBairro" value="#{candidaturaController.vaga.localTrabalho.bairro}" required="false"/>
+
+
+                                        <h:outputLabel value="Cidade:" />
+                                        <p:inputText readonly="true" id="txtCidade" value="#{candidaturaController.vaga.localTrabalho.cidade}" required="false"/>  
+
+                                        <h:outputLabel value="Cep:" />
+                                        <p:inputMask readonly="true" id="txtCep" value="#{candidaturaController.vaga.localTrabalho.cep}" mask="99.999-999" required="false"/> 
+
+                                        <h:outputLabel value="UF:" />
+                                        <p:inputText readonly="true" id="txtUF" value="#{candidaturaController.vaga.localTrabalho.UF}" required="false"/>  
+
+                                    </p:panelGrid>
+                                </h:form>
+                            </p:tab>
+
+                            <p:tab title="Outras Informações">
+                                <br></br>
+                                <p:separator> Informações Referentes  a  vaga Ofertada </p:separator>
+                                <br></br>
+                                <h:form>
+                                    <p:panelGrid columns="2" id="tabInformacoes" >     
+
+                                        <h:outputLabel value="Atividades:" />
+                                        <p:inputTextarea readonly="true" rows="4" cols="30" value="#{candidaturaController.vaga.atividades}"
+                                                         placeholder="Principais atividades a serem desenvolvidas pelo Estagiario" 
+                                                         autoResize="false" style="width:231px"/>
+
+
+
+                                        <h:outputLabel value="Requísitos:" />
+                                        <p:inputTextarea  readonly="true" rows="5" cols="30" value="#{candidaturaController.vaga.requesitos}" 
+                                                          maxlength="500" placeholder="Principais Requísitos para Ocupar a vaga"
+                                                          autoResize="false" style="width:231px"/>
+
+
+
+                                        <h:outputLabel value="Benefícios:" />
+                                        <p:inputTextarea readonly="true" rows="5" cols="30" value="#{candidaturaController.vaga.beneficios}" 
+                                                         maxlength="500" placeholder="Benefícios oferecidos pela Empresa Concedente"
+                                                         autoResize="false" style="width:231px"/>
+
+                                    </p:panelGrid>
+                                </h:form>
+
+                            </p:tab>
+                        </p:accordionPanel>
+
+
+
+                        <f:facet name="footer">
+                            <h:form>
+                                <p:commandButton id="Confirmar" update="global" immediate="true" value="Confirmar" 
+                                                 style="background: mediumaquamarine"  
+                                                 action="#{candidaturaController.candidatarVaga()}"/>
+
+                                <p:commandButton id="voltar" immediate="true" value="Cancelar" 
+                                                 style="background: mediumaquamarine"  
+                                                 action="listagemVagasEstagios.xhtml"/>
+
+                            </h:form>
+                        </f:facet>
+                    </p:panel>
+
+
+                </b:container>
+
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

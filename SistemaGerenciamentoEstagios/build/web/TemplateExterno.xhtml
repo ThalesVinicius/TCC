@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml" 
+                      xmlns:h="http://java.sun.com/jsf/html" 
+                      xmlns:b="http://bootsfaces.net/ui"
+                      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                      xmlns:p="http://primefaces.org/ui"
+                      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head> <title>Sistema Gerenciador de Estágios</title> 
+        <meta name="author" content="Thales Vinicius"></meta> 
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+    </h:head> 
+
+    <h:body style="padding-top: 50px; padding-bottom: 20px;"> 
+        <h:form>
+            <p:notificationBar style="opacity: 0.93; padding: 100px"  position="top" effectSpeed="normal"  effect="slide" styleClass="top" widgetVar="bar">
+                <p:panel>
+                    <f:facet name="header">
+                        <h:outputText value=" Atenção!" style="font-size:32px;" /><br></br>
+                        <h:outputText value="   Seu Cadastro ainda não foi validado!" style="font-size:16px;" />
+                        <h:commandLink class="fa  fa-close" value=" ocultar" onclick="PF('bar').hide();" immediate="true" style="font-size: 18px; float: right; line-height: 30px"/>
+                        <br></br>
+                    </f:facet>
+                    <br></br>
+
+
+
+
+                </p:panel>
+
+            </p:notificationBar>
+        </h:form>
+
+
+        <p:messages id="global" closable="true">
+            <p:effect type="pulsate" event="load" delay="500" />
+        </p:messages>
+
+        <b:navBar brand="Home" brandHref="PaginaInicial.xhtml" inverse="true" fixed="top"> 
+
+            <b:navbarLinks> 
+
+                <b:dropMenu value="Coordenação">
+
+                    <b:navLink value="Equipe" href="ListagemEquipe.xhtml">
+
+                    </b:navLink> 
+
+                    <b:navLink value="Localização" href="localizacao.xhtml">
+
+                    </b:navLink>
+
+                    <b:navLink value="Contatos" href="contatos.xhtml">
+
+                    </b:navLink> 
+
+
+
+                </b:dropMenu>
+
+                <b:dropMenu value="Formulários" >
+                    <b:navLink value="Baixar Modelos" href="ListagemDocumentos.xhtml">
+
+                    </b:navLink> 
+
+
+                </b:dropMenu>
+
+                <b:dropMenu value="Empresas" >
+                    <b:navLink value="Empresas convêniadas" href="listagemEmpresas.xhtml"/>
+                </b:dropMenu>
+
+
+
+
+            </b:navbarLinks> 
+
+
+
+            <h:form styleClass="navbar-form navbar-right" rendered="#{autenticacaoController.renderedTela}"> 
+                <div class="form-group">`
+                    <b:inputText placeholder="Email" value="#{autenticacaoController.login}" fieldSize="sm"/> 
+                </div> 
+                <div class="form-group"> 
+                    <b:inputText type="password" placeholder="Password" value="#{autenticacaoController.senha}" fieldSize="sm"/> 
+                </div>
+                #{' '}
+                <b:commandButton  actionListener="#{autenticacaoController.validar()}"   value="Logar" look="success"  iconAlign="right"/> 
+                #{' '}
+                <b:commandButton  action="novaSenha.xhtml" value="Esqueci a senha" look="success"  iconAlign="right"/> 
+                #{' '}
+                <b:commandButton  action="Cadastro.xhtml" value="Cadastre-se" look="success"  iconAlign="right"/> 
+            </h:form> 
+
+            <h:form styleClass="navbar-form navbar-right" rendered="#{!autenticacaoController.renderedTela}"> 
+
+                <b:dropButton class="fa fa-user"  value="#{autenticacaoController.pessoa.nome}">
+                    <b:navLink value="Minha Conta" class="fa fa-user" href="#{autenticacaoController.pessoa.acesso}">
+
+                    </b:navLink> 
+
+                    <b:navLink value="Sair" href="PaginaInicial.xhtml">
+
+                    </b:navLink> 
+                </b:dropButton>
+            </h:form>
+
+        </b:navBar> 
+
+
+        <ui:insert name="content">
+            content
+        </ui:insert>
+
+        <b:container>
+            <b:row>
+                <b:column col-md="4"> 
+                    <h:form styleClass="navbar-form"> 
+                        <h2>Legislação</h2>
+                        <p>Acesse a lei do Estágios</p>
+                        <p><b:commandButton  action="LeiEstagio.xhtml" look="success" value="Acessar"/></p>
+                    </h:form>
+                </b:column>
+
+                <b:column col-md="4"> 
+                    <h:form styleClass="navbar-form navbar-right"> 
+                        <h2>Downloads</h2>
+                        <p>Faça download dos formulários necessários para Iniciar um Estágio </p> 
+                        <p><b:commandButton  action="ListagemDocumentos.xhtml" look="success" value="Baixar"/></p>
+                    </h:form>
+                </b:column> 
+
+                <b:column col-md="4">
+                    <h:form styleClass="navbar-form navbar-right"> 
+                        <h2>Vagas de Estágios</h2> 
+                        <p>Vagas de Estágios disponíveis nas Empresas da Região</p> 
+                        <p><b:commandButton  action="listagemVagasEstagios.xhtml" look="success" value="Acessar Vagas"/></p>
+                    </h:form>
+                </b:column>
+            </b:row> 
+            <hr/> 
+            <footer  style="alignment-adjust: central">
+                <div style="alignment-adjust: central">
+                    <p style="alignment-adjust: central">© Copyright 2015 - IFNMG Januária</p>
+                    <p>TADS - Tecnologia em Análise e Desenvolvimento de Sistemas</p>
+
+                </div>
+            </footer> 
+        </b:container>
+
+        <p:idleMonitor timeout="5000">
+            <p:ajax event="idle" listener="#{autenticacaoController.idelListenerExterno()}" />
+        </p:idleMonitor>
+
+
+    </h:body> 
+
+</html>
+

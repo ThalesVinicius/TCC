@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="b6bf983a-218d-46b9-8cd3-70dc6985a3c0">
+	<property name="ireport.zoom" value="1.0000000000000024"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="orientador" class="java.lang.String"/>
+	<parameter name="texto" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="brasao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="153" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="802" height="80" uuid="07e50d29-8e0a-4a58-b238-f481699a033c"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="331" y="0" width="214" height="29" uuid="a23d2020-6f27-4201-85d8-f4e571de2e11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ministério da Educação ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="29" width="324" height="20" uuid="dfea70bb-ece5-49b9-9941-a8ea478cb1a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Secretária de Educação Profissional e Tecnológico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="49" width="324" height="20" uuid="2d06b51a-6d1b-403d-a56a-1e6e8171c963"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IF Norte de Minas - Câmpus Januária]]></text>
+			</staticText>
+			<image>
+				<reportElement x="718" y="0" width="80" height="80" uuid="a84fa067-ad76-46d0-9b67-3e4201c876f3"/>
+				<imageExpression><![CDATA[$P{brasao}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="90" width="802" height="1" uuid="f82ea35f-34bc-43db-ada3-a179a2b782ae"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="273" y="110" width="324" height="20" uuid="62f2c318-ecfa-4599-ad31-61b46fc0abc8"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declaração de Estagios dos Orientadores]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="168" splitType="Stretch">
+			<textField>
+				<reportElement x="124" y="15" width="623" height="56" uuid="d5f41c49-7349-457f-abf5-406cf5354fed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="124" y="117" width="296" height="20" uuid="d9745562-f6ad-4f1b-a57d-dcdd165acd10"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Coordenador de Estágios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="97" width="296" height="20" uuid="8f771693-1f7a-4a56-9c5b-f9800257de08"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[_____________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="117" width="296" height="20" uuid="1b9a44bd-5b14-4e06-8017-746e8cbf2791"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Diretor Geral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="97" width="296" height="20" uuid="8bcb73ba-2bc3-4821-8d58-98d3df17f382"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[_____________________________________________]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="33" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="802" height="1" uuid="338f7d65-15bd-402c-822d-d8ecdd8aa881"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Column header" x="656" y="13" width="47" height="20" uuid="82c5d045-d4bc-417d-b297-e1bc819086b8"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="703" y="13" width="17" height="20" uuid="f61228da-ef01-41dc-bbd0-ca732210d923"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="545" y="13" width="111" height="20" uuid="98d66577-3133-4e51-a5d0-8a7dbe8b2a92"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

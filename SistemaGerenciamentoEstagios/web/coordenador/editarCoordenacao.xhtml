@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar Dados da Coordenação de Estágio
+                    </f:facet>
+
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{coordenacaoController.setarCoordenacao()}"/>
+                    </f:metadata>
+                    
+                    <p:accordionPanel>
+                        <p:tab id="tabContatos" title="Contatos e Localização">  
+
+                            <br></br>    <br></br>
+                            <p:separator>  </p:separator>
+                            <p:separator> Contatos da Coordenação de Estágio </p:separator>
+                            <br></br>
+
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="Telefone 1:" />
+                                <p:inputMask value="#{coordenacaoController.entidade.telefone1}" mask="(99)9999 - 9999" required="false"/> 
+
+                                <h:outputLabel value="Telefone 2:" />
+                                <p:inputMask value="#{coordenacaoController.entidade.telefone2}" mask="(99)9999 - 9999" required="false"/> 
+
+                                <h:outputLabel value="Email de Contato:" />
+                                <p:inputText value="#{coordenacaoController.entidade.email}" required="false" style="width: 100%"
+                                             /> 
+                            </h:panelGrid>
+
+                            <br></br>
+                            <p:separator>  </p:separator>
+                            <p:separator> Localização da Coordenação de Estágio </p:separator>
+                            <br></br>
+
+                            <h:panelGrid columns="2">
+
+
+                                <h:outputLabel value="Localização:" />
+
+                                <p:inputTextarea rows="5" cols="30" value="#{coordenacaoController.entidade.localizacao}" counter="displayCaracter2"
+                                                 maxlength="500" counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                                <br/>
+                                <h:outputText id="displayCaracter2" />
+                            </h:panelGrid>
+
+                            <br/><br/>
+
+                        </p:tab>
+                    </p:accordionPanel>
+
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{coordenacaoController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

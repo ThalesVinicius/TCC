@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <p:panel>
+        <f:facet name="header">
+            Editar Empresa Concedente
+        </f:facet>
+
+        <p:accordionPanel> 
+
+            <p:tab id="tabDados" title="Dados Gerais">  
+
+                <br></br>
+                <p:separator> Dados Gerais da Empresa </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="Nome:" />
+                    <p:inputText required="#{param['form:btnSalvar']==false}" requiredMessage="É obrigatório preencher o nome da Empresa" value="#{empresaController.entidade.nomeEmpresa}" style="width: 100%"
+                                 />   
+
+                    <h:outputLabel value="Area de Atuação" />
+                    <p:inputText value="#{empresaController.entidade.areaAtuacao}" />   
+
+
+                    <h:outputLabel value="CNPJ:" />
+                    <p:inputMask value="#{empresaController.entidade.cnpj}" label="CNPJ" 
+                                 mask="99.999.999/9999-99"/>
+                </h:panelGrid>
+
+                <br></br>
+                <p:separator> Contatos da Empresa: </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Telefone:" />
+                    <p:inputMask value="#{empresaController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+                    <h:outputLabel value="Email de Contato:" />
+                    <p:inputText value="#{empresaController.entidade.emailContato}"  style="width: 100%"
+                                 /> 
+                </h:panelGrid>
+            </p:tab>
+
+            <ui:include src="tabEndereco.xhtml">
+                <ui:param name="controller" value="#{empresaController}"/>
+            </ui:include>
+
+
+            <p:tab id="tabResponsaveis" title="Representantes">  
+                <br></br>
+
+                <h:panelGrid columns="2" id="panelResponsaveis" rendered="#{empresaController.habDesCamposResponsavel}">
+
+                    <h:outputLabel value="Nome:" />
+                    <p:inputText id="txtNomeResposanvel" required="true" requiredMessage="É obrigatório cadastrar no mínimo 1 representante" value="#{empresaController.responsavelAdcionado.nome}" />    
+
+                    <h:outputLabel value="Cargo:" />
+                    <p:inputText id="txtCargoResposanvel" value="#{empresaController.responsavelAdcionado.cargo}"  required="false"/>   
+
+                    <h:outputLabel value="CPF:" />
+                    <p:inputMask id="txtCpfResposanvel" value="#{empresaController.responsavelAdcionado.cpf}"  label="CPF" 
+                                 mask="999.999.999-99"/>
+
+                    <h:outputLabel value="Email:"  />
+                    <p:inputText required="true" requiredMessage="É obrigatório preencher o nome e email do representante" value="#{empresaController.responsavelAdcionado.email}"  /> 
+
+
+                    <h:outputLabel value="Obs:" />
+                    O email cadastrado será utilizado para acesso ao sistema
+
+                    <f:facet name="footer">
+
+                        <br/>
+                        <br/>
+
+
+
+                        <p:commandButton value="Salvar"  ajax="false" icon="ui-icon-check" 
+                                         action="#{empresaController.salvarResponsavel()}" 
+                                         update="tblResponsaveis" > 
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposResponsavel}" value="#{false}" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" immediate="true" ajax="false" icon="ui-icon-close" update="panelResponsaveis" > 
+
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposResponsavel}" value="#{false}" />
+                        </p:commandButton>
+
+
+                    </f:facet>
+
+                </h:panelGrid>
+
+                <br></br>
+                <p:separator> </p:separator>
+                <br></br>
+
+                <p:dataTable id="tblResponsaveis" value="#{empresaController.entidade.responsaveis}" 
+                             var="item" emptyMessage="Registros não Encontrados" paginator="true" rows="30"  lazy="true" 
+                             >  
+                    <f:facet name="header">
+                        Representantes da Empresa Concedente
+                    </f:facet>
+
+                    <p:column  headerText="Representantes da Empresa">
+                        #{item.nome}
+                    </p:column>
+
+                    <p:column headerText="Editar">
+                        <p:commandButton ajax="false" value="Editar"  immediate="true" >
+                            <f:setPropertyActionListener target="#{empresaController.responsavelAdcionado}" value="#{item}" />
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposResponsavel}" value="#{true}" />
+
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Remover" >
+                        <p:commandButton ajax="false" value="Remover" immediate="true"  action="#{empresaController.removeResponsavel(item)}">
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Novo Representante"  immediate="true" ajax="false" icon="ui-icon-check"  update="panelResponsaveis" > 
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposResponsavel}" value="#{true}" />
+
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </p:dataTable>
+            </p:tab>
+
+            <p:tab id="tabAreas" title="Áreas Disponíves para realização de Estágios">  
+                <br></br>
+
+                <h:panelGrid columns="2" id="panelAreas" rendered="#{empresaController.habDesCamposAreas}">
+
+                    <h:outputLabel value="Nome:" />
+                    <p:autoComplete id="acArea" required="false" requiredMessage="É obrigatório cadastrar no mínimo 1 Área"
+                                    completeMethod="#{areaConverter.autoCompleteArea}" minQueryLength="3"
+                                    var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{areaConverter}"
+                                    placeholder="Digite o nome da área" >
+                        <p:ajax event="itemSelect"  listener="#{empresaController.SelectArea}" />
+                    </p:autoComplete>
+
+
+                    <f:facet name="footer">
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Salvar"  id="btnSalvarArea"  ajax="false" icon="ui-icon-check" 
+                                         action="#{empresaController.salvarArea()}" 
+                                         update="tblAreas" > 
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposAreas}" value="#{false}" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" immediate="true" ajax="false" icon="ui-icon-close" update="panelAreas" > 
+
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposAreas}" value="#{false}" />
+                        </p:commandButton>
+                    </f:facet>
+
+                </h:panelGrid>
+
+                <br></br>
+                <p:separator> </p:separator>
+                <br></br>
+
+                <p:dataTable id="tblAreas" value="#{empresaController.entidade.areas_estagios}" 
+                             var="item" emptyMessage="Registros não Encontrados" paginator="true" rows="30"  lazy="true" 
+                             >  
+                    <f:facet name="header">
+                        Áreas para realização de Estágios  na Empresa Concedente
+                    </f:facet>
+
+                    <p:column  headerText="Áreas">
+                        #{item.nome}
+                    </p:column>
+
+                    <p:column headerText="Editar">
+                        <p:commandButton ajax="false"  immediate="true" value="Editar" >
+                            <f:setPropertyActionListener target="#{empresaController.areas_estagios}" value="#{item}" />
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposAreas}" value="#{true}" />
+
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Remover" >
+                        <p:commandButton ajax="false"  immediate="true" value="Remover" action="#{empresaController.removeArea(item)}">
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Nova Área"  immediate="true" ajax="false" icon="ui-icon-check"  update="panelAreas" > 
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposAreas}" value="#{true}" />
+
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </p:dataTable>
+
+            </p:tab>
+
+
+
+
+            <p:tab id="tabSetor" title="Setores da Empresa">  
+                <br></br>
+
+                <h:panelGrid columns="3" id="panelSetores" rendered="#{empresaController.habDesCamposSetores}">
+
+                    <h:outputLabel value="Nome:" />
+                    <p:autoComplete id="acSetor" required="false" requiredMessage="É obrigatório cadastrar o Setor"
+                                    completeMethod="#{setorConverter.autoCompleteSetor}" minQueryLength="3" 
+                                    var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{setorConverter}"
+                                    placeholder="Digite o nome do Setor" >
+                        <p:ajax event="itemSelect"  listener="#{empresaController.SelectSetor}" />
+                    </p:autoComplete>
+
+                               
+                    <f:facet name="footer">
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Salvar"  id="btnSalvarSetor"  ajax="false" icon="ui-icon-check" 
+                                         action="#{empresaController.salvarSetor()}" 
+                                         update="tblSetores" > 
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposSetores}" value="#{false}" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" immediate="true" ajax="false" icon="ui-icon-close" update="panelSetores" > 
+
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposSetores}" value="#{false}" />
+                        </p:commandButton>
+                    </f:facet>
+
+                </h:panelGrid>
+
+                <br></br>
+                <p:separator> </p:separator>
+                <br></br>
+
+                <p:dataTable id="tblSetores" value="#{empresaController.entidade.setoresEmpresa}" 
+                             var="item" emptyMessage="Registros não Encontrados" paginator="true" rows="5"  lazy="true" 
+                             >  
+                    <f:facet name="header">
+                        Setores da Empresa Concedente
+                    </f:facet>
+
+                    <p:column  headerText="Setores">
+                        #{item.nome}
+                    </p:column>
+
+                    <p:column headerText="Editar">
+                        <p:commandButton ajax="false"  immediate="true" value="Editar" >
+                            <f:setPropertyActionListener target="#{empresaController.setorEmpresa}" value="#{item}" />
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposSetores}" value="#{true}" />
+
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Remover" >
+                        <p:commandButton ajax="false"  immediate="true" value="Remover" action="#{empresaController.removeSetor(item)}">
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Novo Setor"  immediate="true" ajax="false" icon="ui-icon-check"  update="panelSetores" > 
+                            <f:setPropertyActionListener target="#{empresaController.habDesCamposSetores}" value="#{true}" />
+
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </p:dataTable>
+
+            </p:tab>
+        </p:accordionPanel> 
+
+        <ui:include src="botoesEntidade.xhtml">
+            <ui:param name="controller" value="#{empresaController}"/>
+        </ui:include>
+
+    </p:panel>
+</ui:composition>
+

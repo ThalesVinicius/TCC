@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <p:panel>
+        <f:facet name="header" >
+            Editar Vaga de Estagio
+        </f:facet>
+
+        <p:accordionPanel>
+
+            <p:tab title="Dados da Vaga de Estágio">
+
+
+                <h:panelGrid columns="2" >
+
+                    <h:outputLabel rendered="#{renderedEmpresa}" value="Empresa Concedente do Estágio:" />
+                    <p:inputText rendered="#{renderedEmpresa}" readonly="true" value="#{vagaEstagioController.setarEmpresaConcedente(EmpresaLogada).nomeEmpresa}" style="width:229px"/>  
+
+                    <h:outputLabel  rendered="#{renderedEmpresa2}" value="Empresa Concedente do Estágio:" />
+                    <p:autoComplete id="autoCompleteEmpresa" value="#{vagaEstagioController.entidade.empresaConcedente}"
+                                    completeMethod="#{empresaConverter.autoCompleteEmpresa}" minQueryLength="3"
+                                    var="item" itemLabel="#{item.nomeEmpresa}" itemValue="#{item}" converter="#{empresaConverter}"
+                                    rendered="#{renderedEmpresa2}" >
+                    </p:autoComplete>
+
+
+
+
+
+                    <h:outputLabel value="Título da Vaga:" />
+                    <p:inputText value="#{vagaEstagioController.entidade.tituloVaga}" style="width:229px"/>   
+
+                    <h:outputLabel value="Tipo:" />
+                    <p:selectOneMenu id="tipo" value="#{vagaEstagioController.entidade.tipoVaga}" style="width:200px">
+                        <f:selectItem itemLabel="Selecione" itemValue="Selecione" />
+                        <f:selectItem itemLabel="Estagio" itemValue="Estagio" />
+                        <f:selectItem itemLabel="Trainer" itemValue="Trainer" />
+                        <f:selectItem itemLabel="Efetivo" itemValue="Efetivo" />
+                    </p:selectOneMenu> 
+
+                    <h:outputLabel value="Quantidade de Vagas:" />
+                    <p:inputText value="#{vagaEstagioController.entidade.quantidadeVagas}" style="width:229px"/>  
+
+                    <h:outputLabel value="Turno" />
+                    <p:selectOneRadio id="cursando" value="#{vagaEstagioController.entidade.turno}" style="width:229px">
+                        <f:selectItem itemLabel="Matutino" itemValue="Matutino" />
+                        <f:selectItem itemLabel="Vespertino" itemValue="Vespertino" />
+                        <f:selectItem itemLabel="Noturno" itemValue="Noturno" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="Horario:" />
+                    <p:inputText value="#{vagaEstagioController.entidade.horario}" style="width:229px"/> 
+
+                    <h:outputLabel value="Valor da Bolsa:" />
+                    <p:inputText value="#{vagaEstagioController.entidade.valorBolsa}" style="width:229px" /> 
+
+                    <h:outputLabel value="Carga Horária:" />
+                    <p:inputText value="#{vagaEstagioController.entidade.horario}" style="width:229px" /> 
+
+                    <h:outputText value="Vaga exclusiva para DEFICIENTES ?     " />
+                    <p:selectOneRadio id="deficiencia" value="#{vagaEstagioController.entidade.vagaDeficiente}" style="width:170px">
+                        <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                        <f:selectItem itemLabel="Não" itemValue="Nao" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="Area de Atuação:" />
+                    <p:inputText value="#{vagaEstagioController.entidade.areaAtuacao}" style="width:229px"/> 
+
+                    <h:outputLabel value="Descrição da Vaga" />
+                    <p:inputTextarea rows="5" cols="30" value="#{vagaEstagioController.entidade.descricaoVaga}" counter="display"
+                                     maxlength="100" counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:229px"/>
+                    <br/>
+                    <h:outputText id="display" />
+
+                </h:panelGrid>
+            </p:tab>
+
+
+            <p:tab title="Formação Exígida">
+
+                <br></br>
+                <p:separator> Dados da Formação Necessária </p:separator>
+                <br></br>
+                <h:panelGrid columns="2" id="panelFormacao" >     
+
+                    <h:outputLabel value="Curso:" />
+                    <p:selectOneMenu value="#{vagaEstagioController.entidade.curso}"
+                                     converter="#{cursoConverter}" style="width:237px"> 
+
+                        <f:selectItem itemLabel="Selecione" itemValue=""/>      
+                        <f:selectItems value="#{cursoController.listagem}"  
+                                       var="coop"  
+                                       itemLabel="#{coop.nome}"  
+                                       />    
+                    </p:selectOneMenu>  
+
+                    <h:outputLabel  value="Período" />
+                    <p:inputText id="txtPeriodo" value="#{vagaEstagioController.entidade.periodo}" style="width:231px"/> 
+
+
+                    <h:outputLabel value="Nível" />
+                    <p:selectOneMenu id="nivel" value="#{vagaEstagioController.entidade.nivel}" style="width:237px">
+                        <f:selectItem itemLabel="Selecione" itemValue="Selecione" />
+                        <f:selectItem itemLabel="Ensino Médio" itemValue="Ensino Medio" />
+                        <f:selectItem itemLabel="Ensino Médio Integrado" itemValue="Ensino Medio Integrado" />
+                        <f:selectItem itemLabel="Ensino Técnico" itemValue="Ensino Tecnico" />
+                        <f:selectItem itemLabel="Ensino Superior" itemValue="Ensino Superior" />
+                    </p:selectOneMenu> 
+
+                    <h:outputLabel value="Habilidades Exégidas" />
+                    <p:inputTextarea rows="5" cols="30" value="#{vagaEstagioController.entidade.habilidades}" counter="display2"
+                                     maxlength="500" counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                    <br/>
+                    <h:outputText id="display2" />
+
+                </h:panelGrid>
+            </p:tab>
+
+            <p:tab title="Local de Trabalho">
+                <br></br>
+                <p:separator> Endereço do Local de Trabalho </p:separator>
+                <br></br>
+                <h:panelGrid columns="2" id="tabEndereco" >                    
+
+                    <h:outputLabel value="Rua/Av:" />
+                    <p:inputText id="txtRua" value="#{vagaEstagioController.entidade.localTrabalho.rua}" />    
+
+                    <h:outputLabel value="Numero:" />
+                    <p:inputText id="txtNum" value="#{vagaEstagioController.entidade.localTrabalho.numero}"  required="false"/>   
+
+                    <h:outputLabel value="Complemento:" />
+                    <p:inputText id="txtComplemento" value="#{vagaEstagioController.entidade.localTrabalho.complemento}" required="false"/>                      
+
+                    <h:outputLabel value="Bairro:" />
+                    <p:inputText id="txtBairro" value="#{vagaEstagioController.entidade.localTrabalho.bairro}" required="false"/> 
+
+                    <h:outputLabel value="Cidade:" />
+                    <p:inputText id="txtCidade" value="#{vagaEstagioController.entidade.localTrabalho.cidade}" required="false"/>  
+
+                    <h:outputLabel value="Cep:" />
+                    <p:inputMask id="txtCep" value="#{vagaEstagioController.entidade.localTrabalho.cep}" mask="99.999-999" required="false"/> 
+
+                    <h:outputLabel value="UF:" />
+                    <p:inputText id="txtUF" value="#{vagaEstagioController.entidade.localTrabalho.UF}" required="false"/>  
+
+                </h:panelGrid>
+            </p:tab>
+
+            <p:tab title="Outras Informações">
+                <br></br>
+                <p:separator> Informações Referentes a vaga Ofertada </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2" id="tabInformacoes" >     
+
+                    <h:outputLabel value="Atividades:" />
+                    <p:inputTextarea rows="5" cols="30" value="#{vagaEstagioController.entidade.atividades}" counter="displayCaracter1"
+                                     maxlength="500" placeholder="Principais atividades a serem desenvolvidas pelo Estagiário" 
+                                     counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                    <br/>
+                    <h:outputText id="displayCaracter1" />
+
+                    <h:outputLabel value="Requesítos:" />
+                    <p:inputTextarea rows="5" cols="30" value="#{vagaEstagioController.entidade.requesitos}" counter="displayCaracter2"
+                                     maxlength="500" placeholder="Principais Requesítos para Ocupar a vaga:"
+                                     counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                    <br/>
+                    <h:outputText id="displayCaracter2" />
+
+                    <h:outputLabel value="Benefícios:" />
+                    <p:inputTextarea rows="5" cols="30" value="#{vagaEstagioController.entidade.beneficios}" counter="displayCaracter3"
+                                     maxlength="500" placeholder="Benefícios oferecidos pela Empresa Concedente"
+                                     counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                    <br/>
+                    <h:outputText id="displayCaracter3" />
+
+                    <h:outputLabel value="Outras Informaçõe:" />
+                    <p:inputTextarea rows="5" cols="30" value="#{vagaEstagioController.entidade.informacaoComplementar}" counter="displayCaracter4"
+                                     maxlength="500" placeholder="Informações Complementares referente a vaga"
+                                     counterTemplate="{0} Caracteres restantes." autoResize="false" style="width:231px"/>
+                    <br/>
+                    <h:outputText id="displayCaracter4" />
+
+                </h:panelGrid>
+
+            </p:tab>
+        </p:accordionPanel>
+
+        <ui:include src="botoesEntidade.xhtml">
+            <ui:param name="controller" value="#{vagaEstagioController}"/>
+
+        </ui:include>
+
+    </p:panel>
+</ui:composition>
+

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar Orientador
+                    </f:facet>
+                    <p:accordionPanel>
+                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome Completo:" />
+                                <p:inputText value="#{orientadorController.entidade.nome}" 
+                                             />   
+
+                                <h:outputLabel value="CPF:" />
+                                <p:inputMask value="#{orientadorController.entidade.cpf}" label="CPF" 
+                                             mask="999.999.999-99"/>
+
+                                <h:outputLabel value="Email:" />
+                                <p:inputText value="#{orientadorController.entidade.email}" 
+                                             />   
+
+                                <h:outputLabel value="Celular:" />
+                                <p:inputMask id="txtCelular" value="#{orientadorController.entidade.celular}" mask="(99)9999 - 9999" required="false"/> 
+
+                                <h:outputLabel value="Telefone:" />
+                                <p:inputMask id="txtTelefone" value="#{orientadorController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+                            </h:panelGrid>
+                        </p:tab>
+
+                    </p:accordionPanel>
+
+                    <f:facet name="footer" >
+                        <p:commandButton id="btnSalvar" style="background: mediumaquamarine" update="global"  action="#{orientadorController.salvarOrientador()}" value="Salvar" icon="ui-icon-disk">  
+                            <p:confirm header="Confirmação" message="Deseja realmente salvar o Registro?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:commandButton id="btn" rendered="true" style="background: mediumaquamarine" update="global"  action="#{orientadorController.apagarOrientador()}" value="Apagar" icon="ui-icon-trash">  
+                            <p:confirm header="Confirmação" message="Deseja realmente apagar o Registro?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:commandButton ajax="false" style="background: mediumaquamarine" id="btnVoltar" value="Cancelar"  immediate="true"  icon="ui-icon-close" action="#{orientadorController.voltar}" />
+
+
+                        <p:confirmDialog closable="false" message="Já existe um cadastro com este nome. Deseja adciona-lo como Orientador?"  
+                                         header="Aviso" severity="alert" widgetVar="msgConfirmacao">  
+                            <p:commandButton immediate="true" ajax="false" value="Sim" action="#{orientadorController.atualizaOrientador()}"  />  
+                        </p:confirmDialog>
+                    </f:facet>
+
+
+                    <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

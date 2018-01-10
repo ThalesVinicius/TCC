@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <p:tab   title="Enderecos">
+        <br></br>
+
+        <h:panelGrid columns="2" id="panelEndereco" rendered="#{controller.habDesCamposEndereco}">                    
+
+            <h:outputLabel value="Rua/Av:" />
+            <p:inputText id="txtRua" value="#{controller.enderecoAdcionado.rua}" />    
+
+            <h:outputLabel value="Número:" />
+            <p:inputText id="txtNum" value="#{controller.enderecoAdcionado.numero}"  required="false"/>   
+
+            <h:outputLabel value="Complemento:" />
+            <p:inputText id="txtComplemento" value="#{controller.enderecoAdcionado.complemento}" required="false"/>                      
+
+            <h:outputLabel value="Bairro:" />
+            <p:inputText id="txtBairro" value="#{controller.enderecoAdcionado.bairro}" required="false"/> 
+
+            <h:outputLabel value="Cidade:" />
+            <p:inputText id="txtCidade" value="#{controller.enderecoAdcionado.cidade}" required="false"/>  
+
+            <h:outputLabel value="Cep:" />
+            <p:inputMask id="txtCep" value="#{controller.enderecoAdcionado.cep}" mask="99.999-999" required="false"/> 
+
+            <h:outputLabel value="UF:" />
+            <p:inputText id="txtUF" value="#{controller.enderecoAdcionado.UF}" required="false"/>  
+
+
+            <f:facet name="footer">
+
+
+
+                <p:commandButton value="Salvar" ajax="false"  icon="ui-icon-save" 
+                                 action="#{controller.salvarEndereco()}"
+                                 update="tblEnderecos" > 
+                    <f:setPropertyActionListener target="#{controller.habDesCamposEndereco}" value="#{false}" />
+
+                </p:commandButton>
+
+                <p:commandButton value="Cancelar" immediate="true"   ajax="false" icon="ui-icon-close" update="panelEndereco" > 
+
+                    <f:setPropertyActionListener target="#{controller.habDesCamposEndereco}" value="#{false}" />
+                </p:commandButton>
+
+            </f:facet>
+        </h:panelGrid>
+
+        <br></br>
+        <p:separator> </p:separator>
+        <br></br>
+
+        <p:dataTable id="tblUsuarios" value="#{controller.entidade.enderecos}" 
+                     var="item" emptyMessage="Não há Endereços Cadastrados" >
+            <f:facet name="header">
+                Endereços  Cadastrados
+            </f:facet>
+            <p:column  headerText="Endereços Cadastrados">
+                #{item}
+            </p:column>
+
+            <p:column headerText="Editar">
+                <p:commandButton ajax="false" value="Editar"  immediate="true" >
+                    <f:setPropertyActionListener target="#{controller.enderecoAdcionado}" value="#{item}" />
+
+                    <f:setPropertyActionListener target="#{controller.habDesCamposEndereco}" value="#{true}" />
+                </p:commandButton>
+            </p:column>
+
+            <p:column headerText="Remover" >
+                <p:commandButton ajax="false"   value="Remover" immediate="true"  action="#{controller.removeEndereco(item)}">
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+
+                <p:commandButton value="Novo Endereço"  immediate="true" ajax="false" icon="ui-icon-check" update="panelEndereco" > 
+
+                    <f:setPropertyActionListener target="#{controller.habDesCamposEndereco}" value="#{true}" />
+                </p:commandButton>
+
+
+
+            </f:facet>
+
+        </p:dataTable>
+
+
+    </p:tab>
+
+</ui:composition>
+

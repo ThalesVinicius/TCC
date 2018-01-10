@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./TemplateExterno.xhtml">
+
+            <ui:define name="content">
+
+                <b:container>
+                    <br/>
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{documentoController.setarFiltro('Lei')}"/>
+                    </f:metadata>
+
+                    <p:panel>
+                        <f:facet name="header">
+                            <h2 style="margin-top:0; font-size: 2" >
+                                Lei do Estágio
+                            </h2>              
+
+                        </f:facet>
+
+                        <br/><br/>
+
+
+                        <p:dataTable value="#{documentoController.listagem}" var="lei" 
+                                     rows="5"  lazy="true" 
+                                     emptyMessage="Registros não Encontrados"  > 
+
+                            <f:facet name="header">
+                                -
+                            </f:facet>
+
+                            <p:column headerText="Nome">
+                                #{lei.nome}
+                            </p:column>
+                            <p:column headerText="Descrição">
+                                #{lei.descricao}
+                            </p:column>
+                            <p:column headerText="Baixar Documento">
+                                <h:form styleClass="navbar-form"> 
+                                    <h:commandLink id="teste"  value="Baixar #{lei.nome}" action="#{documentoController.dowload()}" immediate="true" >
+                                        <f:setPropertyActionListener target="#{documentoController.entidade}" value="#{lei}"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                -
+                            </f:facet>
+                        </p:dataTable>
+
+
+                        <br/><br/>
+                        <br/><br/>
+
+
+                    </p:panel>
+
+
+                </b:container>
+
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

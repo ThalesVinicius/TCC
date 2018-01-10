@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      >
+
+    <body>
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  > 
+            <ui:composition template="./TemplateExterno.xhtml">
+
+
+
+                <ui:define name="content">
+                    <f:metadata>
+                        <f:event type="preRenderView" 
+                                 listener="#{vagaEstagioController.situacaoVaga(true)}"/>
+                    </f:metadata>
+
+                    <b:container>
+
+                        <br/>
+                        <p:panel>
+                            <f:facet name="header">
+                                <h2 style="margin-top:0; font-size: 2" >
+                                    Listagem de Vagas
+                                </h2>
+
+                            </f:facet>
+
+
+                            <br/>
+                            <br/>
+                            <p:dataTable value="#{vagaEstagioController.listagem}" var="item" 
+                                         paginator="true" rows="30"  lazy="true" reflow="true"
+                                         >  
+
+
+                                <p:column  headerText="Título">
+                                    #{item.tituloVaga}
+                                </p:column>
+
+                                <p:column sortBy="#{item.empresaConcedente.nomeEmpresa}" headerText="Empresa">
+                                    #{item.empresaConcedente.nomeEmpresa}
+                                </p:column>
+
+                                <p:column  headerText="Curso">
+                                    #{item.curso.nome}
+                                </p:column>
+
+                                <p:column headerText="Quantidade">
+                                    #{item.quantidadeVagas}
+                                </p:column>
+
+
+                                <p:column headerText="Opções" resizable="true">
+
+                                    <h:form>
+                                        <p:commandButton value="Visualizar" icon="ui-icon-search" style="alignment-adjust: central;background: mediumaquamarine" oncomplete="PF('eventDialog').show();"/>
+                                    </h:form>
+
+                                    <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Vaga" showEffect="explode" hideEffect="explode">
+
+                                        <p:outputPanel id="eventDetalhes">
+
+                                            <p:accordionPanel>
+
+                                                <p:tab title="Dados da Vaga de Estágio">
+
+                                                    <h:form>
+                                                        <p:panelGrid columns="2">
+                                                            <h:outputLabel value="Empresa Concedente do Estágio:" />
+                                                            <p:inputText   readonly="true" value="#{item.empresaConcedente.nomeEmpresa}"
+                                                                           style="width:229px" />
+
+
+
+                                                            <h:outputLabel value="Título da Vaga:" />
+                                                            <p:inputText readonly="true" value="#{item.tituloVaga}" style="width:229px"/>   
+
+
+                                                            <h:outputLabel value="Quantidade de Vagas:" />
+                                                            <p:inputText readonly="true" value="#{item.quantidadeVagas}" style="width:229px"/>  
+
+                                                            <h:outputLabel value="Turno" />
+                                                            <p:inputText readonly="true" id="cursando" 
+                                                                         value="#{item.turno}" 
+                                                                         style="width:229px"/>
+
+                                                            <h:outputLabel value="Valor da Bolsa:" />
+                                                            <p:inputText readonly="true" value="#{item.valorBolsa}" style="width:229px" /> 
+
+                                                            <h:outputLabel value="Carga Horária:" />
+                                                            <p:inputText readonly="true" value="#{item.horario}" style="width:229px" /> 
+
+
+                                                            <h:outputLabel value="Área de Atuacao:" />
+                                                            <p:inputText readonly="true" value="#{item.areaAtuacao}" style="width:229px"/> 
+
+                                                        </p:panelGrid>
+                                                    </h:form>
+                                                </p:tab>
+
+
+                                                <p:tab title="Formação Exigida">
+                                                    <h:form>
+                                                        <p:panelGrid columns="2" id="panelFormacao" >     
+
+                                                            <h:outputLabel value="Curso:" />
+                                                            <p:inputText readonly="true"  id="cursoID" value="#{item.curso.nome}" style="width:237px"/> 
+
+                                                            <h:outputLabel  value="Período" />
+                                                            <p:inputText readonly="true" id="txtPeriodo" value="#{item.periodo}" style="width:231px"/> 
+
+
+                                                            <h:outputLabel value="Nível" />
+                                                            <p:inputText readonly="true" id="nivel" value="#{item.nivel}" style="width:237px"/>
+
+
+                                                            <h:outputLabel value="Habilidades Exigidas" />
+                                                            <p:inputTextarea readonly="true" rows="3" cols="30" value="#{item.habilidades}"
+                                                                             maxlength="500" autoResize="false" style="width:231px"/>
+                                                            <br/>
+
+                                                        </p:panelGrid>
+                                                    </h:form>
+                                                </p:tab>
+
+                                                <p:tab title="Local de Trabalho">
+                                                    <br></br>
+                                                    <p:separator> Endereço do Local de Trabalho </p:separator>
+                                                    <br></br>
+                                                    <h:form>
+                                                        <p:panelGrid columns="2" id="tabEndereco" >                    
+
+                                                            <h:outputLabel value="Rua/Av:" />
+                                                            <p:inputText readonly="true" id="txtRua" value="#{item.localTrabalho.rua}" />    
+
+                                                            <h:outputLabel value="Número:" />
+                                                            <p:inputText readonly="true"  id="txtNum" value="#{item.localTrabalho.numero}"  required="false"/>                      
+
+                                                            <h:outputLabel value="Bairro:" />
+                                                            <p:inputText readonly="true" id="txtBairro" value="#{item.localTrabalho.bairro}" required="false"/>
+
+
+                                                            <h:outputLabel value="Cidade:" />
+                                                            <p:inputText readonly="true" id="txtCidade" value="#{item.localTrabalho.cidade}" required="false"/>  
+
+                                                            <h:outputLabel value="Cep:" />
+                                                            <p:inputMask readonly="true" id="txtCep" value="#{item.localTrabalho.cep}" mask="99.999-999" required="false"/> 
+
+                                                            <h:outputLabel value="UF:" />
+                                                            <p:inputText readonly="true" id="txtUF" value="#{item.localTrabalho.UF}" required="false"/>  
+
+                                                        </p:panelGrid>
+                                                    </h:form>
+                                                </p:tab>
+
+                                                <p:tab title="Outras Informações">
+                                                    <br></br>
+                                                    <p:separator> Informações Referentes a vaga Ofertada </p:separator>
+                                                    <br></br>
+                                                    <h:form>
+                                                        <p:panelGrid columns="2" id="tabInformacoes" >     
+
+                                                            <h:outputLabel value="Atividades:" />
+                                                            <p:inputTextarea readonly="true" rows="4" cols="30" value="#{item.atividades}"
+                                                                             placeholder="Principais atividades á serem desenvolvidas pelo Estagiário" 
+                                                                             autoResize="false" style="width:231px"/>
+
+
+
+                                                            <h:outputLabel value="Requisitos:" />
+                                                            <p:inputTextarea  readonly="true" rows="5" cols="30" value="#{item.requesitos}" 
+                                                                              maxlength="500" placeholder="Principais Requisitos para Ocupar a vaga"
+                                                                              autoResize="false" style="width:231px"/>
+
+
+
+                                                            <h:outputLabel value="Benefícios:" />
+                                                            <p:inputTextarea readonly="true" rows="5" cols="30" value="#{item.beneficios}" 
+                                                                             maxlength="500" placeholder="Benefícios oferecidos pela Empresa Concedente"
+                                                                             autoResize="false" style="width:231px"/>
+
+                                                        </p:panelGrid>
+                                                    </h:form>
+
+                                                </p:tab>
+                                            </p:accordionPanel>
+                                        </p:outputPanel>
+
+                                        <br/>
+                                        <p:separator></p:separator>
+                                        <h:form>
+                                            <p:commandButton id="fechar" immediate="true"  value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                        </h:form>
+
+                                        <br/>
+
+                                    </p:dialog>
+
+                                </p:column>
+                                <p:column headerText="Inscrever-se" >
+
+                                    <h:form >
+                                        <h:outputLabel rendered="#{item.status == 'Finalizada'}"  value="Vaga Finalizada" />
+
+                                        <p:commandButton rendered="#{item.status != 'Finalizada'}" id="Canditar"  immediate="true" value="Candidatar-se"
+                                                         style="background: mediumaquamarine"  icon="ui-icon-check"
+                                                         action="#{candidaturaController.redirecionar()}">
+                                            <f:setPropertyActionListener target="#{candidaturaController.vaga}"   value="#{item}"/>
+                                            <f:setPropertyActionListener target="#{candidaturaController.candidato}"   value="#{autenticacaoController.pessoa}"/>
+                                        </p:commandButton>
+                                    </h:form>
+
+
+
+
+
+                                    <p:dialog widgetVar="dialogLogin" draggable="true" resizable="false" responsive="true" 
+                                              modal="false" id="dialog2" width="400"
+                                              header="Autenticação de Usuário" showEffect="explode" hideEffect="explode">
+
+
+                                        <p:outputPanel id="PanelLogin">
+                                            <h:form> 
+                                                <p:messages id="msgLogin" closable="true">
+                                                    <p:effect type="pulsate" event="load" delay="500" />
+                                                </p:messages>
+
+                                                <br/>
+                                                Email:#{'  '}
+                                                <p:inputText placeholder="Email" style="width: 200px" value="#{autenticacaoController.login}"/> <br/><br/>
+
+                                                Senha:#{' '}
+                                                <p:password placeholder="Password" style="width: 200px" value="#{autenticacaoController.senha}" /> 
+                                                <br/>    <br/>
+
+
+                                                <p:commandButton style="background: mediumseagreen; height: 35px" update="msgLogin"
+                                                                 action="#{autenticacaoController.validarExterno('CandidatarVaga.xhtml')}" 
+                                                                 value="Logar" icon="ui-icon-unlocked" >
+
+                                                </p:commandButton>
+                                                #{' '}
+                                                <p:commandButton  style="background: mediumseagreen; height: 35px" 
+                                                                  action="Cadastro.xhtml" 
+                                                                  value="Cadastre-se" icon="ui-icon-contact" />
+
+
+                                                <br/>    <br/>
+
+                                            </h:form> 
+
+                                        </p:outputPanel>
+
+                                    </p:dialog>
+
+
+
+                                </p:column>
+                                <f:facet name="footer">
+                                    <h:outputLabel value="Quantidade de Vagas: #{vagaEstagioController.listagem.size()}"/>
+
+                                </f:facet>
+
+
+                            </p:dataTable>
+
+
+                            <br/>
+                            <p:accordionPanel styleClass="teste">
+                                <p:tab title="Filtros">
+
+
+                                    <br></br>
+                                    <p:separator>Preencha os Filtros abaixo</p:separator>
+                                    <br></br>
+                                    <h:form>
+                                        <p:panelGrid columns="2">
+
+
+                                            <h:outputLabel  value="Empresa Concedente:" />
+                                            <p:autoComplete id="Empresa" value="#{vagaEstagioController.filtro.empresaConcedente}"
+                                                            completeMethod="#{empresaConverter.autoCompleteEmpresa}" minQueryLength="3"
+                                                            var="item" itemLabel="#{item.nomeEmpresa}" itemValue="#{item}" converter="#{empresaConverter}"
+                                                            style="width:600px" readonly="#{reandolyFiltro}" >
+
+                                            </p:autoComplete>
+
+
+                                            <h:outputLabel  value="Título" />
+                                            <p:inputText id="titulo" value="#{vagaEstagioController.filtro.tituloVaga}"/> 
+
+
+
+
+                                            <h:outputLabel  value="Curso:" />
+                                            <p:autoComplete id="Curso" value="#{vagaEstagioController.filtro.curso}"
+                                                            completeMethod="#{cursoConverter.autoCompleteCurso}" minQueryLength="3"
+                                                            var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{cursoConverter}"
+                                                            style="width:600px" >
+
+                                            </p:autoComplete>
+
+
+
+
+                                            <p:commandButton ajax="false"  style="float: left;background: mediumaquamarine"  value="Limpar Filtros" action="#{vagaEstagioController.limparfiltrosListagem()}"  />
+                                            <p:commandButton ajax="false"  style="float: left;background: mediumaquamarine" value="Filtrar" action="#{vagaEstagioController.filtrar()}" />
+
+
+                                        </p:panelGrid>
+
+
+                                    </h:form>
+                                </p:tab>
+                            </p:accordionPanel>
+
+                            <br/>
+
+
+                        </p:panel>
+                    </b:container>
+                </ui:define>
+
+            </ui:composition>
+        </h:form>
+    </body>
+</html>

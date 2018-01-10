@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar Estágio
+                    </f:facet>
+                    <p:accordionPanel> 
+                        <p:tab id="tabDados"  title="Dados Gerais">  
+
+
+                            <br></br>
+                            <p:separator>Dados do Estágio</p:separator>
+                            <br></br>
+
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="Tipo de Estágio:" />
+                                <p:selectOneRadio id="tipo" value="#{estagioController.entidade.tipoEstagio}"
+                                                  >
+                                    <f:selectItem itemLabel="Obrigatório" itemValue="Obrigatorio" />
+                                    <f:selectItem itemLabel="Não Obrigatório" itemValue="Nao Obrigatorio" />
+                                </p:selectOneRadio>
+
+                                <h:outputLabel value="Data de Início:" />
+                                <p:calendar value="#{estagioController.entidade.inicio}"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt" >
+
+                                    <p:ajax event="dateSelect" update="dateFinal dataInicioOrientacao dateFinalOrientacao"  listener="#{estagioController.setDatasOrientacacao()}" />
+                                </p:calendar>
+
+                                <h:outputLabel value="Data de Término:" />
+                                <p:calendar id="dateFinal" value="#{estagioController.entidade.termino}"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt" mindate="#{estagioController.entidade.inicio}">
+                                    <p:ajax event="dateSelect" update="dataInicioOrientacao dateFinalOrientacao status"  listener="#{estagioController.setDatasOrientacacao()}" />
+
+                                </p:calendar>
+
+
+
+                                <h:outputLabel  value="Status do Estágio" />
+                                <p:selectOneMenu  id="status" value="#{estagioController.entidade.situacao}">
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>   
+                                    <f:selectItem itemLabel="Concluído" itemValue="Concluido"/> 
+                                    <f:selectItem itemLabel="Em andamento" itemValue="Em andamento"/> 
+                                    <f:selectItem itemLabel="Cancelado" itemValue="Cancelado"/> 
+
+                                    <p:ajax event="itemSelect" listener="#{estagioController.SelectSituacao}" update="status" />
+
+                                </p:selectOneMenu>  
+
+                                <p:outputLabel  value="Carga Horária Concluída:" />
+                                <p:inputText  id="chc" readonly="true" value="#{estagioController.entidade.chc}" required="true" />
+
+                            </h:panelGrid>
+
+                            <br></br>
+                            <p:separator>Dados do Estagiário</p:separator>
+                            <br></br>
+
+                            <h:panelGrid id="teste" columns="3">
+                                <f:facet name="header">
+                                    <p:focus context="teste"/>
+                                </f:facet>
+
+
+                                <h:outputLabel value="Aluno:" for="event"/>                             
+                                <p:autoComplete id="event"  value="#{estagioController.tempEstagiario}" 
+                                                placeholder="#{estagioController.entidade.estagiario.nome}" 
+                                                required="#{param['form:btnSalvar']==false and  estagioController.entidade.estagiario == null and estagioController.validaAluno == false}" 
+                                                requiredMessage="É obrigatório selecionar o Estagiário"
+                                                completeMethod="#{alunoConverter.autoCompleteAluno}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{alunoConverter}"
+                                                >
+                                    <p:ajax event="itemSelect"  listener="#{estagioController.SelectAluno}" update="selectMatricula" />
+
+                                </p:autoComplete>
+
+
+                                <p:commandButton title="Cadastrar Aluno" icon="ui-icon-plusthick" immediate="true"
+                                                 style="alignment-adjust: central;background: mediumaquamarine" 
+                                                 update="dialogPainel event" 
+                                                 oncomplete="PF('DialogCadastrarAluno').show();" 
+                                                 >
+                                    <f:setPropertyActionListener target="#{estagioController.validaAluno}" value="#{true}" />
+                                </p:commandButton>
+
+
+                                <h:outputLabel value="Matrícula:" />  
+                                <p:selectOneMenu  required="#{param['form:btnSalvar']==false}"  requiredMessage="É obrigatório selecionar a Matrícula"
+                                                  id="selectMatricula" value="#{estagioController.entidade.matricula}"
+                                                  converter="#{matriculaConverter}" style="width:150px"> 
+
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>   
+
+                                    <f:selectItems value="#{estagioController.entidade.estagiario.matriculas}"  
+                                                   var="matriculaSelecionada"  
+                                                   itemLabel="#{matriculaSelecionada.matricula} - #{matriculaSelecionada.curso.nome}"  
+                                                   />    
+
+                                </p:selectOneMenu>  
+
+
+
+                                <p:dialog widgetVar="DialogCadastrarAluno"  draggable="true"  resizable="false" responsive="true" closable="false" width="800" id="dialog1" header="Cadastrar Aluno" showEffect="explode" hideEffect="explode">
+                                    <p:outputPanel id="dialogPainel" >
+                                        <ui:include src="../comum/CadastrarAlunoDialog.xhtml">
+                                            <ui:param name="disabled" value="false"/>
+                                            <ui:param name="controllerDialogAluno" value="#{estagioController}"/>
+                                            <ui:param name="update" value="selectMatricula"/>
+                                        </ui:include>
+                                    </p:outputPanel>
+                                </p:dialog>
+
+
+                            </h:panelGrid>
+                            <br></br>
+
+                        </p:tab>
+
+
+                        <p:tab id="tabEmpresa" title="Empresa Concedente e Supervisor">  
+
+                            <h:panelGrid columns="3" >
+
+                                <h:outputLabel value="Empresa Concedente:" for="event"/>                             
+                                <p:autoComplete                                                 required="#{param['form:btnSalvar']==false and  estagioController.entidade.empresaConcedente == null and estagioController.validaEmpresa == false}" 
+                                                                                                requiredMessage="É obrigatório selecionar a Empresa Concedente" id="eventEmpresa" value="#{estagioController.tempEmpresaConcedente}"
+                                                                                                placeholder="#{estagioController.entidade.empresaConcedente.nomeEmpresa}"   
+                                                                                                completeMethod="#{empresaConverter.autoCompleteEmpresa}" minQueryLength="3"
+                                                                                                var="item" itemLabel="#{item.nomeEmpresa}" itemValue="#{item}" converter="#{empresaConverter}">
+                                    <p:ajax event="itemSelect" listener="#{estagioController.SelectEmpresa}"  update="selectSupervisor buttonSupervisor setorRealizado" />
+                                </p:autoComplete>
+
+
+                                <p:commandButton title="Cadastrar Empresa"  immediate="true" icon="ui-icon-plusthick" 
+                                                 style="alignment-adjust: central;background: mediumaquamarine" 
+                                                 update="eventEmpresa setorRealizado Painel selectSupervisor"
+                                                 oncomplete="PF('DialogCadastrarEmpresa').show();" 
+                                                 >
+                                    <f:setPropertyActionListener target="#{estagioController.validaEmpresa}" value="#{true}" />
+                                </p:commandButton>
+
+                                <h:outputLabel value="Supervisor"/>       
+
+                                <p:autoComplete  id="selectSupervisor" required="false" requiredMessage="É obrigatório selecionar o Supervisor" value="#{estagioController.tempSupervisor}"
+                                                 completeMethod="#{servidorConverter.autoCompleteServidor}" minQueryLength="3"
+                                                 var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{servidorConverter}"
+                                                 >
+                                    <p:ajax event="itemSelect"  listener="#{estagioController.SelectSupervisor}" />
+                                </p:autoComplete>
+
+                                <p:commandButton id="buttonSupervisor" immediate="true" title="Cadastrar Supervisor" icon="ui-icon-plusthick" 
+                                                 style="alignment-adjust: central;background: mediumaquamarine" 
+                                                 update="PainelSupervisor" 
+                                                 oncomplete="PF('DialogCadastrarSupervisor').show();" 
+                                                 >
+                                    <f:setPropertyActionListener target="#{supervisorController.entidade.instituicao}"  value="#{estagioController.entidade.empresaConcedente}" />
+                                </p:commandButton>
+
+                                <p:dialog widgetVar="DialogCadastrarEmpresa" resizable="false" 
+                                          responsive="true" modal="false" 
+                                          width="800" id="dialog2" closable="false" 
+                                          header="Cadastrar Empresa" 
+                                          showEffect="explode" hideEffect="explode">
+
+                                    <p:outputPanel id="Painel" >
+                                        <ui:include src="../comum/CadastrarEmpresaDialog.xhtml">
+                                            <ui:param name="disabled" value="#{false}"/>
+                                            <ui:param name="controllerDialogEmpresa" value="#{estagioController}"/>
+                                            <ui:param name="update" value="selectSupervisor buttonSupervisor setorRealizado"/>
+                                        </ui:include>
+                                    </p:outputPanel>
+
+                                </p:dialog>
+
+
+                                <p:dialog widgetVar="DialogCadastrarSupervisor" resizable="false" 
+                                          responsive="true" modal="false" 
+                                          width="800" id="dialogSupervisor" closable="false" 
+                                          header="Cadastrar Supervisor" 
+                                          showEffect="explode" hideEffect="explode">
+
+                                    <p:outputPanel id="PainelSupervisor" >
+                                        <ui:include src="../comum/CadastrarSupervisorDialog.xhtml">
+                                            <ui:param name="disabled" value="#{false}"/>
+                                            <ui:param name="controllerDialogSupervisor" value="#{estagioController}"/>
+                                            <ui:param name="update" value="selectSupervisor buttonSupervisor"/>
+                                        </ui:include>
+                                    </p:outputPanel>
+
+                                </p:dialog>
+
+                            </h:panelGrid>
+
+
+                            <br></br>
+
+                        </p:tab>
+
+                        <p:tab id="tabOrientador"  title="Orientações"> 
+
+                            <p:messages id="global1" closable="true">
+                                <p:effect type="pulsate" event="load" delay="500" />
+                            </p:messages>
+
+                            <h:panelGrid columns="3" id="panelOrientacao" >
+
+                                <h:outputLabel value="Orientador"/>       
+
+                                <p:autoComplete id="acOrientador" required="false" requiredMessage="É obrigatório selecionar o Orientador" value="#{estagioController.tempOrientador}"
+                                                completeMethod="#{orientadorConverter.autoCompleteOrientador}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{orientadorConverter}"
+                                                >
+                                    <p:ajax event="itemSelect"  listener="#{estagioController.SelectOrientador}" />
+                                </p:autoComplete>
+
+
+                                <p:commandButton title="Cadastrar Orientador"  icon="ui-icon-plusthick" 
+                                                 style="alignment-adjust: central;background: mediumaquamarine" 
+                                                 oncomplete="PF('DialogCadastrarOrientador').show();" immediate="true" 
+                                                 update="PainelOrientador" action="#{orientadorController.novoOrientador()}" />
+
+
+                                <p:outputLabel  value="Quantidade de Orientações: " />
+                                <p:inputText  id="qtdOrientacoes" value="#{estagioController.tempOrientacoes.qtd_orientacoes}"/>
+
+
+                                <p:spacer/>
+
+                                <p:outputLabel  value="Carga Horária das Orientações:" />
+                                <p:inputText  id="cho" value="#{estagioController.tempOrientacoes.chcOrientacao}"/>
+
+                                <p:spacer/>
+
+                                <h:outputLabel value="Setor de Realização:" />
+                              
+                                <p:selectOneMenu  id="setorRealizado" value="#{estagioController.tempOrientacoes.setor_orientacao}"
+                                                  converter="#{setorConverter}" style="width:150px"> 
+
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>   
+
+                                    <f:selectItems value="#{estagioController.entidade.empresaConcedente.setoresEmpresa}"  
+                                                   var="setor"  
+                                                   itemLabel="#{setor.nome}"  
+                                                   />    
+
+                                </p:selectOneMenu>  
+
+                                <p:spacer/>
+
+
+                                <h:outputLabel value="Inicio da Orientação:" />
+                                <p:calendar value="#{estagioController.tempOrientacoes.inicioOrientacao}" id="dataInicioOrientacao"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt"  mindate="#{estagioController.entidade.inicio}"
+                                            maxdate="#{estagioController.entidade.termino}">
+
+                                    <p:ajax event="dateSelect" update="dateFinalOrientacao"/>
+                                </p:calendar>
+                                <p:spacer/>
+
+                                <h:outputLabel value="Término da Orientação:" />
+                                <p:calendar id="dateFinalOrientacao" value="#{estagioController.tempOrientacoes.terminoOrientacao}"
+                                            pattern="dd/MM/yyyy" mask="true" locale="pt" mindate="#{estagioController.tempOrientacoes.inicioOrientacao}"
+                                            maxdate="#{estagioController.entidade.termino}">
+                                    <p:ajax event="dateSelect" update="status"/>
+
+                                </p:calendar>
+                                <p:dialog widgetVar="DialogCadastrarOrientador" resizable="false" 
+                                          responsive="true" modal="false" 
+                                          width="800" id="dialog3" closable="false" 
+                                          header="Cadastrar Orientador" 
+                                          showEffect="explode" hideEffect="explode">
+
+                                    <p:outputPanel id="PainelOrientador" >
+                                        <ui:include src="../comum/CadastrarOrientadorDialog.xhtml">
+                                            <ui:param name="disabled" value="false"/>
+                                            <ui:param name="controllerDialogOrientador" value="#{estagioController}"/>
+                                        </ui:include>
+                                    </p:outputPanel>
+
+                                </p:dialog>
+
+                                <f:facet name="footer">
+                                    <br/>
+                                    <p:commandButton title="Salvar Orientação"  value="Salvar Orientação" icon="ui-icon-plusthick" 
+                                                     style="alignment-adjust: central;background: mediumaquamarine" 
+                                                     update="tblOrientadores global1 acOrientador qtdOrientacoes  cho chc" action="#{estagioController.addOrientacao()}"  />
+                                    <br/>
+                                </f:facet>
+
+                            </h:panelGrid>
+
+                            <br/>
+
+                            <p:dataTable id="tblOrientadores" value="#{estagioController.entidade.orientacoes}" 
+                                         var="item" emptyMessage="Registros não Encontrados" >
+                                <f:facet name="header">
+                                    Orientações Cadastradas
+                                </f:facet>
+
+                                <p:column  headerText="Orientador">
+                                    #{item.orientador.nome}
+                                </p:column>
+                                <p:column  headerText="Quantidade de Orientações">
+                                    #{item.qtd_orientacoes}
+                                </p:column>
+
+                                <p:column  headerText="Carga Horária das Orientações">
+                                    #{item.chcOrientacao}
+                                </p:column>
+
+                                <p:column  headerText="Início">
+
+                                    <h:outputText value="#{item.inicioOrientacao}">
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                    </h:outputText>  
+                                </p:column>
+
+                                <p:column  headerText="Término">
+
+                                    <h:outputText value="#{item.terminoOrientacao}">
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                    </h:outputText>  
+
+                                </p:column>
+
+                                <p:column headerText="Opções">
+
+                                    <p:commandButton ajax="false" update="panelOrientacao" value="Editar" action="#{estagioController.configurarCHC()}" >
+                                        <f:setPropertyActionListener target="#{estagioController.tempOrientacoes}" value="#{item}" />
+                                    </p:commandButton>
+
+                                    <p:commandButton ajax="false" update="gloabal1" value="Remover" action="#{estagioController.removeOriencao(item)}"/>
+
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:outputLabel  value="Carga Horária total Concluída: " />
+                                    <p:outputLabel  value="#{estagioController.entidade.chc}"/>
+                                </f:facet>
+                            </p:dataTable>
+                            <br/>
+                        </p:tab>
+
+                    </p:accordionPanel> 
+
+                    <ui:include src="../comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{estagioController}"  />
+                    </ui:include>
+
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+
+    </body>
+</html>

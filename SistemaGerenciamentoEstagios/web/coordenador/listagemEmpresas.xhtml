@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Cadastro de Empresas Concedentes
+                    </f:facet>
+
+                    <ui:include src="../comum/botaoNovo.xhtml">
+                        <ui:param name="controller" value="#{empresaController}"  />
+                        <ui:param name="campos" value=""  />
+                        <br/> 
+                    </ui:include>
+
+                    <p:dataTable value="#{empresaController.listagem}" var="item" 
+                                 paginator="true" rows="5"  lazy="true" 
+
+                                 emptyMessage="Registros não Encontrados"  >  
+
+
+
+                        <p:column style="alignment-adjust: central" sortBy="nomeEmpresa" headerText="Nome">
+                            #{item.nomeEmpresa}
+                        </p:column>
+
+
+                        <p:column style="alignment-adjust: central" sortBy="areaAtuacao" headerText="Área de Atuação">
+                            #{item.areaAtuacao}
+                        </p:column>
+
+                        <p:column style="alignment-adjust: central" sortBy="telefone" headerText="Telefone">
+                            #{item.telefone}
+                        </p:column>
+
+
+                        <p:column style="alignment-adjust: central" headerText="Opções">
+
+                            <p:commandButton value="Visualizar" icon="ui-icon-search" style="alignment-adjust: central;background: mediumaquamarine" update="dialog" oncomplete="PF('eventDialog').show();"/>
+
+                            <p:dialog widgetVar="eventDialog"  resizable="false" responsive="true" modal="false" width="800" id="dialog" header="Visualizar Empresa" showEffect="explode" hideEffect="explode">
+
+                                <p:outputPanel id="eventDetalhes">
+                                    <p:accordionPanel> 
+
+                                        <p:tab id="tabDados" title="Dados Gerais">  
+
+                                            <br></br>
+                                            <p:separator> Dados Gerais da Empresa </p:separator>
+                                            <br></br>
+
+                                            <h:panelGrid columns="2">
+
+                                                <h:outputLabel value="Nome:" />
+                                                <p:inputText  readonly="true" value="#{item.nomeEmpresa}" style="width: 100%"
+                                                              />   
+
+                                                <h:outputLabel value="Área de Atuação:" />
+                                                <p:inputText readonly="true" value="#{item.areaAtuacao}" />   
+
+
+                                                <h:outputLabel value="CNPJ:" />
+                                                <p:inputMask  readonly="true" value="#{item.cnpj}" label="CNPJ" 
+                                                              mask="99.999.999/9999-99"/>
+                                            </h:panelGrid>
+
+                                            <br></br>
+                                            <p:separator> Contatos da Empresa: </p:separator>
+                                            <br></br>
+
+                                            <h:panelGrid columns="2">
+                                                <h:outputLabel value="Telefone:" />
+                                                <p:inputMask readonly="true" value="#{item.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+                                                <h:outputLabel value="Email de Contato:" />
+                                                <p:inputText readonly="true" value="#{item.emailContato}" required="false" style="width: 100%"
+                                                             /> 
+                                            </h:panelGrid>
+                                        </p:tab>
+
+                                        <p:tab id="tabEndereco" title="Endereços"> 
+                                            <p:dataTable id="tblUsuarios" value="#{item.enderecos}" 
+                                                         var="end" emptyMessage="Não há Endereços Cadastrados" >
+
+                                                <f:facet name="header">
+                                                    Endereços  Cadastrados
+                                                </f:facet>
+
+                                                <p:column >
+                                                    #{end}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+
+                                        <p:tab id="tabResponsaveis" title="Representantes">  
+
+                                            <br></br>
+                                            <p:separator> </p:separator>
+                                            <br></br>
+
+                                            <p:dataTable id="tblResponsaveis" value="#{item.responsaveis}" 
+                                                         var="res" emptyMessage="Registros não Encontrados" >  
+                                                <f:facet name="header">
+                                                    Representantes da Empresa Concedente
+                                                </f:facet>
+
+                                                <p:column>
+                                                    #{res.nome}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+
+                                        <p:tab id="tabAreas" title="Áreas disponíveis para realização de Estágios">  
+
+                                            <br></br>
+                                            <p:separator> </p:separator>
+                                            <br></br>
+
+                                            <p:dataTable id="tblAreas" value="#{item.areas_estagios}" 
+                                                         var="are" emptyMessage="Registros não Encontrados" >  
+                                                <f:facet name="header">
+                                                    Áreas de Realização de Estágios na Empresa Concedente
+                                                </f:facet>
+
+                                                <p:column>
+                                                    #{are.nome}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    -
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                </p:outputPanel>
+
+                                <br/>
+                                <p:separator></p:separator>
+
+                                <p:commandButton id="fechar" immediate="true"  icon="ui-icon-close" value="Fechar" style="background: mediumaquamarine"  oncomplete="PF('eventDialog').hide();"/>
+                                <p:commandButton title="editar empresa" value="Editar Empresa" icon="ui-icon-pencil" action="#{empresaController.abrir(item)}"   style="alignment-adjust: central;background: mediumaquamarine"/>
+                                <br/>
+
+                            </p:dialog>
+                        </p:column>
+
+                        <p:column style="alignment-adjust: central" headerText="Opções">
+
+                            <p:commandButton value="Cadastrar Supervisor" icon="ui-icon-plusthick" 
+                                             style="alignment-adjust: central;background: mediumaquamarine"
+                                             action="#{supervisorController.novo()}"  >
+                                <f:setPropertyActionListener target="#{supervisorController.entidade.instituicao}"  value="#{item}" />
+
+                            </p:commandButton>
+
+
+
+                        </p:column>
+                        <f:facet name="footer">
+                            <h:outputLabel value="Quantidade de Registros: #{empresaController.listagem.size()}"/>
+
+                        </f:facet>
+
+
+                    </p:dataTable>
+                    <br/>
+                    <br/>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+
+                            <br></br>
+                            <p:separator>Digite o nome ou a Área de Atuação  da Empresa para Filtrar</p:separator>
+                            <br></br>
+
+                            <p:panelGrid columns="2">
+
+                                <h:outputLabel value="Nome:" />
+                                <p:inputText value="#{empresaController.filtro.nomeEmpresa}"/>
+                                <h:outputLabel value="Área:" />
+                                <p:inputText value="#{empresaController.filtro.areaAtuacao}"/>  
+                            </p:panelGrid>
+
+                            <ui:include src="../comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{empresaController}"  />
+                                <ui:param name="campos" value=""  />
+                            </ui:include>
+
+
+                        </p:tab>
+
+                    </p:accordionPanel>
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

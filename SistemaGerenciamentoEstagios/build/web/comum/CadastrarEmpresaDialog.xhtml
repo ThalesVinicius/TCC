@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <p:messages id="MensageGlobalDialogEmpresa" closable="true">
+        <p:effect type="pulsate" event="load" delay="500" />
+    </p:messages>
+
+    <p:accordionPanel> 
+        <p:tab id="tabDados" disabled="#{disabled}" title="Dados Gerais">  
+
+            <br></br>
+            <p:separator> Dados Gerais da Empresa </p:separator>
+            <br></br>
+
+            <h:panelGrid columns="2">
+
+                <h:outputLabel value="Nome:" />
+                <p:inputText disabled="#{disabled}" value="#{empresaController.entidade.nomeEmpresa}" style="width: 100%"
+                             />   
+
+                <h:outputLabel value="Área de Atuação:" />
+                <p:inputText disabled="#{disabled}" value="#{empresaController.entidade.areaAtuacao}" />   
+
+
+                <h:outputLabel value="CNPJ:" />
+                <p:inputMask disabled="#{disabled}" value="#{empresaController.entidade.cnpj}" label="CNPJ" 
+                             mask="99.999.999/9999-99"/>
+            </h:panelGrid>
+
+            <br></br>
+            <p:separator> Contatos da Empresa: </p:separator>
+            <br></br>
+
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Telefone:" />
+                <p:inputMask disabled="#{disabled}" value="#{empresaController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+                <h:outputLabel value="Email de Contato:" />
+                <p:inputText disabled="#{disabled}" value="#{empresaController.entidade.emailContato}" required="false" style="width: 100%"
+                             /> 
+            </h:panelGrid>
+        </p:tab>
+
+        <p:tab disabled="#{disabled}"   title="Endereço">
+            <br></br>
+
+            <h:panelGrid columns="2" id="panelEndereco">                    
+
+                <h:outputLabel value="Rua/Av:" />
+                <p:inputText disabled="#{disabled}" id="txtRua" value="#{empresaController.enderecoAdcionado.rua}" />    
+
+                <h:outputLabel value="Numero:" />
+                <p:inputText disabled="#{disabled}"  id="txtNum" value="#{empresaController.enderecoAdcionado.numero}"  required="false"/>   
+
+                <h:outputLabel value="Complemento:" />
+                <p:inputText disabled="#{disabled}" id="txtComplemento" value="#{empresaController.enderecoAdcionado.complemento}" required="false"/>                      
+
+                <h:outputLabel value="Bairro:" />
+                <p:inputText disabled="#{disabled}" id="txtBairro" value="#{empresaController.enderecoAdcionado.bairro}" required="false"/> 
+
+                <h:outputLabel value="Cidade:" />
+                <p:inputText disabled="#{disabled}" id="txtCidade" value="#{empresaController.enderecoAdcionado.cidade}" required="false"/>  
+
+                <h:outputLabel value="Cep:" />
+                <p:inputMask disabled="#{disabled}" id="txtCep" value="#{empresaController.enderecoAdcionado.cep}" mask="99.999-999" required="false"/> 
+
+                <h:outputLabel value="UF:" />
+                <p:inputText disabled="#{disabled}" id="txtUF" value="#{empresaController.enderecoAdcionado.UF}" required="false"/>  
+
+
+            </h:panelGrid>
+
+
+        </p:tab>
+
+
+        <p:tab id="tabResponsaveis" disabled="#{disabled}" title="Representantes">  
+
+            <h:panelGrid columns="2" id="panelResponsaveis">
+
+                <h:outputLabel value="Nome:" />
+                <p:inputText disabled="#{disabled}" id="txtNomeResposanvel" value="#{empresaController.responsavelAdcionado.nome}" />    
+
+                <h:outputLabel value="Cargo:" />
+                <p:inputText disabled="#{disabled}" id="txtCargoResposanvel" value="#{empresaController.responsavelAdcionado.cargo}"  required="false"/>   
+
+                <h:outputLabel value="Email:" />
+                <p:inputText disabled="#{disabled}" id="txtEmailResposanvel" value="#{empresaController.responsavelAdcionado.email}"  required="false"/>   
+
+
+
+            </h:panelGrid>
+
+        </p:tab>
+
+
+    </p:accordionPanel> 
+
+    <br/>
+
+
+    <p:commandButton disabled="#{disabled}" immediate="true"  update="#{update}"  ajax="false" icon="ui-icon-close"
+                     value="Fechar" style="background: mediumaquamarine" actionListener="#{controllerDialogEmpresa.isDisabledSupervisor()}"
+                     oncomplete="PF('DialogCadastrarEmpresa').hide();" >
+        <f:setPropertyActionListener target="#{controllerDialogEmpresa.entidade.empresaConcedente}" value="#{empresaController.buscarEmpresa()}" />
+        <f:setPropertyActionListener target="#{controllerDialogEmpresa.validaEmpresa}" value="#{false}" />
+    </p:commandButton>
+
+
+    <p:commandButton disabled="#{disabled}" style="background: mediumaquamarine" action="#{empresaController.salvarEmpresaDialog}" update="MensageGlobalDialogEmpresa" value="Salvar" icon="ui-icon-pencil">  
+        <p:confirm header="Confirmação" message="Deseja realmente salvar o Registro?" icon="ui-icon-alert" />
+    </p:commandButton>
+
+    <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+</ui:composition>
+

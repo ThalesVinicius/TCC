@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <p:panel>
+        <f:facet name="header">
+            Editar Aluno
+        </f:facet>
+        <p:accordionPanel> 
+            <p:tab id="tabDados" title="Dados Gerais">  
+
+                <br></br>
+                <p:separator> Dados Gerais do Aluno </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="Nome Completo:" />
+                    <p:inputText value="#{alunoController.entidade.nome}" required="true" requiredMessage="É obrigatório preencher o  nome do Aluno" style="width: 200%"
+                                 />   
+
+                    <h:outputLabel value="Sexo:" />
+                    <p:selectOneRadio value="#{alunoController.entidade.sexo}"
+                                      >
+                        <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                        <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="CPF:" />
+                    <p:inputMask value="#{alunoController.entidade.cpf}" label="CPF" 
+                                 mask="999.999.999-99"/>
+
+
+                    <h:outputLabel value="Estado Cívil:" />
+                    <p:selectOneRadio value="#{alunoController.entidade.estadoCivil}"
+                                      >
+                        <f:selectItem itemLabel="Solteiro" itemValue="Solteiro" />
+                        <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                        <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                        <f:selectItem itemLabel="Viúvo" itemValue="Viúvo" />
+
+                    </p:selectOneRadio>
+
+
+                    <h:outputLabel value="Data de Nascimento*:" />
+                    <p:calendar value="#{alunoController.entidade.dataNascimento}"
+                                pattern="dd/MM/yyyy" mask="true" locale="pt" showOn="button" /> 
+
+                    <h:outputLabel value="Carteira de identidade:" />
+                    <p:inputText value="#{alunoController.entidade.RG}" />  
+
+                </h:panelGrid>
+
+                <br></br>
+                <p:separator> Dados de Acesso ao Sistema </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="Email de Acesso:" />
+                    <p:inputText value="#{alunoController.entidade.email}"  required="true" requiredMessage="É obrigatório preencher o  email do Aluno" style="width: 100%"
+                                 /> 
+
+                </h:panelGrid>
+            </p:tab>
+
+
+            <ui:include src="tabEndereco.xhtml">
+                <ui:param name="controller" value="#{alunoController}"/>
+            </ui:include>
+
+
+            <p:tab id="tabContatos"  title="Contatos">
+
+                <br></br>
+                <p:separator> Dados para Entrar em Contato com o Aluno </p:separator>
+                <br></br>
+
+                <h:panelGrid columns="2">                    
+                    <h:outputLabel value="Celular:" />
+                    <p:inputMask id="txtCelular" value="#{alunoController.entidade.celular}" mask="(99)99999 - 9999" required="false"/> 
+
+                    <h:outputLabel value="Telefone:" />
+                    <p:inputMask id="txtTelefone" value="#{alunoController.entidade.telefone}" mask="(99)9999 - 9999" required="false"/> 
+
+
+                </h:panelGrid>
+            </p:tab>
+
+            <p:tab id="tabMatriculas" title="Matrículas">  
+                <br></br>
+
+                <h:panelGrid columns="2"  id="panelMatriculas" rendered="#{alunoController.habDesCamposMatricula}">
+
+                    <h:outputLabel value="Curso:" />
+                    <p:selectOneMenu value="#{alunoController.matriculaAdicionada.curso}"
+                                     converter="#{cursoConverter}"> 
+
+                        <f:selectItem itemLabel="Selecione" itemValue=""/>      
+                        <f:selectItems value="#{cursoController.listagem}"  
+                                       var="coop"  
+                                       itemLabel="#{coop.nome}"  
+                                       />    
+                    </p:selectOneMenu>  
+
+                    <h:outputLabel value="Matrícula:" />
+                    <p:inputText id="txtMatricula" value="#{alunoController.matriculaAdicionada.matricula}" />    
+
+                    <h:outputLabel value="Cursando:" />
+                    <p:selectOneRadio id="cursando" value="#{alunoController.matriculaAdicionada.cursando}"
+                                      >
+                        <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                        <f:selectItem itemLabel="Não" itemValue="Nao" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel  value="Período" />
+                    <p:inputText id="txtPeriodo" value="#{alunoController.matriculaAdicionada.periodo}"/>   
+
+                    <h:outputLabel value="Possui Dependência:" />
+                    <p:selectOneRadio id="dependencia" value="#{alunoController.matriculaAdicionada.possuiDependencia}"
+                                      >
+                        <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                        <f:selectItem itemLabel="Não" itemValue="Nao" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="Integralizou Carga Horária:" />
+                    <p:selectOneRadio id="Integralizacao" value="#{alunoController.matriculaAdicionada.integralizouCH}"
+                                      >
+                        <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                        <f:selectItem itemLabel="Não" itemValue="Nao" />
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="Data de Integralização:" />
+                    <p:calendar value="#{alunoController.matriculaAdicionada.dataIntegralizacao}"
+                                pattern="dd/MM/yyyy" locale="pt_BR" /> 
+
+
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Salvar" ajax="false" icon="ui-icon-check" 
+                                         action="#{alunoController.salvarMatricula()}" 
+                                         update="tblMatriculas" > 
+                            <f:setPropertyActionListener target="#{alunoController.habDesCamposMatricula}" value="#{false}" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" immediate="true" ajax="false" icon="ui-icon-close" update="panelMatriculas" > 
+
+                            <f:setPropertyActionListener target="#{alunoController.habDesCamposMatricula}" value="#{false}" />
+                        </p:commandButton>
+                    </f:facet>
+
+                </h:panelGrid>
+
+
+                <p:separator> </p:separator>
+                <br></br>
+
+                <p:dataTable id="tblMatriculas" value="#{alunoController.entidade.matriculas}" 
+                             var="item" emptyMessage="Registros não Encontrados" >
+                    <f:facet name="header">
+                        Matrículas  Cadastradas
+                    </f:facet>
+                    <p:column  headerText="Matrículas do  Aluno - Por Curso">
+                        #{item}
+                    </p:column>
+
+                    <p:column headerText="Editar">
+                        <p:commandButton ajax="false" value="Editar" immediate="true" >
+                            <f:setPropertyActionListener target="#{alunoController.matriculaAdicionada}" value="#{item}" />
+                            <f:setPropertyActionListener target="#{alunoController.habDesCamposMatricula}" value="#{true}" />
+
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Remover" >
+                        <p:commandButton ajax="false"  immediate="true" value="Remover" action="#{alunoController.removeMatricula(item)}">
+                        </p:commandButton>
+                    </p:column>
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Nova Matrícula"  immediate="true" ajax="false" icon="ui-icon-check" update="panelMatriculas" > 
+
+                            <f:setPropertyActionListener target="#{alunoController.habDesCamposMatricula}" value="#{true}" />
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </p:dataTable>
+            </p:tab>
+
+
+
+        </p:accordionPanel> 
+
+
+        <ui:include src="botoesEntidade.xhtml">
+            <ui:param name="controller" value="#{alunoController}"/>
+
+        </ui:include>
+
+    </p:panel>
+
+</ui:composition>
+

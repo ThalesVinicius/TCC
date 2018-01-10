@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+        <ui:composition template="./CoordenadorTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Declaração de Estagios
+                    </f:facet>
+                    <br/>
+
+                    <p:accordionPanel>
+                        <p:tab id="relatorio" title="Declaração de Estágios dos Orientadores">
+                            <br/>
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="Tipo de Declaração:" />
+
+                                <p:selectOneMenu value="#{listagemEstagioOrientadoresController.relatorio}" required="#{true}" 
+                                                 requiredMessage="É obrigatório selecionar o Tipo de Declaração!"> 
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>   
+                                    <f:selectItem itemLabel="Simples" itemValue="RelatorioDeclaracaoEstagioOrientadoresSimples.jasper"/> 
+                                    <f:selectItem itemLabel="Completa" itemValue="RelatorioDeclaracaoEstagioOrientadoresCompleta.jasper"/> 
+
+
+                                </p:selectOneMenu>  
+
+                                <h:outputLabel value="Orientador:" />
+                                <p:autoComplete id="event" completeMethod="#{orientadorConverter.autoCompleteOrientador}" minQueryLength="3"
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}" converter="#{orientadorConverter}"
+                                                converterMessage="Este campo é obrigatório" forceSelection="#{true}" required="#{true}" requiredMessage="O campo ORIENTADOR é obrigatório">
+                                    <p:ajax event="itemSelect" listener="#{listagemEstagioOrientadoresController.SelectdOrientador}"/>
+                                </p:autoComplete>
+
+                                <h:outputLabel  value="Status da Orientação:" />
+                                <p:selectOneMenu  id="status" value="#{listagemEstagioOrientadoresController.filtro.estagio.situacao}">
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>   
+                                    <f:selectItem itemLabel="Concluída" itemValue="Concluido"/> 
+                                    <f:selectItem itemLabel="Em andamento" itemValue="Em andamento"/> 
+                                    <f:selectItem itemLabel="Cancelada" itemValue="Cancelado"/> 
+
+
+                                </p:selectOneMenu>  
+
+                                <h:outputLabel  value="Período(Data):"/>
+                                <p:calendar value="#{listagemEstagioOrientadoresController.filtro.inicioOrientacao}"
+                                                                          required="true"  requiredMessage="É obrigatório preencher a data incial do  período"  placeholder="Digite uma data inicial"     pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+                                #{" "}
+                                <p:calendar  value="#{listagemEstagioOrientadoresController.filtro.terminoOrientacao}"
+                                             required="true"  requiredMessage="É obrigatório preencher a data final do  período" placeholder="Digite uma data final" mindate="#{listagemEstagioOrientadoresController.filtro.inicioOrientacao}"  pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+
+                            </h:panelGrid>
+                            <br/>                 <br/>                 <br/>
+                            <p:commandButton id="gerarRelatorio" value="Gerar Declaração" ajax="false"  action="#{listagemEstagioOrientadoresController.executaRelatorioPDF()}" onclick="this.form.target = '_blank'">
+                                <p:ajax/>
+                            </p:commandButton>
+
+                            <p:blockUI block="relatorio" trigger="gerarRelatorio" >
+                                <img src="../resources/img/loading.gif"  style="alignment-adjust: central;  "/>
+                            </p:blockUI>
+                        </p:tab>
+
+                    </p:accordionPanel>
+
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
